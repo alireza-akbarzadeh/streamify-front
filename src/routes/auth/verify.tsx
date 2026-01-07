@@ -127,7 +127,9 @@ function VerifyPage() {
 								{field.state.value.map((digit, index) => (
 									<Input
 										key={index + digit}
-										ref={(el) => (inputRefs.current[index] = el)}
+										ref={(el) => {
+											inputRefs.current[index] = el;
+										}}
 										type="text"
 										inputMode="numeric"
 										value={digit}
@@ -194,12 +196,12 @@ function VerifyPage() {
 				<div className="text-center space-y-2">
 					<p className="text-gray-500 text-sm">Didn't receive the code?</p>
 					<div className="flex flex-col gap-2 text-sm">
-						<Link
-							to="#"
+						<a
+							to="/"
 							className="text-purple-400 hover:text-purple-300 transition-colors"
 						>
 							Check your spam folder
-						</Link>
+						</a>
 						<Link
 							to="/auth/login"
 							className="text-purple-400 hover:text-purple-300 transition-colors"
