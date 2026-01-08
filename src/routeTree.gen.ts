@@ -14,6 +14,7 @@ import { Route as DiscoveryRouteImport } from './routes/discovery'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MoviesIndexRouteImport } from './routes/movies/index'
 import { Route as HomeDemoIndexRouteImport } from './routes/home-demo/index'
+import { Route as DemoIndexRouteImport } from './routes/demo/index'
 import { Route as MoviesMovieIdRouteImport } from './routes/movies/$movieId'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
 import { Route as DemoTanchatRouteImport } from './routes/demo/tanchat'
@@ -60,6 +61,11 @@ const MoviesIndexRoute = MoviesIndexRouteImport.update({
 const HomeDemoIndexRoute = HomeDemoIndexRouteImport.update({
   id: '/home-demo/',
   path: '/home-demo/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoIndexRoute = DemoIndexRouteImport.update({
+  id: '/demo/',
+  path: '/demo/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MoviesMovieIdRoute = MoviesMovieIdRouteImport.update({
@@ -187,6 +193,7 @@ export interface FileRoutesByFullPath {
   '/demo/tanchat': typeof DemoTanchatRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/movies/$movieId': typeof MoviesMovieIdRoute
+  '/demo': typeof DemoIndexRoute
   '/home-demo': typeof HomeDemoIndexRoute
   '/movies': typeof MoviesIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
@@ -216,6 +223,7 @@ export interface FileRoutesByTo {
   '/demo/tanchat': typeof DemoTanchatRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/movies/$movieId': typeof MoviesMovieIdRoute
+  '/demo': typeof DemoIndexRoute
   '/home-demo': typeof HomeDemoIndexRoute
   '/movies': typeof MoviesIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
@@ -246,6 +254,7 @@ export interface FileRoutesById {
   '/demo/tanchat': typeof DemoTanchatRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/movies/$movieId': typeof MoviesMovieIdRoute
+  '/demo/': typeof DemoIndexRoute
   '/home-demo/': typeof HomeDemoIndexRoute
   '/movies/': typeof MoviesIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
@@ -277,6 +286,7 @@ export interface FileRouteTypes {
     | '/demo/tanchat'
     | '/demo/tanstack-query'
     | '/movies/$movieId'
+    | '/demo'
     | '/home-demo'
     | '/movies'
     | '/demo/api/names'
@@ -306,6 +316,7 @@ export interface FileRouteTypes {
     | '/demo/tanchat'
     | '/demo/tanstack-query'
     | '/movies/$movieId'
+    | '/demo'
     | '/home-demo'
     | '/movies'
     | '/demo/api/names'
@@ -335,6 +346,7 @@ export interface FileRouteTypes {
     | '/demo/tanchat'
     | '/demo/tanstack-query'
     | '/movies/$movieId'
+    | '/demo/'
     | '/home-demo/'
     | '/movies/'
     | '/demo/api/names'
@@ -365,6 +377,7 @@ export interface RootRouteChildren {
   DemoTanchatRoute: typeof DemoTanchatRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
   MoviesMovieIdRoute: typeof MoviesMovieIdRoute
+  DemoIndexRoute: typeof DemoIndexRoute
   HomeDemoIndexRoute: typeof HomeDemoIndexRoute
   MoviesIndexRoute: typeof MoviesIndexRoute
   DemoApiNamesRoute: typeof DemoApiNamesRoute
@@ -416,6 +429,13 @@ declare module '@tanstack/react-router' {
       path: '/home-demo'
       fullPath: '/home-demo'
       preLoaderRoute: typeof HomeDemoIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/': {
+      id: '/demo/'
+      path: '/demo'
+      fullPath: '/demo'
+      preLoaderRoute: typeof DemoIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/movies/$movieId': {
@@ -589,6 +609,7 @@ const rootRouteChildren: RootRouteChildren = {
   DemoTanchatRoute: DemoTanchatRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
   MoviesMovieIdRoute: MoviesMovieIdRoute,
+  DemoIndexRoute: DemoIndexRoute,
   HomeDemoIndexRoute: HomeDemoIndexRoute,
   MoviesIndexRoute: MoviesIndexRoute,
   DemoApiNamesRoute: DemoApiNamesRoute,
