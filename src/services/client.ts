@@ -1,11 +1,15 @@
 import type { AxiosError, AxiosRequestConfig } from "axios";
 import Axios from "axios";
 
-import { API_BASE_URL } from "@/config/env";
+import { env } from "@/env.ts";
 import { Http } from "@/constants/constants";
 
+const STORAGE_KEY = "Vibe_Access_Token";
+
+
+
 export const AXIOS_INSTANCE = Axios.create({
-	baseURL: API_BASE_URL,
+	baseURL:`${env.VITE_API_BASE_URL}`,
 	headers: {
 		"Content-Type": "application/json",
 	},
@@ -15,7 +19,7 @@ export const AXIOS_INSTANCE = Axios.create({
 AXIOS_INSTANCE.interceptors.request.use(
 	(config) => {
 		// Add an auth token if available
-		const token = localStorage.getItem("auth_token");
+		const token = localStorage.getItem(STORAGE_KEY);
 		if (token) {
 			config.headers.Authorization = `Bearer ${token}`;
 		}
@@ -33,8 +37,8 @@ AXIOS_INSTANCE.interceptors.response.use(
 		// Handle common errors
 		if (error.response?.status === Http.UNAUTHORIZED) {
 			// Unauthorized - clear token and redirect to log in
-			localStorage.removeItem("auth_token");
-			window.location.href = "/login";
+			localStorage.removeItem(STORAGE_KEY);
+			window.location.href = "/auth/login";
 		}
 
 		if (error.response?.status === Http.FORBIDDEN) {
