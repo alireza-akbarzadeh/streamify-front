@@ -1,4 +1,4 @@
-import { Link, useParams, useParentMatches, useRouter } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, Music, X } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -118,7 +118,7 @@ export function RootHeader() {
 							))}
 							<div className="pt-4 border-t border-white/10 space-y-3">
 								<Link
-									to="/auth/login"
+									to="/login"
 									className={cn(
 										buttonVariants({
 											variant: "ghost",
@@ -130,7 +130,7 @@ export function RootHeader() {
 									Log in
 								</Link>
 								<Link
-									to="/auth/register"
+									to="/register"
 									className="w-full bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-full"
 								>
 									Start Free Trial

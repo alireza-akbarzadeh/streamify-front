@@ -8,6 +8,5 @@ export const Route = createFileRoute('/(home)/download')({
 function RouteComponent() {
     return <div>
         <RootHeader />
-
     </div>
 }

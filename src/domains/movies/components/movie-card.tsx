@@ -1,10 +1,12 @@
 import { useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { Info, Play, Plus, Star } from "lucide-react";
+import { Play, Plus, Star } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { ContinueWatching } from "@/types/app";
+import { movieData } from "../data";
 import type { MovieVariantCard } from "./movie-carousel";
+import { MovieInfoDialog } from "./movie-info-dialog";
 
 interface MovieCardProps {
 	movie: ContinueWatching;
@@ -55,14 +57,7 @@ export function MovieCard({
 					z: isHovered ? 50 : 0,
 				}}
 				transition={{ type: "spring", stiffness: 300, damping: 30 }}
-				className="relative w-full h-full rounded-2xl overflow-hidden"
-				onClick={() =>
-					navigate({
-						to: "/movies/$movieId",
-						params: { movieId: movie.id.toString() },
-					})
-				}
-			>
+				className="relative w-full h-full rounded-2xl overflow-hidden">
 				{/* Movie poster */}
 				<img
 					src={movie.poster_path}
@@ -142,6 +137,14 @@ export function MovieCard({
 						{/* Action buttons */}
 						<div className="flex gap-2">
 							<Button
+								onClick={
+									() => {
+										navigate({
+											to: "/movies/$movieId",
+											params: { movieId: movie.id.toString() },
+										})
+									}
+								}
 								size="sm"
 								className="flex-1 bg-white text-black hover:bg-gray-200 rounded-lg font-semibold group"
 							>
@@ -155,19 +158,13 @@ export function MovieCard({
 							>
 								<Plus className="w-5 h-5 text-white group-hover:rotate-90 transition-transform" />
 							</Button>
-							<Button
-								size="sm"
-								variant="ghost"
-								className="w-10 h-10 p-0 bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/20 rounded-lg group"
-							>
-								<Info className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
-							</Button>
+							<MovieInfoDialog movie={movieData} />
 						</div>
 					</motion.div>
 				</div>
 
 				{/* Glow effect on hover */}
-				<motion.div
+				{/* <motion.div
 					initial={{ opacity: 0 }}
 					animate={{ opacity: isHovered ? 1 : 0 }}
 					className="absolute inset-0 rounded-2xl"
@@ -175,7 +172,7 @@ export function MovieCard({
 						boxShadow:
 							"0 0 60px rgba(139, 92, 246, 0.6), inset 0 0 60px rgba(139, 92, 246, 0.1)",
 					}}
-				/>
+				/> */}
 
 				{/* 3D lighting effect */}
 				<motion.div

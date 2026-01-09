@@ -213,7 +213,6 @@ export function ReviewsSection({ movieId }: ReviewsSectionProps) {
 							</motion.div>
 						))}
 					</div>
-
 					{/* Load More */}
 					<div className="flex justify-center pt-4">
 						<Button

@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion"
 import { ArrowLeft } from "lucide-react";
 export default function BackButton() {
@@ -15,7 +16,6 @@ export default function BackButton() {
                 <ArrowLeft className="w-5 h-5" />
                 <span className="text-sm font-medium">Back</span>
             </Link>
-
         </motion.div>
     )
 }

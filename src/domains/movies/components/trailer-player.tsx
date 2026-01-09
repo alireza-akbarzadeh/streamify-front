@@ -1,8 +1,6 @@
 import { motion } from "framer-motion";
-import { Play } from "lucide-react";
 import { useState } from "react";
 import { PlayButton } from "@/components/play-button";
-import { Button } from "@/components/ui/button";
 
 interface TrailerPlayerProps {
 	trailerUrl: string;
