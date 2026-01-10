@@ -1,10 +1,10 @@
-import { useNavigate } from "@tanstack/react-router";
-import { motion } from "framer-motion";
-import { Play, Plus, Star } from "lucide-react";
-import { useState } from "react";
+import { AddButton } from "@/components/buttons/add-button";
 import { Button } from "@/components/ui/button";
 import type { ContinueWatching } from "@/types/app";
-import { movieData } from "../data";
+import { useNavigate } from "@tanstack/react-router";
+import { motion } from "framer-motion";
+import { Play, Star } from "lucide-react";
+import { useState } from "react";
 import type { MovieVariantCard } from "./movie-carousel";
 import { MovieInfoDialog } from "./movie-info-dialog";
 
@@ -146,18 +146,12 @@ export function MovieCard({
 									}
 								}
 								size="sm"
-								className="flex-1 bg-white text-black hover:bg-gray-200 rounded-lg font-semibold group"
+								className="flex-1 bg-white h-10 text-black hover:bg-gray-200 rounded-lg font-semibold group"
 							>
 								<Play className="w-4 h-4 mr-1 fill-black group-hover:scale-110 transition-transform" />
 								Play
 							</Button>
-							<Button
-								size="sm"
-								variant="ghost"
-								className="w-10 h-10 p-0 bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/20 rounded-lg group"
-							>
-								<Plus className="w-5 h-5 text-white group-hover:rotate-90 transition-transform" />
-							</Button>
+							<AddButton />
 							<MovieInfoDialog />
 						</div>
 					</motion.div>

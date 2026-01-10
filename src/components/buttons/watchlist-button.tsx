@@ -1,7 +1,10 @@
 import { Plus } from 'lucide-react'
 import { Button } from '../ui/button'
 
-export default function WatchListButton() {
+
+//TODO: animation effect 
+
+export function WatchListButton() {
     return (
         <Button
             size="lg"

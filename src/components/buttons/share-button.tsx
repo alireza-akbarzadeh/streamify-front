@@ -2,7 +2,7 @@ import { Share2 } from 'lucide-react'
 import { Button } from '../ui/button'
 import { toast } from 'sonner';
 
-export default function SharedButton() {
+export function SharedButton() {
     const handleShare = async () => {
         try {
             const url = window.location.href;

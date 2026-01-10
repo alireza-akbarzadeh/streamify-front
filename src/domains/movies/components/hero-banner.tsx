@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import type { FeaturedMovie } from "@/types/app";
 import { MovieInfoDialog } from "./movie-info-dialog";
+import { AddButton } from "@/components/buttons/add-button";
 
 export function HeroBanner() {
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -174,14 +175,7 @@ export function HeroBanner() {
 										<Info className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
 										More Info
 									</Link>
-
-									<Button
-										variant="ghost"
-										className="h-14 w-14 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 hover:bg-white/20 text-white group"
-									>
-										<Plus className="w-6 h-6 group-hover:rotate-90 transition-transform" />
-									</Button>
-
+									<AddButton className="h-14 w-14 rounded-full " />
 									<Button
 										variant="ghost"
 										onClick={() => setIsMuted(!isMuted)}

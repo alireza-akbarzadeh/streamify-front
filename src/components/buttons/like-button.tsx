@@ -1,7 +1,8 @@
 import { Heart } from 'lucide-react'
 import { Button } from '../ui/button'
 
-export default function LikeButton() {
+//TODO: animation effect 
+export function LikeButton() {
     return (
         <Button
             size="lg"

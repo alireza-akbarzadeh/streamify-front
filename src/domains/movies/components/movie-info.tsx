@@ -1,23 +1,19 @@
+import { LikeButton } from "@/components/buttons/like-button";
+import { SharedButton } from "@/components/buttons/share-button";
+import { WatchListButton } from "@/components/buttons/watchlist-button";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import type { MovieTypes } from "@/types/app";
 import { useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
     Calendar,
     Clock,
-    Heart,
     Play,
-    Plus,
-    Share2,
     Star,
     Tag,
     TrendingUp
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import type { MovieTypes } from "@/types/app";
-import WatchListButton from "@/components/buttons/watchlist-button";
-import LinkButton from "@/components/buttons/like-button";
-import LikeButton from "@/components/buttons/like-button";
-import SharedButton from "@/components/buttons/share-button";
 
 interface MovieInfoProps {
     movie: MovieTypes;
