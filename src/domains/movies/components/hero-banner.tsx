@@ -2,8 +2,9 @@ import { Link } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { Info, Play, Plus, Star, Volume2, VolumeX } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import type { FeaturedMovie } from "@/types/app";
+import { MovieInfoDialog } from "./movie-info-dialog";
 
 export function HeroBanner() {
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -165,13 +166,14 @@ export function HeroBanner() {
 										Play Now
 									</Link>
 
-									<Button
-										variant="outline"
-										className="h-14 px-8 bg-white/10 backdrop-blur-xl border-white/30 text-white hover:bg-white/20 rounded-xl font-semibold text-lg group"
+									<Link
+										to="/movies/$movieId"
+										params={{ movieId: current.movieId.toString() }}
+										className={buttonVariants({ variant: "outline", className: "h-14 px-8 bg-white/10 backdrop-blur-xl border-white/30 text-white hover:bg-white/20 rounded-xl font-semibold text-lg group" })}
 									>
 										<Info className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
 										More Info
-									</Button>
+									</Link>
 
 									<Button
 										variant="ghost"

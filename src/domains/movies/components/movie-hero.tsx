@@ -1,20 +1,9 @@
+import type { MovieTypes } from "@/types/app";
 import { motion } from "framer-motion";
 import {
-	Calendar,
-	ChevronDown,
-	Clock,
-	Heart,
-	Play,
-	Plus,
-	Share2,
-	Star,
-	Tag,
-	TrendingUp,
+	ChevronDown
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import type { MovieTypes } from "@/types/app";
 import MovieInfo from "./movie-info";
 
 interface MovieHeroProps {

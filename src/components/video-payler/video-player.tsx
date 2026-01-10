@@ -3,9 +3,10 @@ import { useRef, useState } from "react";
 import { VIDEOS } from "@/constants/media";
 import { useVideo } from "@/hooks/useVideo";
 import { PlayButton } from "../play-button";
-import { MoreVideoOptions } from "./more-video";
+import { MoreVideoOptions } from "./more-video-options";
 import { Video } from "./video";
 import { VideoProgressbar } from "./video-progressbar";
+import { SettingVideoOptions } from "./setting-video-options";
 
 type VideoPlayerProps = {
     src: string
@@ -133,7 +134,10 @@ export function VideoPlayer(props: VideoPlayerProps) {
                                                 <p className="text-white/60 text-sm mb-4">
                                                     {year} • Sci-Fi • {formatTime}
                                                 </p>
-                                                <MoreVideoOptions />
+                                                <div className="flex items-center ">
+                                                    <MoreVideoOptions />
+                                                    <SettingVideoOptions />
+                                                </div>
                                             </div>
 
 

@@ -14,6 +14,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { MovieTypes } from "@/types/app";
+import WatchListButton from "@/components/buttons/watchlist-button";
+import LinkButton from "@/components/buttons/like-button";
+import LikeButton from "@/components/buttons/like-button";
+import SharedButton from "@/components/buttons/share-button";
 
 interface MovieInfoProps {
     movie: MovieTypes;
@@ -150,28 +154,9 @@ export default function MovieInfo(props: MovieInfoProps) {
                     <Play className="w-5 h-5 mr-2 fill-current group-hover:scale-110 transition-transform" />
                     Watch Trailer
                 </Button>
-                <Button
-                    size="lg"
-                    variant="outline"
-                    className="bg-white/5 border-white/20 text-white hover:bg-white/10 hover:border-white/30 rounded-full px-8"
-                >
-                    <Plus className="w-5 h-5 mr-2" />
-                    Watchlist
-                </Button>
-                <Button
-                    size="lg"
-                    variant="ghost"
-                    className="bg-white/5 hover:bg-white/10 text-white rounded-full"
-                >
-                    <Heart className="w-5 h-5" />
-                </Button>
-                <Button
-                    size="lg"
-                    variant="ghost"
-                    className="bg-white/5 hover:bg-white/10 text-white rounded-full"
-                >
-                    <Share2 className="w-5 h-5" />
-                </Button>
+                <WatchListButton />
+                <LikeButton />
+                <SharedButton />
             </div>
         </motion.div>
     )

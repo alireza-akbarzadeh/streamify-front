@@ -158,7 +158,7 @@ export function MovieCard({
 							>
 								<Plus className="w-5 h-5 text-white group-hover:rotate-90 transition-transform" />
 							</Button>
-							<MovieInfoDialog movie={movieData} />
+							<MovieInfoDialog />
 						</div>
 					</motion.div>
 				</div>

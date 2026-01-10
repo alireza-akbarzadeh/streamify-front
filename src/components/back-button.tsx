@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion"
 import { ArrowLeft } from "lucide-react";
 export default function BackButton() {
+
     return (
         <motion.div
             initial={{ y: -100 }}
