@@ -1,12 +1,12 @@
 import { Facebook, Instagram, Music, Twitter, Youtube } from "lucide-react";
-import { Link, ValidLink } from "@/components/ui/link";
+import { Link, type ValidLink } from "@/components/ui/link";
 import { Typography } from "@/components/ui/typography";
 import { MSG } from "@/constants/constants";
 
 const footerLinks = {
 	Product: ["Features", "Pricing", "Apps", "Download"],
 	Company: ["About", "Careers", "Press", "Blog"],
-	Support: ["Help Center", "Contact", "Community", "Status"],
+	Support: ["Help-Center", "Contact", "Community", "Status"],
 	Legal: ["Privacy", "Terms", "Cookies", "Licenses"],
 };
 
@@ -63,6 +63,7 @@ export default function Footer() {
 								{links.map((link) => (
 									<li key={link}>
 										<Link
+											// @ts-expect-error iss with links
 											to={`/${link.toLowerCase()}`}
 											className="text-gray-500 hover:text-white transition-colors text-sm"
 										>

@@ -15,12 +15,12 @@ import { Route as homeStatusRouteImport } from './routes/(home)/status'
 import { Route as homePrivacyRouteImport } from './routes/(home)/privacy'
 import { Route as homePricingRouteImport } from './routes/(home)/pricing'
 import { Route as homePressRouteImport } from './routes/(home)/press'
-import { Route as homeLicencesRouteImport } from './routes/(home)/licences'
+import { Route as homeLicensesRouteImport } from './routes/(home)/licenses'
 import { Route as homeHelpCenterRouteImport } from './routes/(home)/help-center'
 import { Route as homeFeaturesRouteImport } from './routes/(home)/features'
 import { Route as homeDownloadRouteImport } from './routes/(home)/download'
 import { Route as homeDiscoveryRouteImport } from './routes/(home)/discovery'
-import { Route as homeCoockiesRouteImport } from './routes/(home)/coockies'
+import { Route as homeCookiesRouteImport } from './routes/(home)/cookies'
 import { Route as homeContactRouteImport } from './routes/(home)/contact'
 import { Route as homeCommunityRouteImport } from './routes/(home)/community'
 import { Route as homeCareersRouteImport } from './routes/(home)/careers'
@@ -91,9 +91,9 @@ const homePressRoute = homePressRouteImport.update({
   path: '/press',
   getParentRoute: () => rootRouteImport,
 } as any)
-const homeLicencesRoute = homeLicencesRouteImport.update({
-  id: '/(home)/licences',
-  path: '/licences',
+const homeLicensesRoute = homeLicensesRouteImport.update({
+  id: '/(home)/licenses',
+  path: '/licenses',
   getParentRoute: () => rootRouteImport,
 } as any)
 const homeHelpCenterRoute = homeHelpCenterRouteImport.update({
@@ -116,9 +116,9 @@ const homeDiscoveryRoute = homeDiscoveryRouteImport.update({
   path: '/discovery',
   getParentRoute: () => rootRouteImport,
 } as any)
-const homeCoockiesRoute = homeCoockiesRouteImport.update({
-  id: '/(home)/coockies',
-  path: '/coockies',
+const homeCookiesRoute = homeCookiesRouteImport.update({
+  id: '/(home)/cookies',
+  path: '/cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
 const homeContactRoute = homeContactRouteImport.update({
@@ -330,12 +330,12 @@ export interface FileRoutesByFullPath {
   '/careers': typeof homeCareersRoute
   '/community': typeof homeCommunityRoute
   '/contact': typeof homeContactRoute
-  '/coockies': typeof homeCoockiesRoute
+  '/cookies': typeof homeCookiesRoute
   '/discovery': typeof homeDiscoveryRoute
   '/download': typeof homeDownloadRoute
   '/features': typeof homeFeaturesRoute
   '/help-center': typeof homeHelpCenterRoute
-  '/licences': typeof homeLicencesRoute
+  '/licenses': typeof homeLicensesRoute
   '/press': typeof homePressRoute
   '/pricing': typeof homePricingRoute
   '/privacy': typeof homePrivacyRoute
@@ -383,12 +383,12 @@ export interface FileRoutesByTo {
   '/careers': typeof homeCareersRoute
   '/community': typeof homeCommunityRoute
   '/contact': typeof homeContactRoute
-  '/coockies': typeof homeCoockiesRoute
+  '/cookies': typeof homeCookiesRoute
   '/discovery': typeof homeDiscoveryRoute
   '/download': typeof homeDownloadRoute
   '/features': typeof homeFeaturesRoute
   '/help-center': typeof homeHelpCenterRoute
-  '/licences': typeof homeLicencesRoute
+  '/licenses': typeof homeLicensesRoute
   '/press': typeof homePressRoute
   '/pricing': typeof homePricingRoute
   '/privacy': typeof homePrivacyRoute
@@ -437,12 +437,12 @@ export interface FileRoutesById {
   '/(home)/careers': typeof homeCareersRoute
   '/(home)/community': typeof homeCommunityRoute
   '/(home)/contact': typeof homeContactRoute
-  '/(home)/coockies': typeof homeCoockiesRoute
+  '/(home)/cookies': typeof homeCookiesRoute
   '/(home)/discovery': typeof homeDiscoveryRoute
   '/(home)/download': typeof homeDownloadRoute
   '/(home)/features': typeof homeFeaturesRoute
   '/(home)/help-center': typeof homeHelpCenterRoute
-  '/(home)/licences': typeof homeLicencesRoute
+  '/(home)/licenses': typeof homeLicensesRoute
   '/(home)/press': typeof homePressRoute
   '/(home)/pricing': typeof homePricingRoute
   '/(home)/privacy': typeof homePrivacyRoute
@@ -492,12 +492,12 @@ export interface FileRouteTypes {
     | '/careers'
     | '/community'
     | '/contact'
-    | '/coockies'
+    | '/cookies'
     | '/discovery'
     | '/download'
     | '/features'
     | '/help-center'
-    | '/licences'
+    | '/licenses'
     | '/press'
     | '/pricing'
     | '/privacy'
@@ -545,12 +545,12 @@ export interface FileRouteTypes {
     | '/careers'
     | '/community'
     | '/contact'
-    | '/coockies'
+    | '/cookies'
     | '/discovery'
     | '/download'
     | '/features'
     | '/help-center'
-    | '/licences'
+    | '/licenses'
     | '/press'
     | '/pricing'
     | '/privacy'
@@ -598,12 +598,12 @@ export interface FileRouteTypes {
     | '/(home)/careers'
     | '/(home)/community'
     | '/(home)/contact'
-    | '/(home)/coockies'
+    | '/(home)/cookies'
     | '/(home)/discovery'
     | '/(home)/download'
     | '/(home)/features'
     | '/(home)/help-center'
-    | '/(home)/licences'
+    | '/(home)/licenses'
     | '/(home)/press'
     | '/(home)/pricing'
     | '/(home)/privacy'
@@ -652,12 +652,12 @@ export interface RootRouteChildren {
   homeCareersRoute: typeof homeCareersRoute
   homeCommunityRoute: typeof homeCommunityRoute
   homeContactRoute: typeof homeContactRoute
-  homeCoockiesRoute: typeof homeCoockiesRoute
+  homeCookiesRoute: typeof homeCookiesRoute
   homeDiscoveryRoute: typeof homeDiscoveryRoute
   homeDownloadRoute: typeof homeDownloadRoute
   homeFeaturesRoute: typeof homeFeaturesRoute
   homeHelpCenterRoute: typeof homeHelpCenterRoute
-  homeLicencesRoute: typeof homeLicencesRoute
+  homeLicensesRoute: typeof homeLicensesRoute
   homePressRoute: typeof homePressRoute
   homePricingRoute: typeof homePricingRoute
   homePrivacyRoute: typeof homePrivacyRoute
@@ -740,11 +740,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof homePressRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(home)/licences': {
-      id: '/(home)/licences'
-      path: '/licences'
-      fullPath: '/licences'
-      preLoaderRoute: typeof homeLicencesRouteImport
+    '/(home)/licenses': {
+      id: '/(home)/licenses'
+      path: '/licenses'
+      fullPath: '/licenses'
+      preLoaderRoute: typeof homeLicensesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(home)/help-center': {
@@ -775,11 +775,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof homeDiscoveryRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(home)/coockies': {
-      id: '/(home)/coockies'
-      path: '/coockies'
-      fullPath: '/coockies'
-      preLoaderRoute: typeof homeCoockiesRouteImport
+    '/(home)/cookies': {
+      id: '/(home)/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof homeCookiesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(home)/contact': {
@@ -1068,12 +1068,12 @@ const rootRouteChildren: RootRouteChildren = {
   homeCareersRoute: homeCareersRoute,
   homeCommunityRoute: homeCommunityRoute,
   homeContactRoute: homeContactRoute,
-  homeCoockiesRoute: homeCoockiesRoute,
+  homeCookiesRoute: homeCookiesRoute,
   homeDiscoveryRoute: homeDiscoveryRoute,
   homeDownloadRoute: homeDownloadRoute,
   homeFeaturesRoute: homeFeaturesRoute,
   homeHelpCenterRoute: homeHelpCenterRoute,
-  homeLicencesRoute: homeLicencesRoute,
+  homeLicensesRoute: homeLicensesRoute,
   homePressRoute: homePressRoute,
   homePricingRoute: homePricingRoute,
   homePrivacyRoute: homePrivacyRoute,
