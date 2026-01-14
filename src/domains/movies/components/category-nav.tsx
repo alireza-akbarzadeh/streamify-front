@@ -1,22 +1,21 @@
 import { motion } from "framer-motion";
-import { Clock, Film, Heart, Sparkles, TrendingUp, Tv } from "lucide-react";
+import type { Categories, CategoriesType } from "../movies";
 
 interface CategoryNavProps {
-	activeCategory: string;
-	onCategoryChange: (category: string) => void;
+	activeCategory: Categories;
+	onCategoryChange: (category: Categories) => void;
+	categories: CategoriesType[]
 }
-export function CategoryNav({
-	activeCategory,
-	onCategoryChange,
-}: CategoryNavProps) {
-	const categories = [
-		{ id: "all", label: "All", icon: Sparkles },
-		{ id: "movies", label: "Movies", icon: Film },
-		{ id: "series", label: "Series", icon: Tv },
-		{ id: "trending", label: "Trending", icon: TrendingUp },
-		{ id: "recent", label: "Recent", icon: Clock },
-		{ id: "favorites", label: "My List", icon: Heart },
-	];
+
+
+
+export function CategoryNav(props: CategoryNavProps) {
+	const {
+		activeCategory,
+		categories,
+		onCategoryChange,
+	} = props
+
 
 	return (
 		<motion.div
@@ -33,11 +32,10 @@ export function CategoryNav({
 						animate={{ opacity: 1, scale: 1 }}
 						transition={{ delay: 0.4 + index * 0.05 }}
 						onClick={() => onCategoryChange(category.id)}
-						className={`relative flex items-center gap-2 px-6 py-3 rounded-xl font-semibold whitespace-nowrap transition-all ${
-							activeCategory === category.id
-								? "text-white"
-								: "text-gray-400 hover:text-white"
-						}`}
+						className={`relative flex items-center gap-2 px-6 py-3 rounded-xl font-semibold whitespace-nowrap transition-all ${activeCategory === category.id
+							? "text-white"
+							: "text-gray-400 hover:text-white"
+							}`}
 					>
 						{/* Active background */}
 						{activeCategory === category.id && (

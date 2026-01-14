@@ -1,9 +1,9 @@
-import { Link } from "@tanstack/react-router";
+
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Clock, Play, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Image } from "@/components/ui/image";
+
 import { Typography } from "@/components/ui/typography";
 import FeaturedCard from "./components/featured-card";
 import { PlayListCard } from "./components/playlists-card";

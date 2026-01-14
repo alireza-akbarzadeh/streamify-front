@@ -1,15 +1,15 @@
 import { Info } from 'lucide-react';
+import { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { ImagesGallery } from '../containers/image-gallery';
+import { movieData } from '../data';
 import { CastCarousel } from "./cast-carousel";
 import MovieInfo from "./movie-info";
-import { ReactNode } from 'react';
-import { movieData } from '../data';
+import { ReviewsSection } from './reviews-section';
+import { SimilarMovies } from './similar-movies';
 import { StatsBar } from './stats-bar';
 import { Synopsis } from './synopsis';
-import { ReviewsSection } from './reviews-section';
-import { ImagesGallery } from './image-gallery';
-import { SimilarMovies } from './similar-movies';
 
 interface MovieInfoProps {
     triggerButton?: ReactNode

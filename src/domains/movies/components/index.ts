@@ -1,7 +1,8 @@
 export { CastCarousel } from "./cast-carousel";
+export { MovieImages } from "./movie-images";
 export { CategoryNav } from "./category-nav";
 export { HeroBanner } from "./hero-banner";
-export { ImagesGallery } from "./image-gallery";
+export { LightBox } from "./light-box";
 export { MovieCarousel } from "./movie-carousel";
 export { MovieHero } from "./movie-hero";
 export { ReviewsSection } from "./reviews-section";

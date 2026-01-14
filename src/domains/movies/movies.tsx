@@ -1,4 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
+import { Clock, Film, Heart, type LucideIcon, Sparkles, TrendingUp, Tv } from "lucide-react";
 import { useRef, useState } from "react";
 import {
 	CategoryNav,
@@ -6,17 +7,35 @@ import {
 	MovieCarousel,
 	SearchHeader,
 } from "./components";
+
 import { animation, continueWatching, latestMovies, popularSeries, topRated } from "./data";
 
+export type Categories = "all" | "series" | "trending" | "recent" | "favorites" | "movies" | "animation" | "comedy" | "romantic"
+
+export type CategoriesType = {
+	id: Categories
+	label: string
+	icon: LucideIcon
+}
+
 export default function MovieDiscovery() {
-	const [activeCategory, setActiveCategory] = useState("all");
+	const [activeCategory, setActiveCategory] = useState<Categories>("all");
 	const [searchQuery, setSearchQuery] = useState("");
 	const containerRef = useRef(null);
 	const { scrollYProgress } = useScroll();
 
 	const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
-
+	//TODO:  add more categories list list comedy horror romantic
+	const categories: CategoriesType[] = [
+		{ id: "all", label: "All", icon: Sparkles },
+		{ id: "movies", label: "Movies", icon: Film },
+		{ id: "series", label: "Series", icon: Tv },
+		{ id: "animation", label: "Animation", icon: Heart },
+		{ id: "trending", label: "Trending", icon: TrendingUp },
+		{ id: "recent", label: "Recent", icon: Clock },
+		{ id: "favorites", label: "My List", icon: Heart },
+	];
 
 	return (
 		<div
@@ -48,7 +67,7 @@ export default function MovieDiscovery() {
 					className="absolute bottom-0 right-1/4 w-96 h-96 bg-pink-600/20 rounded-full blur-3xl"
 				/>
 
-				{/* Cinematic scanlines effect */}
+				{/* Cinematic scantiness effect */}
 				<div
 					className="absolute inset-0 opacity-5"
 					style={{
@@ -67,14 +86,13 @@ export default function MovieDiscovery() {
 			{/* Category navigation */}
 			<div className="relative z-10 max-w-450 mx-auto px-6 mt-20">
 				<CategoryNav
+					categories={categories}
 					activeCategory={activeCategory}
 					onCategoryChange={setActiveCategory}
 				/>
 			</div>
-
-			{/* Content sections */}
+			{/* Continue Watching */}
 			<div className="relative z-10 space-y-12 pb-10 mt-5">
-				{/* Continue Watching */}
 				{continueWatching.length > 0 && (
 					<MovieCarousel
 						title="Continue Watching"

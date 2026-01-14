@@ -7,9 +7,8 @@ interface MovieImageProps {
     openLightbox: (index: number) => void
 }
 
-function MovieImage(props: MovieImageProps) {
+    export function MovieImages(props: MovieImageProps) {
     const {images,openLightbox} = props;
-
     return (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {images.map((image, index) => (

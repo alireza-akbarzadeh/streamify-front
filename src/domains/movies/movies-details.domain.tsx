@@ -3,14 +3,14 @@ import { VideoPlayer } from "@/components/video-payler/video-player";
 import { VIDEOS } from "@/constants/media";
 import {
 	CastCarousel,
-	ImagesGallery,
 	MovieHero,
 	ReviewsSection,
 	SimilarMovies,
 	StatsBar,
 	Synopsis,
-	TrailerPlayer,
+	TrailerPlayer
 } from "./components";
+import { ImagesGallery } from "./containers";
 import { movieData } from "./data";
 
 export default function MovieDetails() {
@@ -47,7 +47,7 @@ export default function MovieDetails() {
 			<Synopsis movie={movieData} />
 			<CastCarousel movieId={movieData.id} />
 			<ReviewsSection movieId={movieData.id} />
-			<ImagesGallery movieId={movieData.id} />
+			<ImagesGallery  />
 			<SimilarMovies movieId={movieData.id} />
 		</div>
 	);
