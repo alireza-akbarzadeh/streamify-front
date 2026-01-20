@@ -31,7 +31,7 @@ export function TrailerPlayer({ trailerUrl }: TrailerPlayerProps) {
 									className="w-full h-full object-cover"
 								/>
 								<div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent" />
-								<PlayButton size="medium" value={isPlaying} onOpenChange={setIsPlaying} />
+								<PlayButton value={isPlaying} onOpenChange={setIsPlaying} />
 							</>
 						) : (
 							<iframe

@@ -1,41 +1,35 @@
-import { motion } from "framer-motion"
-import { Pause, Play } from "lucide-react"
-import { Button } from "./ui/button"
-
-export type Size = "x-small" | "small" | "medium" | "large" | "extra-large"
+import { motion } from "framer-motion";
+import { Pause, Play } from "lucide-react";
 
 interface PlayButtonProps {
-    onOpenChange: React.Dispatch<React.SetStateAction<boolean>>
-    value: boolean
-    size?: Size
+    onOpenChange: React.Dispatch<React.SetStateAction<boolean>>;
+    value: boolean;
 }
 
-export function PlayButton(props: PlayButtonProps) {
-    const { onOpenChange, size = "medium", value } = props
-
-    const mapSized: Record<Size, { parent: string, child: string }> = {
-        "x-small": { child: "w-24 h-24", parent: "w-16 h-16 " },
-        "small": { child: "w-24 h-24", parent: "w-16 h-16 " },
-        "medium": { child: "w-20 h-20", parent: "w-15 h-15 " },
-        "large": { child: "w-16 h-", parent: "w-12 h-12" },
-        "extra-large": { child: "w-24 h-24", parent: "w-16 h-16 " },
-    }
+export function PlayButton({ onOpenChange, value }: PlayButtonProps) {
     return (
-        <Button
+        <button
+            type="button"
             onClick={() => onOpenChange((prev) => !prev)}
-            className="absolute inset-1/2 w-20 h-20 rounded-full flex items-center justify-center group"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center"
         >
             <motion.div
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className={`rounded-full bg-linear-to-r from-purple-600 to-pink-600 flex items-center justify-center shadow-2xl shadow-purple-500/50 group-hover:shadow-purple-500/70 transition-shadow ${mapSized[size].parent}`}
+                className="rounded-full bg-linear-to-r from-purple-600 to-pink-600 flex items-center justify-center
+                   w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28
+                   shadow-2xl shadow-purple-500/50 transition-shadow"
             >
-                {value ?
-                    <Pause className={` text-white fill-current ml-1${mapSized[size].child}`} />
-                    :
-                    <Play className={` text-white fill-current ml-1${mapSized[size].child}`} />
-                }
+                {value ? (
+                    <Pause
+                        className="text-white w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12"
+                    />
+                ) : (
+                    <Play
+                        className="text-white w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12"
+                    />
+                )}
             </motion.div>
-        </Button>
-    )
+        </button>
+    );
 }

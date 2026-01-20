@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Square, SquareSquare, WindArrowDown } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { VIDEOS } from "@/constants/media";
 import { PlayButton } from "../play-button";
@@ -190,7 +190,6 @@ export function VideoPlayer({
                                             setIsPlaying(false);
                                         }
                                     }}
-                                    size="large"
                                 />
                             </motion.div>
 
@@ -204,8 +203,9 @@ export function VideoPlayer({
                                 <h3 className="text-white text-2xl md:text-3xl font-bold mb-2">{videoName}</h3>
                                 <div className="flex items-center justify-between mb-3">
                                     <p className="text-white/60 text-sm">{year} • Sci-Fi</p>
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center">
                                         <SoundControls videoRef={videoRef} />
+                                        <SquareSquare />
                                         <MoreVideoOptions videoRef={videoRef} />
                                         <SettingVideoOptions />
                                     </div>

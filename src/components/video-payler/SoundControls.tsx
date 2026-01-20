@@ -29,7 +29,7 @@ export function SoundControls({ videoRef }: VideoControlsProps) {
     };
 
     return (
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 mx-5">
             {/* Mute/Unmute button */}
             <button
                 type="button"
