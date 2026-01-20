@@ -44,12 +44,14 @@ export function VideoPlayer({
     }, []);
 
     // --- Play/Pause handler ---
-    const handlePlayPause = (val: boolean) => {
+    const handlePlayPause = useCallback((val: boolean) => {
         setIsPlaying(val);
-        if (!videoRef.current) return;
-        if (val) videoRef.current.play();
-        else videoRef.current.pause();
-    };
+        if (val) {
+            videoRef?.current?.play();
+            return
+        }
+        videoRef?.current?.pause();
+    }, [setIsPlaying]);
 
     // --- Keyboard shortcuts ---
     useEffect(() => {
@@ -175,7 +177,21 @@ export function VideoPlayer({
                                 animate={{ scale: isHovered ? 1 : 0.8, opacity: isHovered ? 1 : 0 }}
                                 transition={{ duration: 0.3 }}
                             >
-                                <PlayButton value={isPlaying} onOpenChange={handlePlayPause} size="large" />
+                                <PlayButton
+                                    value={isPlaying}
+                                    onOpenChange={() => {
+                                        if (!videoRef.current) return;
+
+                                        if (videoRef.current.paused) {
+                                            videoRef.current.play();
+                                            setIsPlaying(true);
+                                        } else {
+                                            videoRef.current.pause();
+                                            setIsPlaying(false);
+                                        }
+                                    }}
+                                    size="large"
+                                />
                             </motion.div>
 
                             {/* BOTTOM CONTROLS */}
