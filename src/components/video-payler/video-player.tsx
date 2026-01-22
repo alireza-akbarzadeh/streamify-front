@@ -1,8 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Square, SquareSquare, WindArrowDown } from "lucide-react";
+import { ChevronLeft, ChevronRight, SquareSquare } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { VIDEOS } from "@/constants/media";
+import BackButton from "../back-button";
 import { PlayButton } from "../play-button";
+import { MoreEpisode } from "./more-episode";
 import { MoreVideoOptions } from "./more-video-options";
 import { SoundControls } from "./SoundControls";
 import { SettingVideoOptions } from "./setting-video-options";
@@ -97,7 +99,7 @@ export function VideoPlayer({
             triggerSkip("forward");
         }
     };
-
+    console.log({ currentTime, duration })
     return (
         <motion.div
             className="mt-2 relative"
@@ -112,12 +114,14 @@ export function VideoPlayer({
                 transition={{ duration: 0.8 }}
                 className="relative mx-auto w-full"
             >
-                <div className="aspect-video rounded-3xl bg-linear-to-br from-gray-800 to-gray-900 p-2 shadow-2xl shadow-purple-500/10">
+                <div className="h-screen rounded-3xl bg-linear-to-br from-gray-800 to-gray-900 p-2 shadow-2xl shadow-purple-500/10">
                     <div className="relative h-full rounded-2xl overflow-hidden bg-black">
                         {/* VIDEO */}
                         <Video
                             ref={videoRef}
                             src={src}
+                            preload="metadata"
+                            playsInline
                             className={`absolute inset-0 w-full h-full object-cover transition-opacity ${isPlaying ? "opacity-100" : "opacity-0"
                                 }`}
                         />
@@ -168,6 +172,7 @@ export function VideoPlayer({
                                     </div>
                                     <span className="hidden sm:block text-white/60 text-sm">Now Playing</span>
                                 </div>
+                                <BackButton title={videoName} />
                             </motion.div>
 
                             {/* PLAY BUTTON */}
@@ -205,7 +210,7 @@ export function VideoPlayer({
                                     <p className="text-white/60 text-sm">{year} • Sci-Fi</p>
                                     <div className="flex items-center">
                                         <SoundControls videoRef={videoRef} />
-                                        <SquareSquare />
+                                        <MoreEpisode />
                                         <MoreVideoOptions videoRef={videoRef} />
                                         <SettingVideoOptions />
                                     </div>

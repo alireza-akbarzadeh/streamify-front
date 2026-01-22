@@ -37,6 +37,7 @@ import { Route as demoHomeDemoIndexRouteImport } from './routes/(demo)/home-demo
 import { Route as demoDemoIndexRouteImport } from './routes/(demo)/demo/index'
 import { Route as blogBlogIndexRouteImport } from './routes/(blog)/blog/index'
 import { Route as adminSettingIndexRouteImport } from './routes/(admin)/setting/index'
+import { Route as homePlayPlayIdRouteImport } from './routes/(home)/play/$playId'
 import { Route as homeMusicMusicidRouteImport } from './routes/(home)/music/$musicid'
 import { Route as homeMoviesMovieIdRouteImport } from './routes/(home)/movies/$movieId'
 import { Route as homeLibraryProfileRouteImport } from './routes/(home)/library/profile'
@@ -201,6 +202,11 @@ const adminSettingIndexRoute = adminSettingIndexRouteImport.update({
   path: '/setting/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const homePlayPlayIdRoute = homePlayPlayIdRouteImport.update({
+  id: '/(home)/play/$playId',
+  path: '/play/$playId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const homeMusicMusicidRoute = homeMusicMusicidRouteImport.update({
   id: '/(home)/music/$musicid',
   path: '/music/$musicid',
@@ -353,6 +359,7 @@ export interface FileRoutesByFullPath {
   '/library/profile': typeof homeLibraryProfileRoute
   '/movies/$movieId': typeof homeMoviesMovieIdRoute
   '/music/$musicid': typeof homeMusicMusicidRoute
+  '/play/$playId': typeof homePlayPlayIdRoute
   '/setting': typeof adminSettingIndexRoute
   '/blog': typeof blogBlogIndexRoute
   '/demo': typeof demoDemoIndexRoute
@@ -406,6 +413,7 @@ export interface FileRoutesByTo {
   '/library/profile': typeof homeLibraryProfileRoute
   '/movies/$movieId': typeof homeMoviesMovieIdRoute
   '/music/$musicid': typeof homeMusicMusicidRoute
+  '/play/$playId': typeof homePlayPlayIdRoute
   '/setting': typeof adminSettingIndexRoute
   '/blog': typeof blogBlogIndexRoute
   '/demo': typeof demoDemoIndexRoute
@@ -460,6 +468,7 @@ export interface FileRoutesById {
   '/(home)/library/profile': typeof homeLibraryProfileRoute
   '/(home)/movies/$movieId': typeof homeMoviesMovieIdRoute
   '/(home)/music/$musicid': typeof homeMusicMusicidRoute
+  '/(home)/play/$playId': typeof homePlayPlayIdRoute
   '/(admin)/setting/': typeof adminSettingIndexRoute
   '/(blog)/blog/': typeof blogBlogIndexRoute
   '/(demo)/demo/': typeof demoDemoIndexRoute
@@ -515,6 +524,7 @@ export interface FileRouteTypes {
     | '/library/profile'
     | '/movies/$movieId'
     | '/music/$musicid'
+    | '/play/$playId'
     | '/setting'
     | '/blog'
     | '/demo'
@@ -568,6 +578,7 @@ export interface FileRouteTypes {
     | '/library/profile'
     | '/movies/$movieId'
     | '/music/$musicid'
+    | '/play/$playId'
     | '/setting'
     | '/blog'
     | '/demo'
@@ -621,6 +632,7 @@ export interface FileRouteTypes {
     | '/(home)/library/profile'
     | '/(home)/movies/$movieId'
     | '/(home)/music/$musicid'
+    | '/(home)/play/$playId'
     | '/(admin)/setting/'
     | '/(blog)/blog/'
     | '/(demo)/demo/'
@@ -675,6 +687,7 @@ export interface RootRouteChildren {
   homeLibraryProfileRoute: typeof homeLibraryProfileRoute
   homeMoviesMovieIdRoute: typeof homeMoviesMovieIdRoute
   homeMusicMusicidRoute: typeof homeMusicMusicidRoute
+  homePlayPlayIdRoute: typeof homePlayPlayIdRoute
   adminSettingIndexRoute: typeof adminSettingIndexRoute
   blogBlogIndexRoute: typeof blogBlogIndexRoute
   demoDemoIndexRoute: typeof demoDemoIndexRoute
@@ -894,6 +907,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof adminSettingIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(home)/play/$playId': {
+      id: '/(home)/play/$playId'
+      path: '/play/$playId'
+      fullPath: '/play/$playId'
+      preLoaderRoute: typeof homePlayPlayIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(home)/music/$musicid': {
       id: '/(home)/music/$musicid'
       path: '/music/$musicid'
@@ -1091,6 +1111,7 @@ const rootRouteChildren: RootRouteChildren = {
   homeLibraryProfileRoute: homeLibraryProfileRoute,
   homeMoviesMovieIdRoute: homeMoviesMovieIdRoute,
   homeMusicMusicidRoute: homeMusicMusicidRoute,
+  homePlayPlayIdRoute: homePlayPlayIdRoute,
   adminSettingIndexRoute: adminSettingIndexRoute,
   blogBlogIndexRoute: blogBlogIndexRoute,
   demoDemoIndexRoute: demoDemoIndexRoute,

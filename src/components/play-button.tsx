@@ -10,14 +10,17 @@ export function PlayButton({ onOpenChange, value }: PlayButtonProps) {
     return (
         <button
             type="button"
-            onClick={() => onOpenChange((prev) => !prev)}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center"
+            onClick={(event) => {
+                event.stopPropagation()
+                onOpenChange((prev) => !prev)
+            }}
+            className="absolute z-50 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center"
         >
             <motion.div
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 className="rounded-full bg-linear-to-r from-purple-600 to-pink-600 flex items-center justify-center
-                   w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28
+                   w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 
                    shadow-2xl shadow-purple-500/50 transition-shadow"
             >
                 {value ? (
