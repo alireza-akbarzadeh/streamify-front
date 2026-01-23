@@ -1,13 +1,10 @@
-import { useState } from "react";
-import { SearchHeader } from "../movies/components";
+import { Library } from "./container/library";
+
+
 
 export function MusicDomain() {
-    const [searchQuery, setSearchQuery] = useState("");
 
     return (
-        <div>
-            <SearchHeader searchQuery={searchQuery} onSearchChange={setSearchQuery} />
-            MusicDomain
-        </div>
+        <Library />
     )
 }

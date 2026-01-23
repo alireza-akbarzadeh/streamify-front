@@ -30,7 +30,7 @@ import { Route as authVerifyRouteImport } from './routes/(auth)/verify'
 import { Route as authRegisterRouteImport } from './routes/(auth)/register'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
-import { Route as homeMusicIndexRouteImport } from './routes/(home)/music/index'
+import { Route as homeMusicRouteRouteImport } from './routes/(home)/music/route'
 import { Route as homeMoviesIndexRouteImport } from './routes/(home)/movies/index'
 import { Route as homeLibraryIndexRouteImport } from './routes/(home)/library/index'
 import { Route as demoHomeDemoIndexRouteImport } from './routes/(demo)/home-demo/index'
@@ -38,6 +38,8 @@ import { Route as demoDemoIndexRouteImport } from './routes/(demo)/demo/index'
 import { Route as blogBlogIndexRouteImport } from './routes/(blog)/blog/index'
 import { Route as adminSettingIndexRouteImport } from './routes/(admin)/setting/index'
 import { Route as homePlayPlayIdRouteImport } from './routes/(home)/play/$playId'
+import { Route as homeMusicSearchRouteImport } from './routes/(home)/music/search'
+import { Route as homeMusicLibraryRouteImport } from './routes/(home)/music/library'
 import { Route as homeMusicMusicidRouteImport } from './routes/(home)/music/$musicid'
 import { Route as homeMoviesMovieIdRouteImport } from './routes/(home)/movies/$movieId'
 import { Route as homeLibraryProfileRouteImport } from './routes/(home)/library/profile'
@@ -167,9 +169,9 @@ const authForgotPasswordRoute = authForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const homeMusicIndexRoute = homeMusicIndexRouteImport.update({
-  id: '/(home)/music/',
-  path: '/music/',
+const homeMusicRouteRoute = homeMusicRouteRouteImport.update({
+  id: '/(home)/music',
+  path: '/music',
   getParentRoute: () => rootRouteImport,
 } as any)
 const homeMoviesIndexRoute = homeMoviesIndexRouteImport.update({
@@ -207,10 +209,20 @@ const homePlayPlayIdRoute = homePlayPlayIdRouteImport.update({
   path: '/play/$playId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const homeMusicSearchRoute = homeMusicSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => homeMusicRouteRoute,
+} as any)
+const homeMusicLibraryRoute = homeMusicLibraryRouteImport.update({
+  id: '/library',
+  path: '/library',
+  getParentRoute: () => homeMusicRouteRoute,
+} as any)
 const homeMusicMusicidRoute = homeMusicMusicidRouteImport.update({
-  id: '/(home)/music/$musicid',
-  path: '/music/$musicid',
-  getParentRoute: () => rootRouteImport,
+  id: '/$musicid',
+  path: '/$musicid',
+  getParentRoute: () => homeMusicRouteRoute,
 } as any)
 const homeMoviesMovieIdRoute = homeMoviesMovieIdRouteImport.update({
   id: '/(home)/movies/$movieId',
@@ -327,6 +339,7 @@ const demoDemoStartSsrDataOnlyRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/music': typeof homeMusicRouteRouteWithChildren
   '/forgot-password': typeof authForgotPasswordRoute
   '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
@@ -359,6 +372,8 @@ export interface FileRoutesByFullPath {
   '/library/profile': typeof homeLibraryProfileRoute
   '/movies/$movieId': typeof homeMoviesMovieIdRoute
   '/music/$musicid': typeof homeMusicMusicidRoute
+  '/music/library': typeof homeMusicLibraryRoute
+  '/music/search': typeof homeMusicSearchRoute
   '/play/$playId': typeof homePlayPlayIdRoute
   '/setting': typeof adminSettingIndexRoute
   '/blog': typeof blogBlogIndexRoute
@@ -366,7 +381,6 @@ export interface FileRoutesByFullPath {
   '/home-demo': typeof demoHomeDemoIndexRoute
   '/library': typeof homeLibraryIndexRoute
   '/movies': typeof homeMoviesIndexRoute
-  '/music': typeof homeMusicIndexRoute
   '/demo/api/names': typeof demoDemoApiNamesRoute
   '/demo/api/tanchat': typeof demoDemoApiTanchatRoute
   '/demo/api/tq-todos': typeof demoDemoApiTqTodosRoute
@@ -381,6 +395,7 @@ export interface FileRoutesByFullPath {
   '/demo/start/ssr': typeof demoDemoStartSsrIndexRoute
 }
 export interface FileRoutesByTo {
+  '/music': typeof homeMusicRouteRouteWithChildren
   '/forgot-password': typeof authForgotPasswordRoute
   '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
@@ -413,6 +428,8 @@ export interface FileRoutesByTo {
   '/library/profile': typeof homeLibraryProfileRoute
   '/movies/$movieId': typeof homeMoviesMovieIdRoute
   '/music/$musicid': typeof homeMusicMusicidRoute
+  '/music/library': typeof homeMusicLibraryRoute
+  '/music/search': typeof homeMusicSearchRoute
   '/play/$playId': typeof homePlayPlayIdRoute
   '/setting': typeof adminSettingIndexRoute
   '/blog': typeof blogBlogIndexRoute
@@ -420,7 +437,6 @@ export interface FileRoutesByTo {
   '/home-demo': typeof demoHomeDemoIndexRoute
   '/library': typeof homeLibraryIndexRoute
   '/movies': typeof homeMoviesIndexRoute
-  '/music': typeof homeMusicIndexRoute
   '/demo/api/names': typeof demoDemoApiNamesRoute
   '/demo/api/tanchat': typeof demoDemoApiTanchatRoute
   '/demo/api/tq-todos': typeof demoDemoApiTqTodosRoute
@@ -436,6 +452,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/(home)/music': typeof homeMusicRouteRouteWithChildren
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
   '/(auth)/login': typeof authLoginRoute
   '/(auth)/register': typeof authRegisterRoute
@@ -468,6 +485,8 @@ export interface FileRoutesById {
   '/(home)/library/profile': typeof homeLibraryProfileRoute
   '/(home)/movies/$movieId': typeof homeMoviesMovieIdRoute
   '/(home)/music/$musicid': typeof homeMusicMusicidRoute
+  '/(home)/music/library': typeof homeMusicLibraryRoute
+  '/(home)/music/search': typeof homeMusicSearchRoute
   '/(home)/play/$playId': typeof homePlayPlayIdRoute
   '/(admin)/setting/': typeof adminSettingIndexRoute
   '/(blog)/blog/': typeof blogBlogIndexRoute
@@ -475,7 +494,6 @@ export interface FileRoutesById {
   '/(demo)/home-demo/': typeof demoHomeDemoIndexRoute
   '/(home)/library/': typeof homeLibraryIndexRoute
   '/(home)/movies/': typeof homeMoviesIndexRoute
-  '/(home)/music/': typeof homeMusicIndexRoute
   '/(demo)/demo/api/names': typeof demoDemoApiNamesRoute
   '/(demo)/demo/api/tanchat': typeof demoDemoApiTanchatRoute
   '/(demo)/demo/api/tq-todos': typeof demoDemoApiTqTodosRoute
@@ -492,6 +510,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/music'
     | '/forgot-password'
     | '/login'
     | '/register'
@@ -524,6 +543,8 @@ export interface FileRouteTypes {
     | '/library/profile'
     | '/movies/$movieId'
     | '/music/$musicid'
+    | '/music/library'
+    | '/music/search'
     | '/play/$playId'
     | '/setting'
     | '/blog'
@@ -531,7 +552,6 @@ export interface FileRouteTypes {
     | '/home-demo'
     | '/library'
     | '/movies'
-    | '/music'
     | '/demo/api/names'
     | '/demo/api/tanchat'
     | '/demo/api/tq-todos'
@@ -546,6 +566,7 @@ export interface FileRouteTypes {
     | '/demo/start/ssr'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/music'
     | '/forgot-password'
     | '/login'
     | '/register'
@@ -578,6 +599,8 @@ export interface FileRouteTypes {
     | '/library/profile'
     | '/movies/$movieId'
     | '/music/$musicid'
+    | '/music/library'
+    | '/music/search'
     | '/play/$playId'
     | '/setting'
     | '/blog'
@@ -585,7 +608,6 @@ export interface FileRouteTypes {
     | '/home-demo'
     | '/library'
     | '/movies'
-    | '/music'
     | '/demo/api/names'
     | '/demo/api/tanchat'
     | '/demo/api/tq-todos'
@@ -600,6 +622,7 @@ export interface FileRouteTypes {
     | '/demo/start/ssr'
   id:
     | '__root__'
+    | '/(home)/music'
     | '/(auth)/forgot-password'
     | '/(auth)/login'
     | '/(auth)/register'
@@ -632,6 +655,8 @@ export interface FileRouteTypes {
     | '/(home)/library/profile'
     | '/(home)/movies/$movieId'
     | '/(home)/music/$musicid'
+    | '/(home)/music/library'
+    | '/(home)/music/search'
     | '/(home)/play/$playId'
     | '/(admin)/setting/'
     | '/(blog)/blog/'
@@ -639,7 +664,6 @@ export interface FileRouteTypes {
     | '/(demo)/home-demo/'
     | '/(home)/library/'
     | '/(home)/movies/'
-    | '/(home)/music/'
     | '/(demo)/demo/api/names'
     | '/(demo)/demo/api/tanchat'
     | '/(demo)/demo/api/tq-todos'
@@ -655,6 +679,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  homeMusicRouteRoute: typeof homeMusicRouteRouteWithChildren
   authForgotPasswordRoute: typeof authForgotPasswordRoute
   authLoginRoute: typeof authLoginRoute
   authRegisterRoute: typeof authRegisterRoute
@@ -686,7 +711,6 @@ export interface RootRouteChildren {
   homeExploreSectionRoute: typeof homeExploreSectionRoute
   homeLibraryProfileRoute: typeof homeLibraryProfileRoute
   homeMoviesMovieIdRoute: typeof homeMoviesMovieIdRoute
-  homeMusicMusicidRoute: typeof homeMusicMusicidRoute
   homePlayPlayIdRoute: typeof homePlayPlayIdRoute
   adminSettingIndexRoute: typeof adminSettingIndexRoute
   blogBlogIndexRoute: typeof blogBlogIndexRoute
@@ -694,7 +718,6 @@ export interface RootRouteChildren {
   demoHomeDemoIndexRoute: typeof demoHomeDemoIndexRoute
   homeLibraryIndexRoute: typeof homeLibraryIndexRoute
   homeMoviesIndexRoute: typeof homeMoviesIndexRoute
-  homeMusicIndexRoute: typeof homeMusicIndexRoute
   demoDemoApiNamesRoute: typeof demoDemoApiNamesRoute
   demoDemoApiTanchatRoute: typeof demoDemoApiTanchatRoute
   demoDemoApiTqTodosRoute: typeof demoDemoApiTqTodosRoute
@@ -858,11 +881,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(home)/music/': {
-      id: '/(home)/music/'
+    '/(home)/music': {
+      id: '/(home)/music'
       path: '/music'
       fullPath: '/music'
-      preLoaderRoute: typeof homeMusicIndexRouteImport
+      preLoaderRoute: typeof homeMusicRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(home)/movies/': {
@@ -914,12 +937,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof homePlayPlayIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(home)/music/search': {
+      id: '/(home)/music/search'
+      path: '/search'
+      fullPath: '/music/search'
+      preLoaderRoute: typeof homeMusicSearchRouteImport
+      parentRoute: typeof homeMusicRouteRoute
+    }
+    '/(home)/music/library': {
+      id: '/(home)/music/library'
+      path: '/library'
+      fullPath: '/music/library'
+      preLoaderRoute: typeof homeMusicLibraryRouteImport
+      parentRoute: typeof homeMusicRouteRoute
+    }
     '/(home)/music/$musicid': {
       id: '/(home)/music/$musicid'
-      path: '/music/$musicid'
+      path: '/$musicid'
       fullPath: '/music/$musicid'
       preLoaderRoute: typeof homeMusicMusicidRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof homeMusicRouteRoute
     }
     '/(home)/movies/$movieId': {
       id: '/(home)/movies/$movieId'
@@ -1078,7 +1115,24 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface homeMusicRouteRouteChildren {
+  homeMusicMusicidRoute: typeof homeMusicMusicidRoute
+  homeMusicLibraryRoute: typeof homeMusicLibraryRoute
+  homeMusicSearchRoute: typeof homeMusicSearchRoute
+}
+
+const homeMusicRouteRouteChildren: homeMusicRouteRouteChildren = {
+  homeMusicMusicidRoute: homeMusicMusicidRoute,
+  homeMusicLibraryRoute: homeMusicLibraryRoute,
+  homeMusicSearchRoute: homeMusicSearchRoute,
+}
+
+const homeMusicRouteRouteWithChildren = homeMusicRouteRoute._addFileChildren(
+  homeMusicRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
+  homeMusicRouteRoute: homeMusicRouteRouteWithChildren,
   authForgotPasswordRoute: authForgotPasswordRoute,
   authLoginRoute: authLoginRoute,
   authRegisterRoute: authRegisterRoute,
@@ -1110,7 +1164,6 @@ const rootRouteChildren: RootRouteChildren = {
   homeExploreSectionRoute: homeExploreSectionRoute,
   homeLibraryProfileRoute: homeLibraryProfileRoute,
   homeMoviesMovieIdRoute: homeMoviesMovieIdRoute,
-  homeMusicMusicidRoute: homeMusicMusicidRoute,
   homePlayPlayIdRoute: homePlayPlayIdRoute,
   adminSettingIndexRoute: adminSettingIndexRoute,
   blogBlogIndexRoute: blogBlogIndexRoute,
@@ -1118,7 +1171,6 @@ const rootRouteChildren: RootRouteChildren = {
   demoHomeDemoIndexRoute: demoHomeDemoIndexRoute,
   homeLibraryIndexRoute: homeLibraryIndexRoute,
   homeMoviesIndexRoute: homeMoviesIndexRoute,
-  homeMusicIndexRoute: homeMusicIndexRoute,
   demoDemoApiNamesRoute: demoDemoApiNamesRoute,
   demoDemoApiTanchatRoute: demoDemoApiTanchatRoute,
   demoDemoApiTqTodosRoute: demoDemoApiTqTodosRoute,
