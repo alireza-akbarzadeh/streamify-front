@@ -45,7 +45,8 @@ export function useVideoController(
 		[videoRef],
 	);
 
-	// UNIFIED KEYBOARD SHORTCUTS
+	// Inside useVideoController.ts
+
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
 			const video = videoRef.current;
@@ -55,6 +56,9 @@ export function useVideoController(
 				e.target instanceof HTMLTextAreaElement
 			)
 				return;
+
+			// Use e.key for characters and e.code for physical locations
+			const key = e.key.toLowerCase();
 
 			switch (e.code) {
 				case "Space":
@@ -82,23 +86,38 @@ export function useVideoController(
 					video.muted = !video.muted;
 					break;
 				case "KeyF":
-					if (!document.fullscreenElement) video.requestFullscreen();
-					else document.exitFullscreen();
-					break;
-				case "Period":
-					if (e.shiftKey) {
-						video.playbackRate = Math.min(video.playbackRate + 0.25, 2);
-					}
-					break;
-				case "Comma":
-					if (e.shiftKey) {
-						video.playbackRate = Math.max(video.playbackRate - 0.25, 0.25);
+					if (!document.fullscreenElement) {
+						video.parentElement?.requestFullscreen();
+					} else {
+						document.exitFullscreen();
 					}
 					break;
 				case "Digit0":
 				case "Numpad0":
 					video.currentTime = 0;
 					break;
+
+				// SPEED CONTROLS (Handling both Key and Code for reliability)
+				case "Period":
+					if (e.shiftKey || e.key === ">") {
+						video.playbackRate = Math.min(video.playbackRate + 0.25, 2);
+					}
+					break;
+				case "Comma":
+					if (e.shiftKey || e.key === "<") {
+						video.playbackRate = Math.max(video.playbackRate - 0.25, 0.25);
+					}
+					break;
+			}
+
+			// Additional shortcuts using e.key
+			if (key === "i") {
+				// Picture-in-Picture
+				if (document.pictureInPictureElement) {
+					document.exitPictureInPicture();
+				} else if (video.requestPictureInPicture) {
+					video.requestPictureInPicture();
+				}
 			}
 		};
 

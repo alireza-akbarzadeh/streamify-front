@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion"
-import { Volume2 } from "lucide-react";
+import { Play, Volume2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { PlayerControls } from "./play-control";
 import { useVideoController } from "./useVideoController";
@@ -80,6 +80,27 @@ export function VideoPlayer({ src, videoPoster, videoName, year }: VideoPlayerPr
         return () => video.removeEventListener("volumechange", handleVolumeHUD);
     }, []);
 
+    const [showSpeedHUD, setShowSpeedHUD] = useState(false);
+    const [currentSpeed, setCurrentSpeed] = useState(1);
+    const speedHudTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        const handleRateChange = () => {
+            setCurrentSpeed(video.playbackRate);
+            setShowSpeedHUD(true);
+
+            if (speedHudTimerRef.current) clearTimeout(speedHudTimerRef.current);
+            speedHudTimerRef.current = setTimeout(() => setShowSpeedHUD(false), 1000);
+        };
+
+        video.addEventListener("ratechange", handleRateChange);
+        return () => video.removeEventListener("ratechange", handleRateChange);
+    }, []);
+
+
     return (
         <div
             className={`relative h-screen w-full bg-black rounded-3xl overflow-hidden group shadow-2xl ${isIdle ? 'cursor-none' : 'cursor-default'}`}
@@ -102,6 +123,28 @@ export function VideoPlayer({ src, videoPoster, videoName, year }: VideoPlayerPr
             {!isPlaying && !currentTime && (
                 <img src={videoPoster} alt={videoName} className="absolute inset-0 w-full h-full object-cover" />
             )}
+            {/* showSpeedHUD */}
+            <AnimatePresence>
+                {showSpeedHUD && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/60 backdrop-blur-md px-6 py-4 rounded-3xl z-50 pointer-events-none flex flex-col items-center gap-2 border border-white/10 shadow-2xl"
+                    >
+                        <div className="flex items-center gap-2">
+                            <Play className="size-6 text-purple-400 fill-purple-400" />
+                            <span className="text-2xl font-black text-white tracking-tighter tabular-nums">
+                                {currentSpeed.toFixed(2)}x
+                            </span>
+                        </div>
+                        <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest">
+                            Playback Speed
+                        </span>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             {/* sound visual */}
             <AnimatePresence>
                 {showVolumeHUD && (
@@ -147,6 +190,9 @@ export function VideoPlayer({ src, videoPoster, videoName, year }: VideoPlayerPr
                 onSkip={(dir) => skip(dir === "forward" ? 10 : -10)}
             >
                 <PlayerControls
+                    currentSpeed={currentSpeed}
+                    currentTime={currentTime}
+                    duration={duration}
                     isHovered={showUI}
                     buffered={buffered}
                     videoName={videoName as string}
