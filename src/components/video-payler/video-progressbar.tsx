@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 interface VideoProgressbarProps {
     currentTime: number;
     duration: number;
+    buffered: number;
     onSeek: (time: number) => void;
     isPlaying: boolean;
     onPause: () => void;
@@ -13,11 +14,13 @@ interface VideoProgressbarProps {
 export function VideoProgressbar({
     currentTime,
     duration,
+    buffered, // Destructure the new prop
     isPlaying,
     onSeek,
     onPause,
     onPlay,
 }: VideoProgressbarProps) {
+
     const barRef = useRef<HTMLDivElement>(null);
     const wasPlayingRef = useRef(false);
     const [isDragging, setIsDragging] = useState(false);
@@ -94,6 +97,10 @@ export function VideoProgressbar({
                 ref={barRef}
                 className="relative w-full h-1 bg-white/20 rounded-full transition-all group-hover:h-1.5"
             >
+                <div
+                    className="absolute top-0 left-0 h-full bg-white/20 transition-all duration-500 ease-out"
+                    style={{ width: `${buffered}%` }}
+                />
                 {/* PROGRESS FILL */}
                 <motion.div
                     className="absolute top-0 left-0 h-full bg-linear-to-r from-purple-500 to-pink-500 rounded-full z-10"

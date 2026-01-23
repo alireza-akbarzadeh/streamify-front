@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Volume2, VolumeX } from "lucide-react";
+import { Volume1, Volume2, VolumeX } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 type VideoControlsProps = {
@@ -12,39 +12,59 @@ export function SoundControls({ videoRef }: VideoControlsProps) {
     const [isDragging, setIsDragging] = useState(false);
     const volumeRef = useRef<HTMLDivElement>(null);
 
-    // Sync volume and mute state with video element
+    // 1. Sync UI with Video Events (Arrow Keys & External changes)
     useEffect(() => {
-        if (!videoRef.current) return;
-        videoRef.current.volume = volume;
-        videoRef.current.muted = isMuted;
-    }, [volume, isMuted, videoRef]);
+        const video = videoRef.current;
+        if (!video) return;
 
-    // Handle volume bar changes
+        const syncVolume = () => {
+            setVolume(video.volume);
+            setIsMuted(video.muted);
+        };
+
+        // Listen for native volume changes
+        video.addEventListener("volumechange", syncVolume);
+
+        // Initial sync
+        syncVolume();
+
+        return () => video.removeEventListener("volumechange", syncVolume);
+    }, [videoRef]);
+
+    // 2. Handle manual volume bar dragging
     const handleVolumeChange = (clientX: number) => {
-        if (!volumeRef.current) return;
+        if (!volumeRef.current || !videoRef.current) return;
         const rect = volumeRef.current.getBoundingClientRect();
         const newVolume = Math.min(Math.max((clientX - rect.left) / rect.width, 0), 1);
-        setVolume(newVolume);
-        if (newVolume > 0) setIsMuted(false);
+
+        // Directly update the video element; the event listener above will update the UI
+        videoRef.current.volume = newVolume;
+        if (newVolume > 0) videoRef.current.muted = false;
     };
 
     return (
-        <div className="flex items-center space-x-2 mx-5">
+        <div className="flex items-center gap-2 group/volume px-2">
             {/* Mute/Unmute button */}
             <button
                 type="button"
-                onClick={() => setIsMuted(!isMuted)}
-                className="text-white p-1 rounded hover:bg-white/20"
+                onClick={() => {
+                    if (videoRef.current) videoRef.current.muted = !videoRef.current.muted;
+                }}
+                className="text-white p-1 rounded hover:bg-white/20 transition-colors"
             >
-                {isMuted || volume === 0 ? <VolumeX /> : <Volume2 />}
+                {isMuted || volume === 0 ? (
+                    <VolumeX className="size-5" />
+                ) : volume < 0.5 ? (
+                    <Volume1 className="size-5" />
+                ) : (
+                    <Volume2 className="size-5" />
+                )}
             </button>
 
-            {/* Volume Slider */}
-            {/** biome-ignore lint/a11y/useFocusableInteractive: <explanation> */}
-            {/** biome-ignore lint/a11y/useSemanticElements: <explanation> */}
+            {/* Volume Slider Container */}
             <div
                 ref={volumeRef}
-                className="relative w-24 h-1 bg-white/20 rounded cursor-pointer"
+                className="relative w-20 h-1.5 bg-white/20 rounded-full cursor-pointer overflow-hidden group-hover/volume:h-2 transition-all"
                 onMouseDown={(e) => {
                     setIsDragging(true);
                     handleVolumeChange(e.clientX);
@@ -52,14 +72,15 @@ export function SoundControls({ videoRef }: VideoControlsProps) {
                 onMouseMove={(e) => {
                     if (isDragging) handleVolumeChange(e.clientX);
                 }}
-                role="button"
                 onMouseUp={() => setIsDragging(false)}
                 onMouseLeave={() => setIsDragging(false)}
             >
+                {/* Background Fill (Current Volume) */}
                 <motion.div
                     className="h-full bg-linear-to-r from-purple-500 to-pink-500 rounded-full pointer-events-none"
-                    animate={{ width: `${volume * 100}%` }}
-                    transition={{ type: "tween", ease: "linear", duration: isDragging ? 0 : 0.1 }}
+                    initial={false}
+                    animate={{ width: isMuted ? "0%" : `${volume * 100}%` }}
+                    transition={{ type: "spring", bounce: 0, duration: isDragging ? 0 : 0.2 }}
                 />
             </div>
         </div>

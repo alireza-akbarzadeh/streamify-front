@@ -27,6 +27,7 @@ interface PlayerControlsProps {
     year: string;
     state: PlayerState;
     actions: PlayerActions;
+    buffered: number
     videoRef: React.RefObject<HTMLVideoElement | null>;
 }
 
@@ -36,7 +37,7 @@ export function PlayerControls({
     year,
     state,
     actions,
-    videoRef
+    videoRef, buffered
 }: PlayerControlsProps) {
 
     const formatTime = (seconds: number) => {
@@ -54,6 +55,13 @@ export function PlayerControls({
             {/* TOP BAR */}
             <div className="p-6 flex justify-between items-start z-20">
                 <BackButton position="none" title={videoName} />
+                <div className="flex gap-2" onClick={(event) => event.stopPropagation()}>
+                    <div className="flex md:hidden">
+                        <MoreEpisode />
+                        <MoreVideoOptions videoRef={videoRef} />
+                        <SettingVideoOptions />
+                    </div>
+                </div>
             </div>
 
             {/* MIDDLE: PLAYBACK CONTROLS */}
@@ -129,6 +137,7 @@ export function PlayerControls({
                     </div>
 
                     <VideoProgressbar
+                        buffered={buffered}
                         currentTime={state.currentTime}
                         duration={state.duration}
                         isPlaying={state.isPlaying}
@@ -145,9 +154,11 @@ export function PlayerControls({
                             </span>
                         </div>
                         <div className="flex gap-2" onClick={(event) => event.stopPropagation()}>
-                            <MoreEpisode />
-                            <MoreVideoOptions videoRef={videoRef} />
-                            <SettingVideoOptions />
+                            <div className="hidden md:block">
+                                <MoreEpisode />
+                                <MoreVideoOptions videoRef={videoRef} />
+                                <SettingVideoOptions />
+                            </div>
                         </div>
                     </div>
                 </div>

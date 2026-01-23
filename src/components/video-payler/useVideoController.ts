@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useVideoState } from "./useVIdeoState";
 
 export function useVideoController(
@@ -6,6 +6,26 @@ export function useVideoController(
 ) {
 	const state = useVideoState(videoRef);
 	const { isPlaying, setIsPlaying } = state;
+	const [isWaiting, setIsWaiting] = useState(false);
+
+	// BUFFERING LOGIC
+	useEffect(() => {
+		const video = videoRef.current;
+		if (!video) return;
+
+		const onWaiting = () => setIsWaiting(true);
+		const onPlaying = () => setIsWaiting(false);
+
+		video.addEventListener("waiting", onWaiting);
+		video.addEventListener("playing", onPlaying);
+		video.addEventListener("canplay", onPlaying);
+
+		return () => {
+			video.removeEventListener("waiting", onWaiting);
+			video.removeEventListener("playing", onPlaying);
+			video.removeEventListener("canplay", onPlaying);
+		};
+	}, [videoRef]);
 
 	const togglePlay = useCallback(() => {
 		if (!videoRef.current) return;
@@ -25,20 +45,29 @@ export function useVideoController(
 		[videoRef],
 	);
 
+	// UNIFIED KEYBOARD SHORTCUTS
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
 			const video = videoRef.current;
-			if (!video) return;
+			if (
+				!video ||
+				e.target instanceof HTMLInputElement ||
+				e.target instanceof HTMLTextAreaElement
+			)
+				return;
 
 			switch (e.code) {
 				case "Space":
+				case "KeyK":
 					e.preventDefault();
 					togglePlay();
 					break;
 				case "ArrowRight":
+				case "KeyL":
 					skip(10);
 					break;
 				case "ArrowLeft":
+				case "KeyJ":
 					skip(-10);
 					break;
 				case "ArrowUp":
@@ -49,9 +78,26 @@ export function useVideoController(
 					e.preventDefault();
 					video.volume = Math.max(video.volume - 0.1, 0);
 					break;
+				case "KeyM":
+					video.muted = !video.muted;
+					break;
 				case "KeyF":
 					if (!document.fullscreenElement) video.requestFullscreen();
 					else document.exitFullscreen();
+					break;
+				case "Period":
+					if (e.shiftKey) {
+						video.playbackRate = Math.min(video.playbackRate + 0.25, 2);
+					}
+					break;
+				case "Comma":
+					if (e.shiftKey) {
+						video.playbackRate = Math.max(video.playbackRate - 0.25, 0.25);
+					}
+					break;
+				case "Digit0":
+				case "Numpad0":
+					video.currentTime = 0;
 					break;
 			}
 		};
@@ -60,5 +106,5 @@ export function useVideoController(
 		return () => window.removeEventListener("keydown", handleKeyDown);
 	}, [togglePlay, skip, videoRef]);
 
-	return { ...state, togglePlay, skip };
+	return { ...state, togglePlay, skip, isWaiting, isPlaying };
 }
