@@ -5,7 +5,7 @@ import { Video } from "./video";
 import { VideoOverlay } from "./video-overlay";
 
 type VideoPlayerProps = {
-    src?: string;
+    src: string;
     videoName?: string;
     year?: string;
     videoPoster?: string;
@@ -22,14 +22,14 @@ export function VideoPlayer({ src, videoPoster, videoName, year }: VideoPlayerPr
 
     return (
         <div
-            className="relative h-[80vh] w-full bg-black rounded-3xl overflow-hidden group shadow-2xl"
+            className="relative h-screen w-full bg-black rounded-3xl overflow-hidden group shadow-2xl"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
             <Video ref={videoRef} src={src} className="w-full h-full object-contain" />
 
             {!isPlaying && !currentTime && (
-                <img src={videoPoster} className="absolute inset-0 w-full h-full object-cover" />
+                <img src={videoPoster} alt={videoName} className="absolute inset-0 w-full h-full object-cover" />
             )}
 
             <VideoOverlay
