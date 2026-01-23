@@ -40,8 +40,8 @@ export function VideoPlayer({ src, videoPoster, videoName, year }: VideoPlayerPr
                 {/* HUD: Heads Up Display */}
                 <PlayerControls
                     isHovered={isHovered}
-                    videoName={videoName}
-                    year={year}
+                    videoName={videoName as string}
+                    year={year as string}
                     state={{ isPlaying, currentTime, duration }}
                     actions={{ togglePlay, skip }}
                     videoRef={videoRef}

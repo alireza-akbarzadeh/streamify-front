@@ -51,7 +51,7 @@ export function PlayerControls({
 
             {/* TOP BAR */}
             <div className="p-6 flex justify-between items-start z-20">
-                <BackButton title={videoName} />
+                <BackButton position="none" title={videoName} />
                 <div className="flex gap-2">
                     <MoreEpisode />
                     <SettingVideoOptions />

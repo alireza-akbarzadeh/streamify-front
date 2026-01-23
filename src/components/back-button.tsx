@@ -6,10 +6,11 @@ import { cn } from "@/lib/utils";
 interface BackButtonProps {
     title?: string
     className?: string
+    position?: "absolute" | "none"
 }
 
 export default function BackButton(props: BackButtonProps) {
-    const { title = "Back", className } = props
+    const { title = "Back", className, position = "absolute" } = props
     const router = useRouter();
 
     const handleBack = (e: React.MouseEvent) => {
@@ -23,13 +24,14 @@ export default function BackButton(props: BackButtonProps) {
             router.navigate({ to: "/" });
         }
     };
+    const positionClass = position === "absolute" ? "fixed top-0 left-0 right-0 z-50 pointer-events-none" : ""
 
     return (
         <motion.div
             initial={{ y: -100 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.6 }}
-            className={cn("fixed top-0 left-0 right-0 z-50 pointer-events-none", className)}
+            className={cn(positionClass, className)}
         >
             <button
                 type="button"
