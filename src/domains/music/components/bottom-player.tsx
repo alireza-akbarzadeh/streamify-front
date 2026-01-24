@@ -57,7 +57,7 @@ export function BottomPlayer({
             }, 1000);
         }
         return () => clearInterval(interval);
-    }, [isPlaying, currentTime, duration, onTimeChange, currentSong.id]);
+    }, [isPlaying, currentTime, duration, onTimeChange]);
 
     const handleProgressSeek = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
         if (!progressBarRef.current) return;
@@ -88,12 +88,12 @@ export function BottomPlayer({
         <motion.div
             initial={{ y: 100 }}
             animate={{ y: 0 }}
-            className="fixed bottom-0 left-0 right-0 h-24 bg-black/95 backdrop-blur-md border-t border-white/5 px-4 z-[100] select-none"
+            className="fixed bottom-0 left-0 right-0 h-24 bg-black/95 backdrop-blur-md border-t border-white/5 px-4 z-100 select-none"
         >
             <div className="h-full flex items-center justify-between gap-4">
 
                 {/* Left: Song Info (As per Screenshot) */}
-                <div className="flex items-center gap-4 w-[30%] min-w-[200px]">
+                <div className="flex items-center gap-4 w-[30%] min-w-50">
                     <div className="relative group">
                         <img
                             src={currentSong.albumArt}
@@ -178,13 +178,14 @@ export function BottomPlayer({
                         <button type="button" onClick={toggleMute} className="text-[#b3b3b3] hover:text-white">
                             {isMuted || volume === 0 ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
                         </button>
+                        {/** biome-ignore lint/a11y/noStaticElementInteractions: <explanation> */}
                         <div
                             ref={volumeBarRef}
                             onClick={handleVolumeSeek}
                             className="flex-1 h-[4px] bg-[#4d4d4d] rounded-full relative cursor-pointer"
                         >
                             <div
-                                className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
+                                className="h-full bg-linear-to-r from-purple-500 to-pink-500 rounded-full"
                                 style={{ width: `${activeVolume}%` }}
                             />
                             <div

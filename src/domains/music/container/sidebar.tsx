@@ -1,9 +1,11 @@
-import { Link, useNavigate } from '@tanstack/react-router'
+import { useNavigate } from '@tanstack/react-router'
 import { useStore } from '@tanstack/react-store'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowRight, Home, Library, ListFilter, type LucideIcon, Plus, Search, X } from 'lucide-react'
+import { ArrowRight, Home, Library, ListFilter, Plus, Search, X } from 'lucide-react'
 import { useState } from 'react'
-import { addLibraryItem, type LibraryItem, musicStore, setFilter, setSearchQuery } from '@/domains/music/music.store'
+import { addLibraryItem, musicStore, setFilter, setSearchQuery } from '@/domains/music/music.store'
+import { NavItem } from './artists/components/side-nav-item'
+import { SidebarItem } from './artists/components/sidebar-item'
 
 export function Sidebar() {
     const [isSearching, setIsSearching] = useState(false);
@@ -32,7 +34,6 @@ export function Sidebar() {
             image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100&q=80'
         });
     };
-    const navigate = useNavigate()
 
     return (
         <div className="w-72 bg-black flex flex-col h-full gap-2 p-2">
@@ -43,10 +44,9 @@ export function Sidebar() {
 
             <div className="bg-[#121212] rounded-lg flex-1 flex flex-col overflow-hidden">
                 <div className="px-4 py-3 flex items-center justify-between text-gray-400">
-                    <button onClick={() => navigate({ to: "/music/library" })} type='button' className="flex items-center gap-3 hover:text-white transition-colors font-bold">
-                        <Library className="w-6 h-6" />
-                        <span>Your Library</span>
-                    </button>
+                    <div className="flex-1">
+                        <NavItem icon={Library} label="Your Library" to="/music/library" />
+                    </div>
                     <div className="flex items-center gap-2">
                         <Plus
                             onClick={handleCreatePlaylist}
@@ -113,41 +113,5 @@ export function Sidebar() {
 }
 
 
-function SidebarItem({ item }: { item: LibraryItem }) {
-    return (
-        <motion.div
-            layout
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            whileHover={{ backgroundColor: "rgba(255, 255, 255, 0.05)" }}
-            className="flex items-center gap-3 p-2 rounded-md cursor-pointer group"
-        >
-            <img
-                alt={item.title}
-                src={item.image}
-                className={`w-12 h-12 object-cover ${item.type === 'artist' ? 'rounded-full' : 'rounded-md shadow-lg'}`}
-            />
-            <div className="flex-1 min-w-0">
-                <h4 className="text-white text-sm font-medium truncate">{item.title}</h4>
-                <p className="text-xs text-gray-400 truncate flex items-center gap-1">
-                    {item.isPinned && <span className="text-[#1ed760] transform rotate-45 text-[10px]">📌</span>}
-                    {item.subtitle}
-                </p>
-            </div>
-        </motion.div>
-    )
-}
 
-function NavItem({ icon: Icon, label, to }: { icon: LucideIcon, label: string, to: string }) {
-    return (
-        <Link to={to} className="block group">
-            {({ isActive }) => (
-                <div className={`flex items-center gap-5 px-3 py-3 rounded-md transition-all duration-300 ${isActive ? 'text-white' : 'text-gray-400 group-hover:text-white'}`}>
-                    <Icon className="w-6 h-6" />
-                    <span className="font-bold">{label}</span>
-                </div>
-            )}
-        </Link>
-    )
-}
+
