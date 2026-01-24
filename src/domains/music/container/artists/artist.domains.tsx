@@ -160,9 +160,9 @@ export function ArtistProfile() {
     };
 
     return (
-        <div ref={containerRef} className="min-h-screen bg-[#0a0a0a] relative overflow-hidden">
+        <div ref={containerRef} className="min-h-screen bg-[#0a0a0a] relative overflow-hidden isolate">
             {/* Animated background layers */}
-            <div className="fixed inset-0 pointer-events-none">
+            <div className="absolute inset-0 pointer-events-none">
                 <motion.div
                     style={{ opacity, scale }}
                     className="absolute inset-0 bg-linear-to-b from-purple-900/20 via-black to-black"

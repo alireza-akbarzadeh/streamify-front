@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Heart, ListMusic, Pause, Play, Repeat, Shuffle, SkipBack, SkipForward, Volume2, VolumeX } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function BottomPlayer({ currentSong, isPlaying, onPlayPause, currentTime, onTimeChange }) {
     const [volume, setVolume] = useState(70);
@@ -24,7 +24,7 @@ export function BottomPlayer({ currentSong, isPlaying, onPlayPause, currentTime,
     const progress = (currentTime / duration) * 100;
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 h-24 bg-black border-t border-white/10 px-4">
+        <div className="fixed bottom-0 left-0 right-0 h-24 bg-black border-t border-white/10 px-4 z-100">
             <div className="h-full flex items-center justify-between gap-4">
                 {/* Currently playing */}
                 <div className="flex items-center gap-4 w-80">

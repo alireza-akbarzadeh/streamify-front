@@ -68,7 +68,7 @@ export default function HomeView() {
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-indigo-900/20 to-black pb-32">
+        <div className="min-h-screen bg-linear-to-b from-indigo-900/20 to-black pb-32">
             <div className="p-8">
                 {/* Trending Songs */}
                 <section className="mb-12">

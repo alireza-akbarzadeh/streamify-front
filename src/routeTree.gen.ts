@@ -45,7 +45,6 @@ import { Route as homeMusicMusicidRouteImport } from './routes/(home)/music/$mus
 import { Route as homeMoviesMovieIdRouteImport } from './routes/(home)/movies/$movieId'
 import { Route as homeLibraryProfileRouteImport } from './routes/(home)/library/profile'
 import { Route as homeExploreSectionRouteImport } from './routes/(home)/explore/$section'
-import { Route as homeArtistArtistidRouteImport } from './routes/(home)/artist/$artistid'
 import { Route as demoDemoTanstackQueryRouteImport } from './routes/(demo)/demo/tanstack-query'
 import { Route as demoDemoTanchatRouteImport } from './routes/(demo)/demo/tanchat'
 import { Route as demoDemoTableRouteImport } from './routes/(demo)/demo/table'
@@ -245,11 +244,6 @@ const homeExploreSectionRoute = homeExploreSectionRouteImport.update({
   path: '/explore/$section',
   getParentRoute: () => rootRouteImport,
 } as any)
-const homeArtistArtistidRoute = homeArtistArtistidRouteImport.update({
-  id: '/(home)/artist/$artistid',
-  path: '/artist/$artistid',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const demoDemoTanstackQueryRoute = demoDemoTanstackQueryRouteImport.update({
   id: '/(demo)/demo/tanstack-query',
   path: '/demo/tanstack-query',
@@ -373,7 +367,6 @@ export interface FileRoutesByFullPath {
   '/demo/table': typeof demoDemoTableRoute
   '/demo/tanchat': typeof demoDemoTanchatRoute
   '/demo/tanstack-query': typeof demoDemoTanstackQueryRoute
-  '/artist/$artistid': typeof homeArtistArtistidRoute
   '/explore/$section': typeof homeExploreSectionRoute
   '/library/profile': typeof homeLibraryProfileRoute
   '/movies/$movieId': typeof homeMoviesMovieIdRoute
@@ -429,7 +422,6 @@ export interface FileRoutesByTo {
   '/demo/table': typeof demoDemoTableRoute
   '/demo/tanchat': typeof demoDemoTanchatRoute
   '/demo/tanstack-query': typeof demoDemoTanstackQueryRoute
-  '/artist/$artistid': typeof homeArtistArtistidRoute
   '/explore/$section': typeof homeExploreSectionRoute
   '/library/profile': typeof homeLibraryProfileRoute
   '/movies/$movieId': typeof homeMoviesMovieIdRoute
@@ -487,7 +479,6 @@ export interface FileRoutesById {
   '/(demo)/demo/table': typeof demoDemoTableRoute
   '/(demo)/demo/tanchat': typeof demoDemoTanchatRoute
   '/(demo)/demo/tanstack-query': typeof demoDemoTanstackQueryRoute
-  '/(home)/artist/$artistid': typeof homeArtistArtistidRoute
   '/(home)/explore/$section': typeof homeExploreSectionRoute
   '/(home)/library/profile': typeof homeLibraryProfileRoute
   '/(home)/movies/$movieId': typeof homeMoviesMovieIdRoute
@@ -546,7 +537,6 @@ export interface FileRouteTypes {
     | '/demo/table'
     | '/demo/tanchat'
     | '/demo/tanstack-query'
-    | '/artist/$artistid'
     | '/explore/$section'
     | '/library/profile'
     | '/movies/$movieId'
@@ -602,7 +592,6 @@ export interface FileRouteTypes {
     | '/demo/table'
     | '/demo/tanchat'
     | '/demo/tanstack-query'
-    | '/artist/$artistid'
     | '/explore/$section'
     | '/library/profile'
     | '/movies/$movieId'
@@ -659,7 +648,6 @@ export interface FileRouteTypes {
     | '/(demo)/demo/table'
     | '/(demo)/demo/tanchat'
     | '/(demo)/demo/tanstack-query'
-    | '/(home)/artist/$artistid'
     | '/(home)/explore/$section'
     | '/(home)/library/profile'
     | '/(home)/movies/$movieId'
@@ -717,7 +705,6 @@ export interface RootRouteChildren {
   demoDemoTableRoute: typeof demoDemoTableRoute
   demoDemoTanchatRoute: typeof demoDemoTanchatRoute
   demoDemoTanstackQueryRoute: typeof demoDemoTanstackQueryRoute
-  homeArtistArtistidRoute: typeof homeArtistArtistidRoute
   homeExploreSectionRoute: typeof homeExploreSectionRoute
   homeLibraryProfileRoute: typeof homeLibraryProfileRoute
   homeMoviesMovieIdRoute: typeof homeMoviesMovieIdRoute
@@ -996,13 +983,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof homeExploreSectionRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(home)/artist/$artistid': {
-      id: '/(home)/artist/$artistid'
-      path: '/artist/$artistid'
-      fullPath: '/artist/$artistid'
-      preLoaderRoute: typeof homeArtistArtistidRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/(demo)/demo/tanstack-query': {
       id: '/(demo)/demo/tanstack-query'
       path: '/demo/tanstack-query'
@@ -1179,7 +1159,6 @@ const rootRouteChildren: RootRouteChildren = {
   demoDemoTableRoute: demoDemoTableRoute,
   demoDemoTanchatRoute: demoDemoTanchatRoute,
   demoDemoTanstackQueryRoute: demoDemoTanstackQueryRoute,
-  homeArtistArtistidRoute: homeArtistArtistidRoute,
   homeExploreSectionRoute: homeExploreSectionRoute,
   homeLibraryProfileRoute: homeLibraryProfileRoute,
   homeMoviesMovieIdRoute: homeMoviesMovieIdRoute,
