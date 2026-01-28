@@ -22,6 +22,8 @@ export type FeatureArticle = {
 	};
 	readTime: number;
 	publishDate: string;
+	views: number;
+	likes: number;
 };
 export const FEATURED_ARTICLE: FeatureArticle = {
 	id: 1,
@@ -39,6 +41,8 @@ export const FEATURED_ARTICLE: FeatureArticle = {
 	},
 	readTime: 8,
 	publishDate: "Jan 25, 2026",
+	views: 4,
+	likes: 56,
 };
 
 export const MOCK_ARTICLES: FeatureArticle[] = [
@@ -57,6 +61,8 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		},
 		readTime: 5,
 		publishDate: "Jan 24, 2026",
+		views: 3,
+		likes: 34,
 	},
 	{
 		id: 3,
@@ -73,6 +79,8 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		},
 		readTime: 6,
 		publishDate: "Jan 23, 2026",
+		views: 8,
+		likes: 29,
 	},
 	{
 		id: 4,
@@ -89,6 +97,8 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		},
 		readTime: 7,
 		publishDate: "Jan 22, 2026",
+		views: 8,
+		likes: 43,
 	},
 	{
 		id: 5,
@@ -105,6 +115,8 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		},
 		readTime: 8,
 		publishDate: "Jan 21, 2026",
+		views: 8,
+		likes: 21,
 	},
 	{
 		id: 6,
@@ -121,6 +133,8 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		},
 		readTime: 4,
 		publishDate: "Jan 20, 2026",
+		views: 8,
+		likes: 12,
 	},
 	{
 		id: 7,
@@ -137,6 +151,8 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		},
 		readTime: 6,
 		publishDate: "Jan 19, 2026",
+		views: 3,
+		likes: 19,
 	},
 	{
 		id: 8,
@@ -153,6 +169,8 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		},
 		readTime: 9,
 		publishDate: "Jan 18, 2026",
+		views: 8,
+		likes: 27,
 	},
 	{
 		id: 9,
@@ -169,6 +187,8 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		},
 		readTime: 5,
 		publishDate: "Jan 17, 2026",
+		views: 8,
+		likes: 15,
 	},
 	{
 		id: 10,
@@ -185,6 +205,8 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		},
 		readTime: 7,
 		publishDate: "Jan 16, 2026",
+		views: 8,
+		likes: 9,
 	},
 	{
 		id: 11,
@@ -201,6 +223,8 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		},
 		readTime: 6,
 		publishDate: "Jan 15, 2026",
+		views: 8,
+		likes: 14,
 	},
 	{
 		id: 12,
@@ -217,6 +241,8 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		},
 		readTime: 8,
 		publishDate: "Jan 14, 2026",
+		views: 2,
+		likes: 11,
 	},
 	{
 		id: 13,
@@ -233,5 +259,7 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		},
 		readTime: 7,
 		publishDate: "Jan 13, 2026",
+		views: 5,
+		likes: 13,
 	},
 ];

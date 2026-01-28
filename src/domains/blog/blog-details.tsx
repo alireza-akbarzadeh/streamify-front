@@ -3,7 +3,8 @@ import { useStore } from '@tanstack/react-store';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
     ArrowLeft, Bookmark, Calendar, Eye, Facebook, Heart,
-    Link2, MessageCircle, Quote, Share2, Twitter
+    Link2,
+    Quote, Share2, Twitter
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
