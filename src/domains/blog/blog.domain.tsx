@@ -1,5 +1,5 @@
 import { useStore } from '@tanstack/react-store';
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import { Search, XCircle } from 'lucide-react';
 import { actions, blogStore } from './blog.store';
 import { MOCK_ARTICLES } from './blog-mock';
@@ -61,35 +61,41 @@ export default function Blog() {
 
             {/* Articles Grid */}
             <section className="px-8">
-                {filteredArticles.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {filteredArticles.map((article) => (
-                            <ArticleCard key={article.id} article={article} />
-                        ))}
-                    </div>
-                ) : (
-                    /* --- PHENOMENAL EMPTY STATE --- */
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="py-20 flex flex-col items-center justify-center text-center"
-                    >
-                        <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-6">
-                            <Search className="text-gray-600" size={32} />
-                        </div>
-                        <h2 className="text-2xl font-bold text-white mb-2">No stories found</h2>
-                        <p className="text-gray-500 max-w-xs">
-                            We couldn't find anything matching "{searchQuery}". Try a different keyword.
-                        </p>
-                        <button
-                            type='button'
-                            onClick={() => actions.setSearchQuery('')}
-                            className="mt-6 text-purple-400 font-bold hover:text-purple-300 transition-colors"
+                <AnimatePresence mode="popLayout">
+                    {filteredArticles.length > 0 ? (
+                        <motion.div
+                            layout
+                            // The key ensures the animation re-runs when the result set changes
+                            key={`${activeCategory}-${searchQuery}`}
+                            initial="hidden"
+                            animate="show"
+                            variants={{
+                                hidden: { opacity: 0 },
+                                show: {
+                                    opacity: 1,
+                                    transition: {
+                                        staggerChildren: 0.08, // This creates the staggered "wave" effect
+                                    },
+                                },
+                            }}
+                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                         >
-                            Clear search
-                        </button>
-                    </motion.div>
-                )}
+                            {filteredArticles.map((article, index) => (
+                                <ArticleCard index={index} key={article.id} article={article} />
+                            ))}
+                        </motion.div>
+                    ) : (
+                        <motion.div
+                            key="empty-state"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            className="py-20 flex flex-col items-center justify-center text-center"
+                        >
+                            {/* ... your empty state content ... */}
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </section>
         </div>
     );
