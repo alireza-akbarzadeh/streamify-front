@@ -3,7 +3,7 @@ import { motion } from "framer-motion"
 import { Search, XCircle } from 'lucide-react';
 import { actions, blogStore } from './blog.store';
 import { MOCK_ARTICLES } from './blog-mock';
-import { ArticleCard } from './components/article-cart';
+import { ArticleCard } from './components/article-card';
 
 // ... other imports
 
@@ -13,14 +13,14 @@ export default function Blog() {
 
     // Filter Logic: Category + Search
     const bookmarks = useStore(blogStore, (s) => s.bookmarks);
+    const likes = useStore(blogStore, (s) => s.likes);
 
     const filteredArticles = MOCK_ARTICLES.filter((article) => {
-        // New Bookmark View Logic
-        if (activeCategory === 'bookmarks') {
-            return bookmarks.includes(article.id) &&
-                (article.title.toLowerCase().includes(searchQuery.toLowerCase()));
-        }
+        // 1. Handle Library Filters
+        if (activeCategory === 'bookmarks') return bookmarks.includes(article.id);
+        if (activeCategory === 'likes') return likes.includes(article.id);
 
+        // 2. Handle Editorial Filters + Search
         const matchesCategory = activeCategory === 'all' || article.category === activeCategory;
         const matchesSearch = article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             article.excerpt.toLowerCase().includes(searchQuery.toLowerCase());

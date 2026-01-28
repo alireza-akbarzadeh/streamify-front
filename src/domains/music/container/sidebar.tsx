@@ -1,11 +1,9 @@
 import { useStore } from '@tanstack/react-store';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
-    ChevronLeft,
     Home,
     Library,
     ListFilter,
-    Minimize,
     Minimize2,
     Plus,
     Search,
