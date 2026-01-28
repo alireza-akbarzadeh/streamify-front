@@ -27,7 +27,7 @@ export const actions = {
 		blogStore.setState((s) => ({ ...s, searchQuery: query })),
 	toggleSidebar: () =>
 		blogStore.setState((s) => ({ ...s, isSidebarOpen: !s.isSidebarOpen })),
-
+	clearSearch: () => blogStore.setState((s) => ({ ...s, searchQuery: "" })),
 	toggleBookmark: (id: number) => {
 		blogStore.setState((s) => {
 			const isBookmarked = s.bookmarks.includes(id);
