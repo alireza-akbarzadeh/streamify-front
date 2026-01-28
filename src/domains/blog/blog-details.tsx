@@ -15,6 +15,7 @@ import { toast } from 'sonner';
 import { actions, blogStore } from '@/domains/blog/blog.store';
 import { generateSlug } from '@/lib/utils';
 import { MOCK_ARTICLES } from './blog-mock';
+import ActionBar from './components/action-bar';
 import { ArticleComments } from './components/article-comment';
 import ReactionSection from './components/reaction-section';
 
@@ -111,20 +112,7 @@ export function BlogPost() {
 
             {/* 2. LEFT SIDE ACTION BAR & TOC */}
             <div className="fixed left-8 top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-10 z-40">
-                <div className="flex flex-col items-center gap-4 bg-white/[0.03] border border-white/5 backdrop-blur-md p-2 rounded-full shadow-2xl">
-                    <button type='button' onClick={() => actions.toggleLike(article.id)} className={`p-4 rounded-full transition-all ${isLiked ? 'bg-pink-500 text-white shadow-lg shadow-pink-500/20' : 'hover:bg-white/10 text-neutral-500'}`}>
-                        <Heart size={20} fill={isLiked ? "currentColor" : "none"} />
-                    </button>
-                    <button
-                        type='button'
-                        onClick={() => actions.toggleBookmark(article.id)} className={`p-4 rounded-full transition-all ${isSaved ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/20' : 'hover:bg-white/10 text-neutral-500'}`}>
-                        <Bookmark size={20} fill={isSaved ? "currentColor" : "none"} />
-                    </button>
-                    <button type='button' onClick={handleCopyLink} className="p-4 rounded-full hover:bg-white/10 text-neutral-500 transition-all">
-                        <Share2 size={20} />
-                    </button>
-                </div>
-
+                <ActionBar article={article} />
                 <div className="flex flex-col gap-6 pl-2">
                     {sections.map((s) => (
                         <button
