@@ -36,7 +36,7 @@ export function PrivacyDomain() {
         return () => observer.disconnect();
     }, []);
 
-    const scrollToSection = (id) => {
+    const scrollToSection = (id: string) => {
         const element = document.getElementById(id);
         if (element) {
             const offset = 100;

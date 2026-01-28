@@ -1,11 +1,8 @@
-import { AnimatePresence, motion } from "framer-motion"
-import { Play, RotateCw, Volume2 } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Play, Volume2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "../ui/button";
 import { PlayerControls } from "./play-control";
 import { useVideoController } from "./useVideoController";
-import { useVideoResume } from "./useVideoResume";
-import { formatTime } from "./utils";
 import { Video } from "./video";
 import { VideoOverlay } from "./video-overlay";
 
@@ -104,10 +101,9 @@ export function VideoPlayer({ src, videoPoster, videoName, year, videoId = "1312
         return () => video.removeEventListener("ratechange", handleRateChange);
     }, []);
 
-    const { resumeData, handleResume, handleRestart } = useVideoResume(videoRef, videoId);
-
 
     return (
+        // biome-ignore lint/a11y/noStaticElementInteractions: <explanation>
         <div
             className={`relative h-screen w-full bg-black rounded-3xl overflow-hidden group shadow-2xl ${isIdle ? 'cursor-none' : 'cursor-default'}`}
             onMouseEnter={() => setIsHovered(true)}
@@ -129,34 +125,6 @@ export function VideoPlayer({ src, videoPoster, videoName, year, videoId = "1312
             {!isPlaying && !currentTime && (
                 <img src={videoPoster} alt={videoName} className="absolute inset-0 w-full h-full object-cover" />
             )}
-
-            {/* resume */}
-            <AnimatePresence>
-                {showResume && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 20 }}
-                        className="absolute bottom-32 left-8 z-[60] bg-zinc-900/90 border border-white/10 p-4 rounded-2xl backdrop-blur-xl shadow-2xl flex items-center gap-4"
-                    >
-                        <div className="bg-purple-500/20 p-2 rounded-lg">
-                            <RotateCw className="size-5 text-purple-400" />
-                        </div>
-                        <div>
-                            <p className="text-white text-sm font-bold">Resume watching?</p>
-                            <p className="text-zinc-400 text-xs">You left off at {formatTime(savedTime)}</p>
-                        </div>
-                        <div className="flex gap-2 ml-4">
-                            <Button size="sm" variant="ghost" onClick={() => setShowResume(false)} className="text-zinc-500 hover:text-white">
-                                Restart
-                            </Button>
-                            <Button size="sm" onClick={handleResume} className="bg-purple-600 hover:bg-purple-500 text-white rounded-lg">
-                                Resume
-                            </Button>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
 
             {/* showSpeedHUD */}
             <AnimatePresence>

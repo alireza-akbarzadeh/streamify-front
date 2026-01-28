@@ -16,6 +16,6 @@ function RouteComponent() {
         videoName: "Interstellar",
     };
     return (
-        <VideoPlayer {...videoData} />
+        <VideoPlayer videoId='s' {...videoData} />
     )
 }

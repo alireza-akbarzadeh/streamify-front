@@ -18,5 +18,5 @@ export function useVideoResume(videoRef: React.RefObject<HTMLVideoElement | null
 
     const handleRestart = () => setResumeData(prev => ({ ...prev, show: false }));
 
-    return { resumeData, handleResume, handleRestart };
+    return { resumeData, handleResume, handleRestart, setResumeData };
 }
