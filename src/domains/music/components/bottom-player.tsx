@@ -163,7 +163,7 @@ export function BottomPlayer({
                             className="flex-1 h-[4px] bg-[#4d4d4d] rounded-full group cursor-pointer relative"
                         >
                             <div
-                                className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
+                                className="h-full bg-linear-to-r from-purple-500 to-pink-500 rounded-full"
                                 style={{ width: `${progressPercentage}%` }}
                             />
                             {/* Theme Knob */}
