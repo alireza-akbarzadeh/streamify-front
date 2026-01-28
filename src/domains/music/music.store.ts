@@ -137,3 +137,19 @@ export const createPlaylist = (name: string, description: string) => {
 	};
 	musicStore.setState((s) => ({ ...s, library: [newPlaylist, ...s.library] }));
 };
+
+export const togglePin = (id: string | number) => {
+	musicStore.setState((s) => ({
+		...s,
+		library: s.library.map((item) =>
+			item.id === id ? { ...item, isPinned: !item.isPinned } : item,
+		),
+	}));
+};
+
+export const removeFromLibrary = (id: string | number) => {
+	musicStore.setState((s) => ({
+		...s,
+		library: s.library.filter((item) => item.id !== id),
+	}));
+};

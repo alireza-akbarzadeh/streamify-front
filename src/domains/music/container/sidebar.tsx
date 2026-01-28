@@ -19,7 +19,6 @@ import { SidebarItem } from './artists/components/sidebar-item';
 export function Sidebar() {
     const { library, searchQuery, activeFilter, isAddModalOpen } = useStore(musicStore);
 
-    // UI Local States
     const [isSearching, setIsSearching] = useState(false);
     const [isCreateOpen, setIsCreateOpen] = useState(false);
 
@@ -113,7 +112,9 @@ export function Sidebar() {
                 <div className="flex-1 overflow-y-auto px-2 pt-2 custom-scrollbar">
                     <AnimatePresence mode="popLayout">
                         {filteredLibrary.map((item) => (
-                            <SidebarItem key={item.id} item={item} />
+                            <SidebarItem key={item.id} item={item}
+                                onOpenCreate={() => setIsCreateOpen(true)}
+                            />
                         ))}
                     </AnimatePresence>
                 </div>
@@ -130,7 +131,7 @@ export function Sidebar() {
                 isOpen={isAddModalOpen}
                 onClose={closeAddToPlaylist}
                 playlists={library.filter(i => i.type === 'playlist')}
-                onAddToPlaylist={(playlistId) => {
+                onAddToPlaylist={() => {
                     closeAddToPlaylist();
                 }}
                 onCreateNew={() => {
