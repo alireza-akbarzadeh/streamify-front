@@ -3,8 +3,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Bookmark, Check, Heart, Share2 } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { actions, blogStore } from '../blog.store';
 import type { FeatureArticle } from '../blog-mock';
+import { actions, blogStore } from '../store/blog.store';
 
 interface ActionBarProps {
     article: FeatureArticle;

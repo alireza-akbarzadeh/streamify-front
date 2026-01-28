@@ -17,9 +17,9 @@ import {
     CommandShortcut,
 } from "@/components/ui/command";
 import { generateSlug } from '@/lib/utils';
-import { actions } from '../blog.store';
 import { CATEGORIES } from '../blog-layout';
 import { MOCK_ARTICLES } from '../blog-mock';
+import { actions } from '../store/blog.store';
 
 interface CommandSettingProps {
     open: boolean;

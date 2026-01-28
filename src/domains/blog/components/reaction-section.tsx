@@ -1,6 +1,6 @@
 import { useStore } from '@tanstack/react-store';
 import { AnimatePresence, motion } from 'framer-motion';
-import { actions, blogStore } from '@/domains/blog/blog.store';
+import { actions, blogStore } from '@/domains/blog/store/blog.store';
 
 // A small internal component for the pulsing number
 function AnimatedCount({ count, isActive }: { count: number; isActive: boolean }) {
@@ -57,8 +57,8 @@ export default function ReactionSection({ articleId }: { articleId: number }) {
                                 animate={isActive ? { scale: [1, 1.05, 1] } : { scale: 1 }}
                                 transition={isActive ? { duration: 0.4 } : {}}
                                 className={`relative w-24 h-24 rounded-[2rem] border transition-all duration-500 flex flex-col items-center justify-center gap-1 ${isActive
-                                        ? 'bg-purple-500/15 border-purple-500/40 shadow-[0_0_40px_rgba(168,85,247,0.1)]'
-                                        : 'bg-white/[0.03] border-white/5 text-neutral-500 hover:bg-white/[0.08]'
+                                    ? 'bg-purple-500/15 border-purple-500/40 shadow-[0_0_40px_rgba(168,85,247,0.1)]'
+                                    : 'bg-white/[0.03] border-white/5 text-neutral-500 hover:bg-white/[0.08]'
                                     }`}
                             >
                                 <span className={`text-3xl transition-transform duration-300 ${isActive ? 'scale-110' : 'scale-100'}`}>

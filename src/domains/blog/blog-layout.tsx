@@ -11,7 +11,7 @@ import {
 import type React from 'react';
 import { useState } from 'react';
 import { MSG } from '@/constants/constants';
-import { actions, blogStore } from '@/domains/blog/blog.store';
+import { actions, blogStore } from '@/domains/blog/store/blog.store';
 import { CommandSetting } from './components/command-setting';
 import { LibraryButton } from './components/library-item';
 import { UserProfile } from './components/user-profile';
@@ -55,7 +55,7 @@ export function BlogLayout({ children }: { children: React.ReactNode }) {
                     <button
                         type='button'
                         onClick={() => setOpen(true)}
-                        className="w-full mb-8 flex items-center justify-between px-4 py-3 rounded-2xl bg-white/[0.03] border border-white/5 text-neutral-500 hover:bg-white/5 hover:text-neutral-300 transition-all group"
+                        className="w-full mb-8 flex items-center justify-between px-4 py-3 rounded-2xl bg-white/3 border border-white/5 text-neutral-500 hover:bg-white/5 hover:text-neutral-300 transition-all group"
                     >
                         <div className="flex items-center gap-3 text-white/60">
                             <Search size={16} />
@@ -100,7 +100,7 @@ export function BlogLayout({ children }: { children: React.ReactNode }) {
                         </div>
                         <div className="flex gap-1.5 mb-3">
                             {[1, 1, 1, 1, 0, 0, 0].map((active, i) => (
-                                <div key={i} className={`h-1 flex-1 rounded-full ${active ? 'bg-orange-500' : 'bg-white/10'}`} />
+                                <div key={i + active} className={`h-1 flex-1 rounded-full ${active ? 'bg-orange-500' : 'bg-white/10'}`} />
                             ))}
                         </div>
                         <p className="text-[10px] text-neutral-400 font-medium italic">4 days streak! Keep it up.</p>

@@ -7,8 +7,8 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { generateSlug } from '@/lib/utils';
-import { actions, blogStore } from '../blog.store';
 import type { FeatureArticle } from '../blog-mock';
+import { actions, blogStore } from '../store/blog.store';
 
 type ArticleCardProps = {
     article: FeatureArticle;

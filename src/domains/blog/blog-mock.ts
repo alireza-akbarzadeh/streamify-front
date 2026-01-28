@@ -13,7 +13,7 @@ export type FeatureArticle = {
 	title: string;
 	excerpt: string;
 	category: string;
-	image: string;
+	image?: string;
 	author: {
 		name: string;
 		avatar: string;
@@ -21,8 +21,8 @@ export type FeatureArticle = {
 	};
 	readTime: number;
 	publishDate: string;
-	views: number;
-	likes: number;
+	views?: number;
+	likes?: number;
 };
 export const FEATURED_ARTICLE: FeatureArticle = {
 	id: 1,
@@ -43,34 +43,34 @@ export const FEATURED_ARTICLE: FeatureArticle = {
 	views: 4,
 	likes: 56,
 };
-
 export const MOCK_ARTICLES: FeatureArticle[] = [
 	{
 		id: 2,
-		title: "Midnight Jazz: A Playlist for the Late Hours",
+		title: "Midnight Jazz: A Deep Dive into the Blue Note Era",
 		excerpt:
-			"Dive into the smoky, intimate world of after-hours jazz with our carefully curated selection.",
+			"From the cigarette-stained keys of Bill Evans to the experimental structures of Miles Davis, we explore why the 1950s jazz scene remains the definitive blueprint for late-night atmosphere. This isn't just background noise; it's a historical masterclass in mood and melancholy.",
 		category: "playlists",
 		image:
-			"https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&q=80",
+			"https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80",
 		author: {
 			name: "Marcus Chen",
 			avatar:
 				"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80",
 		},
-		readTime: 5,
+		readTime: 12,
 		publishDate: "Jan 24, 2026",
-		views: 3,
-		likes: 34,
+		views: 1420,
+		likes: 342,
 	},
 	{
 		id: 3,
-		title: "The Rise of Indie Music in 2026",
+		title:
+			"The Death of the Major Label? How 2026 Became the Year of the Indie",
 		excerpt:
-			"Exploring the surge of independent artists and their impact on the music industry this year.",
+			"Distribution used to be the gatekeeper. Now, with decentralized streaming and AI-driven discovery, artists are keeping 90% of their royalties. We sat down with three breakout musicians who turned down seven-figure contracts to stay independent and own their masters.",
 		category: "music",
 		image:
-			"https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&q=80",
+			"https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80",
 		author: {
 			name: "Sophie Lee",
 			avatar:
@@ -78,35 +78,35 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		},
 		readTime: 6,
 		publishDate: "Jan 23, 2026",
-		views: 8,
-		likes: 29,
+		views: 2840,
+		likes: 512,
 	},
 	{
 		id: 4,
-		title: "Behind the Score: Movie Composers You Should Know",
+		title: "Hans Zimmer vs. The Machine: The Ethics of AI Film Scoring",
 		excerpt:
-			"A look at the unsung heroes behind your favorite film soundtracks.",
+			"As generative audio tools begin to mimic the 'BWAHHH' of modern blockbusters, movie composers are facing an existential crisis. Is a score truly 'original' if it's optimized by an algorithm to trigger dopamine? Liam Patel investigates the shifting landscape of cinematic sound.",
 		category: "behind",
 		image:
-			"https://images.unsplash.com/photo-1464983953574-0892a716854b?w=600&q=80",
+			"https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800&q=80",
 		author: {
 			name: "Liam Patel",
 			avatar:
 				"https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=100&q=80",
 		},
-		readTime: 7,
+		readTime: 15,
 		publishDate: "Jan 22, 2026",
-		views: 8,
-		likes: 43,
+		views: 8902,
+		likes: 1204,
 	},
 	{
 		id: 5,
-		title: "Women Who Changed the Music Industry",
+		title: "The Analog Resurgence: Why Gen Z is Buying 8-Track Tapes",
 		excerpt:
-			"Celebrating the trailblazing women who redefined music across genres.",
-		category: "artists",
+			"First it was vinyl, then cassettes. Now, the clunky 8-track is making a bizarre comeback in the underground scenes of Berlin and Brooklyn. We explore the tactile obsession with 'perfectly imperfect' sound and the rejection of the digital clean-cut aesthetic.",
+		category: "culture",
 		image:
-			"https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=600&q=80",
+			"https://images.unsplash.com/photo-1514525253344-f2105156a00c?w=800&q=80",
 		author: {
 			name: "Ava Johnson",
 			avatar:
@@ -114,151 +114,90 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		},
 		readTime: 8,
 		publishDate: "Jan 21, 2026",
-		views: 8,
-		likes: 21,
+		views: 3120,
+		likes: 89,
 	},
 	{
 		id: 6,
-		title: "Synthwave Revival: The 80s Are Back",
+		title: "Beyond the Neon: The Darker Side of Synthwave Revival",
 		excerpt:
-			"How retro synths and neon vibes are influencing today’s pop culture.",
+			"While most associate the genre with 'Stranger Things' and 80s nostalgia, a new wave of producers is taking the sound into brutalist, industrial territory. Forget palm trees and Ferraris; this is the soundtrack to a cyberpunk dystopia you actually live in.",
 		category: "music",
 		image:
-			"https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=600&q=80",
+			"https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&q=80",
 		author: {
 			name: "Noah Kim",
 			avatar:
-				"https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=100&q=80",
+				"https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&q=80",
 		},
 		readTime: 4,
 		publishDate: "Jan 20, 2026",
-		views: 8,
+		views: 340,
 		likes: 12,
 	},
 	{
 		id: 7,
-		title: "From Vinyl to Streaming: The Listening Revolution",
+		title: "Sonic Brutalism: The Rise of Industrial Techno",
 		excerpt:
-			"Tracing the journey of music consumption from records to digital platforms.",
-		category: "music",
+			"In the basements of East London and the warehouses of Detroit, a new sound is emerging. It's harsh, uncompromising, and designed for a generation that finds beauty in the mechanical grind of urban life. This isn't music for dancing; it's music for survival.",
+		category: "underground",
 		image:
-			"https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?w=600&q=80",
+			"https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=800&q=80",
 		author: {
-			name: "Emily Carter",
+			name: "David Vane",
 			avatar:
-				"https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=100&q=80",
+				"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80",
 		},
-		readTime: 6,
+		readTime: 10,
 		publishDate: "Jan 19, 2026",
-		views: 3,
-		likes: 19,
+		views: 5200,
+		likes: 890,
 	},
+];
+
+export interface Comment {
+	id: number;
+	author: {
+		name: string;
+		avatar: string;
+		role: "Editor" | "Member" | "Admin";
+	};
+	content: string;
+	likes: number;
+	timestamp: string;
+	isAdmin: boolean;
+	parentId: number | null;
+}
+
+export const INITIAL_COMMENTS: Comment[] = [
 	{
-		id: 8,
-		title: "Top 10 Movie Soundtracks of All Time",
-		excerpt:
-			"A countdown of the most iconic and memorable film soundtracks ever composed.",
-		category: "movies",
-		image:
-			"https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=600&q=80",
+		id: 1,
 		author: {
-			name: "Oscar Rivera",
-			avatar:
-				"https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=100&q=80",
-		},
-		readTime: 9,
-		publishDate: "Jan 18, 2026",
-		views: 8,
-		likes: 27,
-	},
-	{
-		id: 9,
-		title: "How Playlists Shape Our Moods",
-		excerpt:
-			"The science behind why curated playlists can boost your day or help you unwind.",
-		category: "playlists",
-		image:
-			"https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&q=80",
-		author: {
-			name: "Maya Singh",
-			avatar:
-				"https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&q=80",
-		},
-		readTime: 5,
-		publishDate: "Jan 17, 2026",
-		views: 8,
-		likes: 15,
-	},
-	{
-		id: 10,
-		title: "The Art of Album Covers",
-		excerpt:
-			"Exploring the visual artistry that defines music albums through the decades.",
-		category: "behind",
-		image:
-			"https://images.unsplash.com/photo-1464983953574-0892a716854b?w=600&q=80",
-		author: {
-			name: "Lucas Martin",
+			name: "Alex Turner",
 			avatar:
 				"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80",
+			role: "Editor",
 		},
-		readTime: 7,
-		publishDate: "Jan 16, 2026",
-		views: 8,
-		likes: 9,
+		content:
+			"This article perfectly captures the essence of the new sonic era. The layering in the production is phenomenal.",
+		likes: 24,
+		timestamp: "2h ago",
+		isAdmin: true,
+		parentId: null,
 	},
 	{
-		id: 11,
-		title: "Spotlight: Rising Artists to Watch in 2026",
-		excerpt:
-			"Meet the new voices and talents making waves in the music scene this year.",
-		category: "artists",
-		image:
-			"https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=600&q=80",
+		id: 2,
 		author: {
-			name: "Grace Park",
+			name: "Sarah Chen",
 			avatar:
 				"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
+			role: "Member",
 		},
-		readTime: 6,
-		publishDate: "Jan 15, 2026",
-		views: 8,
-		likes: 14,
-	},
-	{
-		id: 12,
-		title: "Classic Albums Revisited: Why They Still Matter",
-		excerpt:
-			"A deep dive into timeless albums and their lasting influence on music lovers.",
-		category: "music",
-		image:
-			"https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&q=80",
-		author: {
-			name: "David Kim",
-			avatar:
-				"https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=100&q=80",
-		},
-		readTime: 8,
-		publishDate: "Jan 14, 2026",
-		views: 2,
-		likes: 11,
-	},
-	{
-		id: 13,
-		title: "Soundtrack Secrets: How Music Sets the Scene",
-		excerpt:
-			"Discover how directors and composers use music to create unforgettable movie moments.",
-		category: "movies",
-		image:
-			"https://images.unsplash.com/photo-1464983953574-0892a716854b?w=600&q=80",
-		author: {
-			name: "Isabella Rossi",
-			avatar:
-				"https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&q=80",
-		},
-		readTime: 7,
-		publishDate: "Jan 13, 2026",
-		views: 5,
-		likes: 13,
+		content:
+			"Totally agree! I've been experimenting with similar textures in my own home studio setup. Any tips for the low-end clarity?",
+		likes: 12,
+		timestamp: "1h ago",
+		isAdmin: false,
+		parentId: 1,
 	},
 ];

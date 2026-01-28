@@ -1,27 +1,27 @@
 /** biome-ignore-all lint/correctness/useUniqueElementIds: <explanation> */
 
-import { useNavigate, useParams, useRouter } from '@tanstack/react-router';
+import { useParams, useRouter } from '@tanstack/react-router';
 import { useStore } from '@tanstack/react-store';
 import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
 import {
     ArrowLeft, Bookmark,
-    ChevronRight, Clock, Facebook,
+    Clock, Facebook,
     Heart,
-    Quote, Share2, Sparkles,
+    Quote,
+    Sparkles,
     Twitter
 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { toast } from 'sonner';
-import { actions, blogStore } from '@/domains/blog/blog.store';
+import { actions, blogStore } from '@/domains/blog/store/blog.store';
 import { generateSlug } from '@/lib/utils';
-import { MOCK_ARTICLES } from './blog-mock';
-import ActionBar from './components/action-bar';
-import { ArticleComments } from './components/article-comment';
-import ReactionSection from './components/reaction-section';
+import { MOCK_ARTICLES } from '../blog-mock';
+import ActionBar from '../components/action-bar';
+import { ArticleComments } from '../components/article-comment';
+import ReactionSection from '../components/reaction-section';
+import { RelatedArticle } from '../components/related-article';
 
 export function BlogPost() {
     const { blogslug } = useParams({ from: '/(blog)/blog/$blogslug' });
-    const navigate = useNavigate();
     const router = useRouter();
     const contentRef = useRef<HTMLDivElement>(null);
 
@@ -70,12 +70,9 @@ export function BlogPost() {
         };
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [article, sections]);
+    }, [article]);
 
-    const handleCopyLink = () => {
-        navigator.clipboard.writeText(window.location.href);
-        toast.success("Link copied!");
-    };
+
 
     if (!article) return <div className="p-20 text-center text-white">Article not found.</div>;
 
@@ -205,42 +202,9 @@ export function BlogPost() {
                 {/* 5. REACTION SECTION */}
                 <ReactionSection articleId={article.id} />
 
-                <div id="comments-section" className="mt-32">
-                    <ArticleComments />
-                </div>
+                <ArticleComments />
             </article>
-
-            {/* 6. RELATED FOOTER */}
-            <footer className="bg-white/1 border-t border-white/5 py-32 px-6">
-                <div className="max-w-6xl mx-auto">
-                    <div className="flex items-center justify-between mb-16">
-                        <h3 className="text-5xl font-black text-white italic tracking-tighter">Keep Reading</h3>
-                        <button type='button' onClick={() => navigate({ to: '/' })} className="group flex items-center gap-3 text-neutral-500 hover:text-white transition-colors">
-                            <span className="text-xs font-black uppercase tracking-widest">The Feed</span>
-                            <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                        </button>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                        {MOCK_ARTICLES.filter(a => a.id !== article.id).slice(0, 2).map((item) => (
-                            <motion.div
-                                key={item.id}
-                                whileHover={{ y: -15 }}
-                                onClick={() => navigate({ to: "/blog/$blogslug", params: { blogslug: generateSlug(item.title) } })}
-                                className="group cursor-pointer"
-                            >
-                                <div className="aspect-video rounded-[3.5rem] overflow-hidden mb-8 border border-white/5 relative">
-                                    <img src={item.image} className="w-full h-full object-cover opacity-60 transition-all duration-700 group-hover:scale-110 group-hover:opacity-100" alt="" />
-                                    <div className="absolute inset-0 bg-linear-to-t from-black/80 to-transparent" />
-                                    <span className="absolute bottom-8 left-8 px-4 py-2 bg-white/10 backdrop-blur-md rounded-xl text-[10px] font-black text-white uppercase tracking-widest">
-                                        {item.category}
-                                    </span>
-                                </div>
-                                <h4 className="text-4xl font-black text-white leading-tight group-hover:text-purple-400 transition-colors italic tracking-tighter">{item.title}</h4>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </footer>
+            <RelatedArticle articleId={article.id} />
         </div>
     );
 }

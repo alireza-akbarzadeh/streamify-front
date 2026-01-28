@@ -1,86 +1,89 @@
-import { motion } from 'framer-motion';
-import { Send, ThumbsUp } from 'lucide-react';
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { useStore } from '@tanstack/react-store';
+import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
+import { Send, Sparkles } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { commentActions, commentStore } from '../store/comment-store';
+import { CommentItem } from './comment-item';
 
 export function ArticleComments() {
-    const [comment, setComment] = useState('');
-    const [comments, setComments] = useState([
-        {
-            id: 1,
-            author: { name: "Alex Turner", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" },
-            content: "This article perfectly captures the essence of Zimmer's work. The way you describe the sonic layering is spot on!",
-            likes: 24,
-            timestamp: "2 hours ago"
-        },
-        {
-            id: 2,
-            author: { name: "Maya Chen", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80" },
-            content: "I've been following this series and each piece gets better. Would love to see more on Göransson's work.",
-            likes: 18,
-            timestamp: "5 hours ago"
-        }
-    ]);
+    const [input, setInput] = useState('');
+    const { comments, latestId, isPosting } = useStore(commentStore);
+    const inputRef = useRef<HTMLTextAreaElement>(null);
 
-    const handleComment = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!comment.trim()) return;
+        if (!input.trim() || isPosting) return;
+        await commentActions.addComment(input);
+        setInput('');
+    };
 
-        const newComment = {
-            id: comments.length + 1,
-            author: { name: "You", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80" },
-            content: comment,
-            likes: 0,
-            timestamp: "Just now"
-        };
-        setComments([newComment, ...comments]);
-        setComment('');
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' && e.shiftKey) {
+            e.preventDefault();
+            handleSubmit(e as any);
+        }
     };
 
     return (
-        <div className="mt-20 border-t border-white/10 pt-16">
-            <h2 className="text-3xl font-bold text-white mb-8">Discussion ({comments.length})</h2>
-
-            <form onSubmit={handleComment} className="mb-12">
-                <div className="flex gap-4">
-                    <img alt={""} src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80" className="w-10 h-10 rounded-full" />
-                    <div className="flex-1">
-                        <textarea
-                            value={comment}
-                            onChange={(e) => setComment(e.target.value)}
-                            placeholder="Share your thoughts..."
-                            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500/50 resize-none transition-colors"
-                            rows={3}
-                        />
-                        <div className="mt-3 flex justify-end">
-                            <Button type="submit" disabled={!comment.trim()} className="bg-white text-black hover:bg-neutral-200">
-                                <Send className="w-4 h-4 mr-2" /> Post Comment
-                            </Button>
-                        </div>
-                    </div>
+        // biome-ignore lint/correctness/useUniqueElementIds: <explanation>
+        <div id="comments-section" className="mt-40 max-w-4xl mx-auto px-4 md:px-0">
+            <div className="flex items-center gap-4 mb-12">
+                <div className="bg-purple-500/10 p-3 rounded-2xl border border-purple-500/20 shadow-[0_0_20px_rgba(168,85,247,0.15)]">
+                    <Sparkles size={20} className="text-purple-400" />
                 </div>
-            </form>
+                <h2 className="text-4xl font-black text-white italic tracking-tighter uppercase">Discussion</h2>
+            </div>
 
-            <div className="space-y-6">
-                {comments.map((c) => (
-                    <motion.div key={c.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-4 p-6 bg-white/[0.03] border border-white/5 rounded-2xl">
-                        <img src={c.author.avatar} alt='' className="w-10 h-10 rounded-full" />
-                        <div className="flex-1">
-                            <div className="flex items-center gap-3 mb-2">
-                                <span className="font-semibold text-white">{c.author.name}</span>
-                                <span className="text-xs text-neutral-500">{c.timestamp}</span>
-                            </div>
-                            <p className="text-neutral-300 text-sm leading-relaxed">{c.content}</p>
-                            <div className="flex items-center gap-4 mt-4">
-                                <button type='button' className="flex items-center gap-2 text-xs text-neutral-500 hover:text-white transition-colors">
-                                    <ThumbsUp size={14} /> {c.likes}
-                                </button>
-                                <button type='button' className="text-xs text-neutral-500 hover:text-white transition-colors">Reply</button>
+            <LayoutGroup>
+                <form onSubmit={handleSubmit} className="group relative mb-24">
+                    <div className="absolute -inset-1 bg-linear-to-r from-purple-600/30 to-blue-600/30 rounded-[2.5rem] blur-2xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-700" />
+                    <motion.div layout className="relative p-6 md:p-8 bg-neutral-900/80 border border-white/10 rounded-[2.5rem] backdrop-blur-3xl">
+                        <div className="flex gap-6">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80" className="w-12 h-12 rounded-2xl object-cover ring-2 ring-white/5" alt="Avatar" />
+                            <div className="flex-1">
+                                <textarea
+                                    ref={inputRef}
+                                    value={input}
+                                    onChange={(e) => setInput(e.target.value)}
+                                    onKeyDown={handleKeyDown}
+                                    placeholder="Add to the conversation..."
+                                    className="w-full bg-transparent text-white placeholder:text-neutral-700 focus:outline-none resize-none text-lg py-2 min-h-20"
+                                />
+                                <div className="mt-4 flex flex-col md:flex-row md:items-center justify-between gap-4 border-t border-white/5 pt-6">
+                                    <span className="text-[9px] text-neutral-500 font-black uppercase tracking-widest">
+                                        <span className="text-purple-500">Shift + Enter</span> to Post
+                                    </span>
+                                    <motion.button
+                                        whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                                        type="submit" disabled={!input.trim() || isPosting}
+                                        className="flex items-center justify-center gap-3 bg-white text-black px-10 py-3 rounded-2xl font-black text-xs uppercase tracking-widest disabled:opacity-30 transition-all shadow-2xl min-w-[180px]"
+                                    >
+                                        {isPosting ? (
+                                            <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }}>
+                                                <Sparkles size={14} />
+                                            </motion.div>
+                                        ) : (
+                                            <>Post Comment <Send size={14} /></>
+                                        )}
+                                    </motion.button>
+                                </div>
                             </div>
                         </div>
                     </motion.div>
-                ))}
-            </div>
+                </form>
+
+                <div className="space-y-6 relative pb-40">
+                    <AnimatePresence mode='popLayout' initial={false}>
+                        {comments.map((c) => (
+                            <CommentItem
+                                key={c.id}
+                                comment={c}
+                                isLatest={c.id === latestId}
+                            />
+                        ))}
+                    </AnimatePresence>
+                </div>
+            </LayoutGroup>
         </div>
     );
 }
