@@ -145,7 +145,7 @@ export function BlogPost() {
                                 <Clock size={14} className="text-purple-500" /> {article.readTime} MIN READ
                             </span>
                         </div>
-                        <h1 className="text-7xl md:text-[10rem] font-black text-white mb-10 leading-[0.8] tracking-tighter italic">
+                        <h1 className="text-7xl md:text-[8rem] font-black text-white mb-10 leading-[0.8] tracking-tighter italic">
                             {article.title}
                         </h1>
                     </motion.div>
@@ -157,7 +157,7 @@ export function BlogPost() {
                 <div className="flex items-center justify-between py-16 border-b border-white/5 mb-20">
                     <div className="flex items-center gap-5">
                         <div className="relative group">
-                            <img src={article.author.avatar} className="w-20 h-20 rounded-[2rem] object-cover border border-white/10 transition-transform group-hover:scale-105" alt="" />
+                            <img src={article.author.avatar} className="w-20 h-20 rounded-4xl object-cover border border-white/10 transition-transform group-hover:scale-105" alt="" />
                             <div className="absolute -bottom-2 -right-2 bg-purple-600 p-1.5 rounded-xl border-4 border-[#050505]">
                                 <Sparkles size={12} className="text-white" />
                             </div>
@@ -175,7 +175,7 @@ export function BlogPost() {
                 </div>
 
                 <div ref={contentRef} className="prose prose-invert prose-2xl max-w-none prose-headings:text-white prose-headings:font-black prose-p:text-neutral-400 prose-p:leading-relaxed prose-strong:text-white prose-img:rounded-[3rem] prose-img:border prose-img:border-white/5">
-                    <p className="text-3xl text-white leading-tight mb-16 font-semibold italic opacity-90">
+                    <p className=" italic text-3xl text-white leading-tight mb-16 font-semibold  opacity-90">
                         {article.excerpt}
                     </p>
 

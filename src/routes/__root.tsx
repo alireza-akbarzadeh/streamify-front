@@ -1,4 +1,3 @@
-import fontsourceRobot from "@fontsource-variable/roboto?url";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import type { QueryClient } from "@tanstack/react-query";
 import {
@@ -37,17 +36,13 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				'viewport-fit': 'cover',
 			},
 			title: import.meta.env.VITE_APP_TITLE,
-			description: 'vibe streaming platform .',
+			description: 'vibe streaming platform.',
 			robots: 'index, follow',
 		}),
 		links: [
 			{
 				rel: "stylesheet",
 				href: appCss,
-			},
-			{
-				rel: 'stylesheet',
-				href: fontsourceRobot,
 			},
 		],
 	}),
@@ -64,17 +59,15 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<head>
 				<HeadContent />
 			</head>
-			<body>
+			<body className="antialiased">
 				<ThemeProvider>
-					<TooltipProvider >
+					<TooltipProvider>
 						{children}
 					</TooltipProvider>
 					<Toaster />
 				</ThemeProvider>
 				<TanStackDevtools
-					config={{
-						position: "bottom-right",
-					}}
+					config={{ position: "bottom-right" }}
 					plugins={[
 						{
 							name: "Tanstack Router",
@@ -91,12 +84,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 	);
 }
 
-
 function PendingComponent() {
-
 	return (
-		<div className='space-y-6 p-6'>
-			<Typography.H1>
+		<div className='flex items-center justify-center h-screen'>
+			<Typography.H1 className="animate-pulse">
 				Loading...
 			</Typography.H1>
 		</div>
@@ -106,13 +97,14 @@ function PendingComponent() {
 function ErrorComponent({ error }: ErrorComponentProps) {
 	return (
 		<RootDocument>
-			<div className='space-y-6 flex flex-col justify-center items-center h-screen'>
-				<Typography.H1 className="block bg-linear-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
+			<div className='space-y-6 flex flex-col justify-center items-center h-screen px-4 text-center'>
+				<Typography.H1 className="block bg-linear-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent text-5xl font-black">
 					Error
 				</Typography.H1>
-				<p className='text-destructive'>
+				<p className='text-destructive max-w-md font-mono text-sm bg-destructive/10 p-4 rounded-lg'>
 					{error.message}
 				</p>
+				<BackButton />
 			</div>
 		</RootDocument>
 	)
@@ -120,17 +112,17 @@ function ErrorComponent({ error }: ErrorComponentProps) {
 
 function NotFoundComponent() {
 	return (
-		<div className='space-y-6 flex flex-col justify-center items-center h-screen'>
-			<Typography.H1 className="block bg-linear-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
-				404 Not Found
+		<div className='space-y-6 flex flex-col justify-center items-center h-screen px-4 text-center'>
+			<Typography.H1 className="block bg-linear-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent text-6xl font-black tracking-tighter">
+				404
 			</Typography.H1>
 			<motion.p
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ delay: 0.2, duration: 0.3 }}
-				className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
+				initial={{ opacity: 0, y: 10 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ delay: 0.2, duration: 0.4 }}
+				className="text-lg md:text-xl text-gray-400 max-w-md mx-auto leading-relaxed"
 			>
-				the page your looking for is not exist
+				The page you're looking for doesn't exist.
 			</motion.p>
 			<BackButton />
 		</div>

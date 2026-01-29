@@ -51,6 +51,7 @@ import { Route as demoDemoTableRouteImport } from './routes/(demo)/demo/table'
 import { Route as demoDemoStorybookRouteImport } from './routes/(demo)/demo/storybook'
 import { Route as demoDemoStoreRouteImport } from './routes/(demo)/demo/store'
 import { Route as demoDemoFormDemoRouteImport } from './routes/(demo)/demo/form-demo'
+import { Route as blogBlogProfileRouteImport } from './routes/(blog)/blog/profile'
 import { Route as blogBlogBlogslugRouteImport } from './routes/(blog)/blog/$blogslug'
 import { Route as demoExampleGuitarsIndexRouteImport } from './routes/(demo)/example.guitars/index'
 import { Route as demoExampleGuitarsGuitarIdRouteImport } from './routes/(demo)/example.guitars/$guitarId'
@@ -275,6 +276,11 @@ const demoDemoFormDemoRoute = demoDemoFormDemoRouteImport.update({
   path: '/demo/form-demo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const blogBlogProfileRoute = blogBlogProfileRouteImport.update({
+  id: '/(blog)/blog/profile',
+  path: '/blog/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const blogBlogBlogslugRoute = blogBlogBlogslugRouteImport.update({
   id: '/(blog)/blog/$blogslug',
   path: '/blog/$blogslug',
@@ -368,6 +374,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof homeTermsRoute
   '/': typeof homeIndexRoute
   '/blog/$blogslug': typeof blogBlogBlogslugRoute
+  '/blog/profile': typeof blogBlogProfileRoute
   '/demo/form-demo': typeof demoDemoFormDemoRoute
   '/demo/store': typeof demoDemoStoreRoute
   '/demo/storybook': typeof demoDemoStorybookRoute
@@ -424,6 +431,7 @@ export interface FileRoutesByTo {
   '/terms': typeof homeTermsRoute
   '/': typeof homeIndexRoute
   '/blog/$blogslug': typeof blogBlogBlogslugRoute
+  '/blog/profile': typeof blogBlogProfileRoute
   '/demo/form-demo': typeof demoDemoFormDemoRoute
   '/demo/store': typeof demoDemoStoreRoute
   '/demo/storybook': typeof demoDemoStorybookRoute
@@ -482,6 +490,7 @@ export interface FileRoutesById {
   '/(home)/terms': typeof homeTermsRoute
   '/(home)/': typeof homeIndexRoute
   '/(blog)/blog/$blogslug': typeof blogBlogBlogslugRoute
+  '/(blog)/blog/profile': typeof blogBlogProfileRoute
   '/(demo)/demo/form-demo': typeof demoDemoFormDemoRoute
   '/(demo)/demo/store': typeof demoDemoStoreRoute
   '/(demo)/demo/storybook': typeof demoDemoStorybookRoute
@@ -541,6 +550,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/'
     | '/blog/$blogslug'
+    | '/blog/profile'
     | '/demo/form-demo'
     | '/demo/store'
     | '/demo/storybook'
@@ -597,6 +607,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/'
     | '/blog/$blogslug'
+    | '/blog/profile'
     | '/demo/form-demo'
     | '/demo/store'
     | '/demo/storybook'
@@ -654,6 +665,7 @@ export interface FileRouteTypes {
     | '/(home)/terms'
     | '/(home)/'
     | '/(blog)/blog/$blogslug'
+    | '/(blog)/blog/profile'
     | '/(demo)/demo/form-demo'
     | '/(demo)/demo/store'
     | '/(demo)/demo/storybook'
@@ -712,6 +724,7 @@ export interface RootRouteChildren {
   homeTermsRoute: typeof homeTermsRoute
   homeIndexRoute: typeof homeIndexRoute
   blogBlogBlogslugRoute: typeof blogBlogBlogslugRoute
+  blogBlogProfileRoute: typeof blogBlogProfileRoute
   demoDemoFormDemoRoute: typeof demoDemoFormDemoRoute
   demoDemoStoreRoute: typeof demoDemoStoreRoute
   demoDemoStorybookRoute: typeof demoDemoStorybookRoute
@@ -1038,6 +1051,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof demoDemoFormDemoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(blog)/blog/profile': {
+      id: '/(blog)/blog/profile'
+      path: '/blog/profile'
+      fullPath: '/blog/profile'
+      preLoaderRoute: typeof blogBlogProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(blog)/blog/$blogslug': {
       id: '/(blog)/blog/$blogslug'
       path: '/blog/$blogslug'
@@ -1174,6 +1194,7 @@ const rootRouteChildren: RootRouteChildren = {
   homeTermsRoute: homeTermsRoute,
   homeIndexRoute: homeIndexRoute,
   blogBlogBlogslugRoute: blogBlogBlogslugRoute,
+  blogBlogProfileRoute: blogBlogProfileRoute,
   demoDemoFormDemoRoute: demoDemoFormDemoRoute,
   demoDemoStoreRoute: demoDemoStoreRoute,
   demoDemoStorybookRoute: demoDemoStorybookRoute,

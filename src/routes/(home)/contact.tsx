@@ -1,9 +1,16 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { RootHeader } from '@/components/root-header'
+import { ContactDomain } from '@/domains/contact/contact.domain'
+import Footer from '@/domains/home/footer'
 
 export const Route = createFileRoute('/(home)/contact')({
-    component: RouteComponent,
+    component: ContactPage,
 })
 
-function RouteComponent() {
-    return <div>Hello "/(home)/contact"!</div>
+function ContactPage() {
+    return <>
+        <RootHeader />
+        <ContactDomain />
+        <Footer />
+    </>
 }

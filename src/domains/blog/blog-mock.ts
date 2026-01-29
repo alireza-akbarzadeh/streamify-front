@@ -8,6 +8,9 @@ export const BLOG_CATEGORIES = [
 	{ id: "behind", label: "Behind the Scenes", icon: Play },
 	{ id: "playlists", label: "Playlists", icon: Headphones },
 ];
+
+export type Rating = "Mind Blown" | "Lit" | "Love" | "Interesting" | "Electric";
+
 export type FeatureArticle = {
 	id: number;
 	title: string;
@@ -23,6 +26,7 @@ export type FeatureArticle = {
 	publishDate: string;
 	views?: number;
 	likes?: number;
+	rating?: Rating;
 };
 export const FEATURED_ARTICLE: FeatureArticle = {
 	id: 1,
@@ -42,6 +46,7 @@ export const FEATURED_ARTICLE: FeatureArticle = {
 	publishDate: "Jan 25, 2026",
 	views: 4,
 	likes: 56,
+	rating: "Lit",
 };
 export const MOCK_ARTICLES: FeatureArticle[] = [
 	{
@@ -61,6 +66,7 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		publishDate: "Jan 24, 2026",
 		views: 1420,
 		likes: 342,
+		rating: "Interesting",
 	},
 	{
 		id: 3,
@@ -80,6 +86,7 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		publishDate: "Jan 23, 2026",
 		views: 2840,
 		likes: 512,
+		rating: "Mind Blown",
 	},
 	{
 		id: 4,
@@ -98,6 +105,7 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		publishDate: "Jan 22, 2026",
 		views: 8902,
 		likes: 1204,
+		rating: "Love",
 	},
 	{
 		id: 5,
@@ -116,6 +124,7 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		publishDate: "Jan 21, 2026",
 		views: 3120,
 		likes: 89,
+		rating: "Mind Blown",
 	},
 	{
 		id: 6,
@@ -134,6 +143,7 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		publishDate: "Jan 20, 2026",
 		views: 340,
 		likes: 12,
+		rating: "Lit",
 	},
 	{
 		id: 7,
@@ -152,6 +162,7 @@ export const MOCK_ARTICLES: FeatureArticle[] = [
 		publishDate: "Jan 19, 2026",
 		views: 5200,
 		likes: 890,
+		rating: "Electric",
 	},
 ];
 

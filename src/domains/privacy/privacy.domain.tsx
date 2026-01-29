@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/correctness/useUniqueElementIds: <explanation> */
 import { motion } from 'framer-motion';
 import { CheckCircle, ChevronRight, Cookie, Database, Eye, Lock, Mail, Shield, Users } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -89,7 +90,7 @@ export function PrivacyDomain() {
                                             : 'text-gray-400 hover:text-white hover:bg-white/5'
                                             }`}
                                     >
-                                        <section.icon className="w-4 h-4 flex-shrink-0" />
+                                        <section.icon className="w-4 h-4 shrink-0" />
                                         <span className="text-sm font-medium">{section.title}</span>
                                     </button>
                                 ))}
