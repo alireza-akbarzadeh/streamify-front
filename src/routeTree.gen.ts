@@ -11,10 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as homeIndexRouteImport } from './routes/(home)/index'
 import { Route as homeTermsRouteImport } from './routes/(home)/terms'
-import { Route as homeStatusRouteImport } from './routes/(home)/status'
 import { Route as homePrivacyRouteImport } from './routes/(home)/privacy'
 import { Route as homePricingRouteImport } from './routes/(home)/pricing'
-import { Route as homePressRouteImport } from './routes/(home)/press'
 import { Route as homeLicensesRouteImport } from './routes/(home)/licenses'
 import { Route as homeHelpCenterRouteImport } from './routes/(home)/help-center'
 import { Route as homeFeaturesRouteImport } from './routes/(home)/features'
@@ -24,7 +22,6 @@ import { Route as homeCookiesRouteImport } from './routes/(home)/cookies'
 import { Route as homeContactRouteImport } from './routes/(home)/contact'
 import { Route as homeCommunityRouteImport } from './routes/(home)/community'
 import { Route as homeCareersRouteImport } from './routes/(home)/careers'
-import { Route as homeAppsRouteImport } from './routes/(home)/apps'
 import { Route as homeAboutRouteImport } from './routes/(home)/about'
 import { Route as authVerifyRouteImport } from './routes/(auth)/verify'
 import { Route as authRegisterRouteImport } from './routes/(auth)/register'
@@ -56,11 +53,6 @@ const homeTermsRoute = homeTermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
-const homeStatusRoute = homeStatusRouteImport.update({
-  id: '/(home)/status',
-  path: '/status',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const homePrivacyRoute = homePrivacyRouteImport.update({
   id: '/(home)/privacy',
   path: '/privacy',
@@ -69,11 +61,6 @@ const homePrivacyRoute = homePrivacyRouteImport.update({
 const homePricingRoute = homePricingRouteImport.update({
   id: '/(home)/pricing',
   path: '/pricing',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const homePressRoute = homePressRouteImport.update({
-  id: '/(home)/press',
-  path: '/press',
   getParentRoute: () => rootRouteImport,
 } as any)
 const homeLicensesRoute = homeLicensesRouteImport.update({
@@ -119,11 +106,6 @@ const homeCommunityRoute = homeCommunityRouteImport.update({
 const homeCareersRoute = homeCareersRouteImport.update({
   id: '/(home)/careers',
   path: '/careers',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const homeAppsRoute = homeAppsRouteImport.update({
-  id: '/(home)/apps',
-  path: '/apps',
   getParentRoute: () => rootRouteImport,
 } as any)
 const homeAboutRoute = homeAboutRouteImport.update({
@@ -234,7 +216,6 @@ export interface FileRoutesByFullPath {
   '/register': typeof authRegisterRoute
   '/verify': typeof authVerifyRoute
   '/about': typeof homeAboutRoute
-  '/apps': typeof homeAppsRoute
   '/careers': typeof homeCareersRoute
   '/community': typeof homeCommunityRoute
   '/contact': typeof homeContactRoute
@@ -244,10 +225,8 @@ export interface FileRoutesByFullPath {
   '/features': typeof homeFeaturesRoute
   '/help-center': typeof homeHelpCenterRoute
   '/licenses': typeof homeLicensesRoute
-  '/press': typeof homePressRoute
   '/pricing': typeof homePricingRoute
   '/privacy': typeof homePrivacyRoute
-  '/status': typeof homeStatusRoute
   '/terms': typeof homeTermsRoute
   '/': typeof homeIndexRoute
   '/blog/$blogslug': typeof blogBlogBlogslugRoute
@@ -271,7 +250,6 @@ export interface FileRoutesByTo {
   '/register': typeof authRegisterRoute
   '/verify': typeof authVerifyRoute
   '/about': typeof homeAboutRoute
-  '/apps': typeof homeAppsRoute
   '/careers': typeof homeCareersRoute
   '/community': typeof homeCommunityRoute
   '/contact': typeof homeContactRoute
@@ -281,10 +259,8 @@ export interface FileRoutesByTo {
   '/features': typeof homeFeaturesRoute
   '/help-center': typeof homeHelpCenterRoute
   '/licenses': typeof homeLicensesRoute
-  '/press': typeof homePressRoute
   '/pricing': typeof homePricingRoute
   '/privacy': typeof homePrivacyRoute
-  '/status': typeof homeStatusRoute
   '/terms': typeof homeTermsRoute
   '/': typeof homeIndexRoute
   '/blog/$blogslug': typeof blogBlogBlogslugRoute
@@ -310,7 +286,6 @@ export interface FileRoutesById {
   '/(auth)/register': typeof authRegisterRoute
   '/(auth)/verify': typeof authVerifyRoute
   '/(home)/about': typeof homeAboutRoute
-  '/(home)/apps': typeof homeAppsRoute
   '/(home)/careers': typeof homeCareersRoute
   '/(home)/community': typeof homeCommunityRoute
   '/(home)/contact': typeof homeContactRoute
@@ -320,10 +295,8 @@ export interface FileRoutesById {
   '/(home)/features': typeof homeFeaturesRoute
   '/(home)/help-center': typeof homeHelpCenterRoute
   '/(home)/licenses': typeof homeLicensesRoute
-  '/(home)/press': typeof homePressRoute
   '/(home)/pricing': typeof homePricingRoute
   '/(home)/privacy': typeof homePrivacyRoute
-  '/(home)/status': typeof homeStatusRoute
   '/(home)/terms': typeof homeTermsRoute
   '/(home)/': typeof homeIndexRoute
   '/(blog)/blog/$blogslug': typeof blogBlogBlogslugRoute
@@ -350,7 +323,6 @@ export interface FileRouteTypes {
     | '/register'
     | '/verify'
     | '/about'
-    | '/apps'
     | '/careers'
     | '/community'
     | '/contact'
@@ -360,10 +332,8 @@ export interface FileRouteTypes {
     | '/features'
     | '/help-center'
     | '/licenses'
-    | '/press'
     | '/pricing'
     | '/privacy'
-    | '/status'
     | '/terms'
     | '/'
     | '/blog/$blogslug'
@@ -387,7 +357,6 @@ export interface FileRouteTypes {
     | '/register'
     | '/verify'
     | '/about'
-    | '/apps'
     | '/careers'
     | '/community'
     | '/contact'
@@ -397,10 +366,8 @@ export interface FileRouteTypes {
     | '/features'
     | '/help-center'
     | '/licenses'
-    | '/press'
     | '/pricing'
     | '/privacy'
-    | '/status'
     | '/terms'
     | '/'
     | '/blog/$blogslug'
@@ -425,7 +392,6 @@ export interface FileRouteTypes {
     | '/(auth)/register'
     | '/(auth)/verify'
     | '/(home)/about'
-    | '/(home)/apps'
     | '/(home)/careers'
     | '/(home)/community'
     | '/(home)/contact'
@@ -435,10 +401,8 @@ export interface FileRouteTypes {
     | '/(home)/features'
     | '/(home)/help-center'
     | '/(home)/licenses'
-    | '/(home)/press'
     | '/(home)/pricing'
     | '/(home)/privacy'
-    | '/(home)/status'
     | '/(home)/terms'
     | '/(home)/'
     | '/(blog)/blog/$blogslug'
@@ -464,7 +428,6 @@ export interface RootRouteChildren {
   authRegisterRoute: typeof authRegisterRoute
   authVerifyRoute: typeof authVerifyRoute
   homeAboutRoute: typeof homeAboutRoute
-  homeAppsRoute: typeof homeAppsRoute
   homeCareersRoute: typeof homeCareersRoute
   homeCommunityRoute: typeof homeCommunityRoute
   homeContactRoute: typeof homeContactRoute
@@ -474,10 +437,8 @@ export interface RootRouteChildren {
   homeFeaturesRoute: typeof homeFeaturesRoute
   homeHelpCenterRoute: typeof homeHelpCenterRoute
   homeLicensesRoute: typeof homeLicensesRoute
-  homePressRoute: typeof homePressRoute
   homePricingRoute: typeof homePricingRoute
   homePrivacyRoute: typeof homePrivacyRoute
-  homeStatusRoute: typeof homeStatusRoute
   homeTermsRoute: typeof homeTermsRoute
   homeIndexRoute: typeof homeIndexRoute
   blogBlogBlogslugRoute: typeof blogBlogBlogslugRoute
@@ -508,13 +469,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof homeTermsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(home)/status': {
-      id: '/(home)/status'
-      path: '/status'
-      fullPath: '/status'
-      preLoaderRoute: typeof homeStatusRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/(home)/privacy': {
       id: '/(home)/privacy'
       path: '/privacy'
@@ -527,13 +481,6 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof homePricingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(home)/press': {
-      id: '/(home)/press'
-      path: '/press'
-      fullPath: '/press'
-      preLoaderRoute: typeof homePressRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(home)/licenses': {
@@ -597,13 +544,6 @@ declare module '@tanstack/react-router' {
       path: '/careers'
       fullPath: '/careers'
       preLoaderRoute: typeof homeCareersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(home)/apps': {
-      id: '/(home)/apps'
-      path: '/apps'
-      fullPath: '/apps'
-      preLoaderRoute: typeof homeAppsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(home)/about': {
@@ -774,7 +714,6 @@ const rootRouteChildren: RootRouteChildren = {
   authRegisterRoute: authRegisterRoute,
   authVerifyRoute: authVerifyRoute,
   homeAboutRoute: homeAboutRoute,
-  homeAppsRoute: homeAppsRoute,
   homeCareersRoute: homeCareersRoute,
   homeCommunityRoute: homeCommunityRoute,
   homeContactRoute: homeContactRoute,
@@ -784,10 +723,8 @@ const rootRouteChildren: RootRouteChildren = {
   homeFeaturesRoute: homeFeaturesRoute,
   homeHelpCenterRoute: homeHelpCenterRoute,
   homeLicensesRoute: homeLicensesRoute,
-  homePressRoute: homePressRoute,
   homePricingRoute: homePricingRoute,
   homePrivacyRoute: homePrivacyRoute,
-  homeStatusRoute: homeStatusRoute,
   homeTermsRoute: homeTermsRoute,
   homeIndexRoute: homeIndexRoute,
   blogBlogBlogslugRoute: blogBlogBlogslugRoute,

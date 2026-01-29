@@ -5,11 +5,12 @@ import { Typography } from "@/components/ui/typography";
 import { MSG } from "@/constants/constants";
 import { IMAGES } from "@/constants/media";
 
+
 const footerLinks = {
-	Product: ["Features", "Pricing", "Apps", "Download"],
-	Company: ["About", "Careers", "Press", "Blog"],
-	Support: ["Help-Center", "Contact", "Community", "Status"],
-	Legal: ["Privacy", "Terms", "Cookies", "Licenses"],
+	Product: ["Features", "Pricing", "Download"],
+	Company: ["About", "Careers", "Blog"],
+	Support: ["Help-Center", "Contact", "Community"],
+	Legal: ["Privacy", "Terms", "Licenses"],
 };
 
 const socialLinks = [
