@@ -2,15 +2,16 @@ import { motion } from "framer-motion";
 import { BadgeCheck, UserCheck, UserPlus } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import type { Artist } from "../artist.domains";
 
-export function RelatedArtists({ artists }) {
-	const [followedArtists, setFollowedArtists] = useState([]);
+export function RelatedArtists({ artists }: { artists: Artist[] }) {
+	const [followedArtists, setFollowedArtists] = useState<number[]>([]);
 
-	const handleFollow = (artistId) => {
+	const handleFollow = (artistId: number) => {
 		setFollowedArtists((prev) =>
 			prev.includes(artistId)
 				? prev.filter((id) => id !== artistId)
-				: [...prev, artistId],
+				: [...prev, artistId]
 		);
 	};
 
@@ -77,8 +78,8 @@ export function RelatedArtists({ artists }) {
 									onClick={() => handleFollow(artist.id)}
 									size="sm"
 									className={`rounded-full font-semibold shadow-xl transition-all ${followedArtists.includes(artist.id)
-											? "bg-white/20 backdrop-blur-xl border border-white/30 text-white hover:bg-white/30"
-											: "bg-white text-black hover:bg-gray-200"
+										? "bg-white/20 backdrop-blur-xl border border-white/30 text-white hover:bg-white/30"
+										: "bg-white text-black hover:bg-gray-200"
 										}`}
 								>
 									{followedArtists.includes(artist.id) ? (

@@ -2,16 +2,17 @@ import { motion } from "framer-motion";
 import { Heart, MoreHorizontal, Music, Pause, Play } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import type { Song } from "../artist.domains";
 
-export function TopSongs({ songs }) {
-	const [playingId, setPlayingId] = useState(null);
-	const [likedSongs, setLikedSongs] = useState([]);
+export function TopSongs({ songs }: { songs: Song[] }) {
+	const [playingId, setPlayingId] = useState<number | null>(null);
+	const [likedSongs, setLikedSongs] = useState<number[]>([]);
 
-	const handlePlayPause = (songId) => {
+	const handlePlayPause = (songId: number) => {
 		setPlayingId(playingId === songId ? null : songId);
 	};
 
-	const handleLike = (songId) => {
+	const handleLike = (songId: number) => {
 		setLikedSongs((prev) =>
 			prev.includes(songId)
 				? prev.filter((id) => id !== songId)
@@ -124,11 +125,10 @@ export function TopSongs({ songs }) {
 									className="p-2 rounded-full hover:bg-white/10 transition-colors"
 								>
 									<Heart
-										className={`w-5 h-5 transition-colors ${
-											likedSongs.includes(song.id)
-												? "fill-purple-500 text-purple-500"
-												: "text-gray-400"
-										}`}
+										className={`w-5 h-5 transition-colors ${likedSongs.includes(song.id)
+											? "fill-purple-500 text-purple-500"
+											: "text-gray-400"
+											}`}
 									/>
 								</motion.button>
 

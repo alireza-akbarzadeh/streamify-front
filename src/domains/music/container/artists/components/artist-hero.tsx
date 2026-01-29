@@ -10,8 +10,9 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import type { Artist } from "../artist.domains";
 
-export function ArtistHero({ artist }) {
+export function ArtistHero({ artist }: { artist: Artist }) {
 	const [isFollowing, setIsFollowing] = useState(false);
 	const [showFullBio, setShowFullBio] = useState(false);
 
@@ -20,7 +21,7 @@ export function ArtistHero({ artist }) {
 	};
 
 	return (
-		<div className="relative h-[80vh] min-h-[600px] w-full overflow-hidden">
+		<div className="relative h-[80vh] min-h-150 w-full overflow-hidden">
 			{/* Background image with parallax */}
 			<motion.div
 				initial={{ scale: 1.2, opacity: 0 }}
@@ -170,11 +171,10 @@ export function ArtistHero({ artist }) {
 								<Button
 									onClick={handleFollow}
 									variant="outline"
-									className={`h-14 px-8 rounded-full font-semibold text-lg transition-all ${
-										isFollowing
-											? "bg-transparent border-2 border-white/30 text-white hover:border-red-500/50 hover:text-red-500"
-											: "bg-white/10 backdrop-blur-xl border-2 border-white/30 text-white hover:bg-white/20"
-									}`}
+									className={`h-14 px-8 rounded-full font-semibold text-lg transition-all ${isFollowing
+										? "bg-transparent border-2 border-white/30 text-white hover:border-red-500/50 hover:text-red-500"
+										: "bg-white/10 backdrop-blur-xl border-2 border-white/30 text-white hover:bg-white/20"
+										}`}
 								>
 									<motion.div
 										animate={{

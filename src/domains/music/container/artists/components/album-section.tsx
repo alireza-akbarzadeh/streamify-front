@@ -2,11 +2,12 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
+import type { Albums } from "../artist.domains";
 
-export function AlbumsSection({ albums }) {
-	const scrollRef = useRef(null);
+export function AlbumsSection({ albums }: { albums: Albums[] }) {
+	const scrollRef = useRef<HTMLDivElement>(null);
 
-	const scroll = (direction) => {
+	const scroll = (direction: "left" | "right") => {
 		if (scrollRef.current) {
 			const scrollAmount = direction === "left" ? -400 : 400;
 			scrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });

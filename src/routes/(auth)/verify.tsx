@@ -196,14 +196,14 @@ function VerifyPage() {
 				<div className="text-center space-y-2">
 					<p className="text-gray-500 text-sm">Didn't receive the code?</p>
 					<div className="flex flex-col gap-2 text-sm">
-						<a
+						<Link
 							to="/"
 							className="text-purple-400 hover:text-purple-300 transition-colors"
 						>
 							Check your spam folder
-						</a>
+						</Link>
 						<Link
-							to="/auth/login"
+							to="/login"
 							className="text-purple-400 hover:text-purple-300 transition-colors"
 						>
 							Use a different email
@@ -214,7 +214,7 @@ function VerifyPage() {
 
 			<div className="mt-6 text-center">
 				<Link
-					to="/auth/login"
+					to="/login"
 					className="text-gray-400 hover:text-white text-sm transition-colors"
 				>
 					← Back to Login

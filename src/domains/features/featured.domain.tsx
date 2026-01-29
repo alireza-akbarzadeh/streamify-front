@@ -18,6 +18,11 @@ import {
 } from "lucide-react";
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { CheckItem } from "./components/check-item";
+import { DeviceCard } from "./components/device-card";
+import { FeatureCard } from "./components/feature-card";
+import { SmallCard } from "./components/small-card";
+import { SocialSecurityCard } from "./components/social-security-card";
 
 export function FeaturesPage() {
     return (
@@ -465,108 +470,6 @@ export function FeaturesPage() {
     );
 }
 
-function FeatureCard({ icon, title, description, delay }) {
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay, duration: 0.5 }}
-            whileHover={{ y: -8 }}
-            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 group hover:border-purple-500/50 transition-all"
-        >
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-600/20 to-pink-600/20 flex items-center justify-center mb-6 text-purple-400 group-hover:scale-110 transition-transform">
-                {icon}
-            </div>
-            <h3 className="text-xl font-bold mb-3">{title}</h3>
-            <p className="text-gray-400 leading-relaxed">{description}</p>
-        </motion.div>
-    );
-}
 
-function SmallCard({ icon, title, description, delay }) {
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay }}
-            whileHover={{ y: -4 }}
-            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 group hover:border-purple-500/50 transition-all"
-        >
-            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-600/20 to-pink-600/20 flex items-center justify-center mb-4 text-purple-400">
-                {icon}
-            </div>
-            <h3 className="text-lg font-semibold mb-2">{title}</h3>
-            <p className="text-sm text-gray-400">{description}</p>
-        </motion.div>
-    );
-}
 
-function CheckItem({ text }) {
-    return (
-        <li className="flex items-center gap-3">
-            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center flex-shrink-0">
-                <Check className="w-4 h-4" />
-            </div>
-            <span className="text-gray-300">{text}</span>
-        </li>
-    );
-}
 
-function DeviceCard({ icon, label }) {
-    return (
-        <motion.div
-            whileHover={{ y: -4, scale: 1.02 }}
-            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center aspect-square hover:border-purple-500/50 transition-all"
-        >
-            <div className="text-purple-400 mb-3">
-                {React.cloneElement(icon, { className: "w-10 h-10" })}
-            </div>
-            <span className="text-sm font-medium">{label}</span>
-        </motion.div>
-    );
-}
-
-function SocialSecurityCard({
-    icon,
-    title,
-    description,
-    features,
-    gradient,
-    delay,
-}) {
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay }}
-            className="group relative"
-        >
-            <div
-                className={`absolute inset-0 bg-gradient-to-br ${gradient} rounded-3xl blur-xl group-hover:blur-2xl transition-all`}
-            />
-            <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-600/20 to-pink-600/20 flex items-center justify-center mb-6 text-purple-400">
-                    {icon}
-                </div>
-                <h3 className="text-3xl font-bold mb-4">{title}</h3>
-                <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-                    {description}
-                </p>
-                <div className="space-y-3">
-                    {features.map((feature, i) => (
-                        <div
-                            key={i}
-                            className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/5"
-                        >
-                            <Check className="w-5 h-5 text-purple-400 flex-shrink-0" />
-                            <span className="text-sm">{feature}</span>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </motion.div>
-    );
-}

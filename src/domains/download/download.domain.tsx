@@ -1,220 +1,295 @@
-import { motion } from "framer-motion";
-import { Apple, Globe, Info, Monitor, Smartphone } from "lucide-react";
-import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+	Activity,
+	Apple,
+	ArrowRight,
+	Cast,
+	CheckCircle2,
+	Clock,
+	Cpu,
+	Download,
+	HardDrive,
+	Monitor,
+	ShieldCheck,
+	Smartphone,
+	Sparkles,
+	Tv
+} from "lucide-react";
+import type React from "react";
+import { useState } from "react";
+import { DeviceShowcase } from "./components/device-showcase";
 import { DownloadHero } from "./components/download-hero";
-import { PlatformCard } from "./components/platform";
+
+// --- Types ---
+
+export type PlatformId = "windows" | "macos" | "tvos" | "ios" | "android" | "web";
+
+export interface Platform {
+	id: PlatformId;
+	name: string;
+	icon: React.ElementType;
+	version: string;
+	fileSize: string;
+	downloadUrl: string;
+	requirements: {
+		os: string;
+		cpu: string;
+		storage: string;
+	};
+	accent: string;
+	description: string;
+	type: "desktop" | "mobile" | "tv";
+}
+
+interface ReleaseNote {
+	version: string;
+	date: string;
+	changes: { type: "feat" | "fix" | "perf"; text: string }[];
+}
+
+// --- Static Data ---
+
+const PLATFORMS: Platform[] = [
+	{
+		id: "macos",
+		name: "macOS",
+		icon: Apple,
+		version: "v2.4.0",
+		fileSize: "112 MB",
+		downloadUrl: "#",
+		requirements: { os: "macOS 11.0+", cpu: "M1/M2/M3 or Intel", storage: "500MB" },
+		accent: "#a855f7",
+		type: "desktop",
+		description: "Native M3 optimization with full spatial audio support."
+	},
+	{
+		id: "windows",
+		name: "Windows",
+		icon: Monitor,
+		version: "v2.4.0",
+		fileSize: "95 MB",
+		downloadUrl: "#",
+		requirements: { os: "Windows 10/11", cpu: "x64 2.0GHz+", storage: "450MB" },
+		accent: "#0ea5e9",
+		type: "desktop",
+		description: "DirectX 12 powered streaming for low-latency playback."
+	},
+	{
+		id: "tvos",
+		name: "Smart TV",
+		icon: Tv,
+		version: "v1.8.0",
+		fileSize: "App Store",
+		downloadUrl: "#",
+		requirements: { os: "tvOS / Android TV", cpu: "Quad-Core ARM", storage: "120MB" },
+		accent: "#f59e0b",
+		type: "tv",
+		description: "Cinematic 4K experience designed for the big screen and remote navigation."
+	},
+	{
+		id: "ios",
+		name: "iPhone",
+		icon: Smartphone,
+		version: "v2.4.1",
+		fileSize: "64 MB",
+		downloadUrl: "#",
+		requirements: { os: "iOS 15.0+", cpu: "A12 Bionic+", storage: "200MB" },
+		accent: "#ec4899",
+		type: "mobile",
+		description: "Your entire library, optimized for ProMotion displays."
+	},
+	{
+		id: "android",
+		name: "Android",
+		icon: Smartphone,
+		version: "v2.4.1",
+		fileSize: "72 MB",
+		downloadUrl: "#",
+		requirements: { os: "Android 10+", cpu: "Snapdragon 8++", storage: "220MB" },
+		accent: "#22c55e",
+		type: "mobile",
+		description: "High-fidelity audio streaming on any Android device."
+	}
+];
+
+const RECENT_RELEASES: ReleaseNote[] = [
+	{
+		version: "2.4.0",
+		date: "Jan 24, 2026",
+		changes: [
+			{ type: "feat", text: "Introduced spatial audio support for desktop" },
+			{ type: "perf", text: "Reduced memory usage during 4K playback by 20%" },
+			{ type: "fix", text: "Resolved flickering on Windows HDR displays" },
+		],
+	},
+	{
+		version: "2.3.9",
+		date: "Jan 10, 2026",
+		changes: [
+			{ type: "fix", text: "Improved login stability on unstable connections" },
+			{ type: "feat", text: "New 'Compact Mode' for desktop players" },
+		],
+	},
+];
+
+
+// --- Main Page ---
 
 export function DownloadPage() {
-	const [detectedPlatform, setDetectedPlatform] = useState(null);
+	const [activePlatform, setActivePlatform] = useState<PlatformId>("macos");
 
-	// Detect user's platform
-	useEffect(() => {
-		const userAgent = navigator.userAgent.toLowerCase();
-		const platform = navigator.platform.toLowerCase();
-
-		if (userAgent.includes("win")) {
-			setDetectedPlatform("windows");
-		} else if (userAgent.includes("mac") || platform.includes("mac")) {
-			setDetectedPlatform("macos");
-		} else if (userAgent.includes("linux")) {
-			setDetectedPlatform("linux");
-		} else if (userAgent.includes("iphone") || userAgent.includes("ipad")) {
-			setDetectedPlatform("ios");
-		} else if (userAgent.includes("android")) {
-			setDetectedPlatform("android");
-		} else {
-			setDetectedPlatform("web");
-		}
-	}, []);
-
-	const platforms = [
-		{
-			id: "windows",
-			name: "Windows",
-			icon: Monitor,
-			version: "Windows 10+",
-			fileSize: "95 MB",
-			downloadUrl: "#",
-			requirements: "Requires Windows 10 or later",
-			color: "from-blue-600 to-cyan-600",
-		},
-		{
-			id: "macos",
-			name: "macOS",
-			icon: Apple,
-			version: "macOS 11+",
-			fileSize: "112 MB",
-			downloadUrl: "#",
-			requirements: "Requires macOS Big Sur or later",
-			color: "from-gray-600 to-gray-800",
-		},
-		{
-			id: "linux",
-			name: "Linux",
-			icon: Monitor,
-			version: "Ubuntu 20.04+",
-			fileSize: "88 MB",
-			downloadUrl: "#",
-			requirements: "Compatible with major distributions",
-			color: "from-orange-600 to-red-600",
-		},
-		{
-			id: "ios",
-			name: "iOS",
-			icon: Apple,
-			version: "iOS 14+",
-			fileSize: "App Store",
-			downloadUrl: "#",
-			requirements: "Requires iOS 14 or later",
-			color: "from-purple-600 to-pink-600",
-			storeLink: true,
-		},
-		{
-			id: "android",
-			name: "Android",
-			icon: Smartphone,
-			version: "Android 8+",
-			fileSize: "Play Store",
-			downloadUrl: "#",
-			requirements: "Requires Android 8.0 or later",
-			color: "from-green-600 to-emerald-600",
-			storeLink: true,
-		},
-		{
-			id: "web",
-			name: "Web App",
-			icon: Globe,
-			version: "All Browsers",
-			fileSize: "No Install",
-			downloadUrl: "#",
-			requirements: "Works on any modern browser",
-			color: "from-indigo-600 to-purple-600",
-			isWeb: true,
-		},
-	];
+	const current = PLATFORMS.find(p => p.id === activePlatform) || PLATFORMS[0];
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#0f0f0f] to-[#0a0a0a] relative overflow-hidden">
-			{/* Animated background effects */}
-			<div className="absolute inset-0 pointer-events-none">
-				<motion.div
-					animate={{
-						opacity: [0.2, 0.4, 0.2],
-						scale: [1, 1.2, 1],
-					}}
-					transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-					className="absolute top-20 left-20 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl"
-				/>
-				<motion.div
-					animate={{
-						opacity: [0.15, 0.3, 0.15],
-						scale: [1.2, 1, 1.2],
-					}}
-					transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-					className="absolute bottom-20 right-20 w-80 h-80 bg-cyan-600/20 rounded-full blur-3xl"
-				/>
+		<div className="min-h-screen bg-[#050505] text-white selection:bg-purple-500/30">
+			<DownloadHero />
 
-				{/* Grid overlay */}
-				<div
-					className="absolute inset-0 opacity-5"
-					style={{
-						backgroundImage: `linear-gradient(rgba(139, 92, 246, 0.5) 1px, transparent 1px),
-                             linear-gradient(90deg, rgba(139, 92, 246, 0.5) 1px, transparent 1px)`,
-						backgroundSize: "60px 60px",
-					}}
-				/>
-			</div>
+			<section className="max-w-7xl mx-auto px-6 pb-32">
 
-			{/* Content */}
-			<div className="relative z-10">
-				{/* Hero Section */}
-				<DownloadHero />
+				{/* 1. INTERACTIVE SHOWCASE */}
+				<div className="flex flex-col items-center mb-40">
+					<div className="relative min-h-[550px] w-full flex items-center justify-center mb-16">
+						<AnimatePresence mode="wait">
+							<motion.div
+								key={current.id}
+								initial={{ y: 30, opacity: 0, scale: 0.9 }}
+								animate={{ y: 0, opacity: 1, scale: 1 }}
+								exit={{ y: -30, opacity: 0, scale: 0.9 }}
+								transition={{ type: "spring", damping: 25 }}
+							>
+								<DeviceShowcase platform={current} />
+							</motion.div>
+						</AnimatePresence>
+					</div>
 
-				{/* Platform Cards */}
-				<div className="max-w-7xl mx-auto px-6 pb-20">
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ delay: 0.4 }}
-						className="text-center mb-12"
-					>
-						<h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-							Choose Your Platform
-						</h2>
-						<p className="text-gray-400 text-lg">
-							Available for all major operating systems and devices
-						</p>
-					</motion.div>
-
-					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-						{platforms.map((platform, index) => (
-							<PlatformCard
-								key={platform.id}
-								platform={platform}
-								index={index}
-								isRecommended={detectedPlatform === platform.id}
-							/>
+					<div className="inline-flex p-1.5 bg-white/5 backdrop-blur-3xl border border-white/10 rounded-full mb-12 flex-wrap justify-center shadow-2xl">
+						{PLATFORMS.map((p) => (
+							<button
+								key={p.id}
+								onClick={() => setActivePlatform(p.id)}
+								className={`relative px-6 py-2.5 rounded-full text-sm font-medium transition-colors flex items-center gap-2 ${activePlatform === p.id ? "text-white" : "text-gray-500 hover:text-gray-300"}`}
+							>
+								{activePlatform === p.id && (
+									<motion.div layoutId="pill" className="absolute inset-0 bg-white/10 rounded-full border border-white/10" />
+								)}
+								<p.icon className="w-4 h-4 relative z-10" />
+								<span className="relative z-10">{p.name}</span>
+							</button>
 						))}
 					</div>
 
-					{/* Additional Info */}
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true }}
-						transition={{ delay: 0.6 }}
-						className="mt-16 p-8 rounded-3xl bg-white/5 backdrop-blur-sm border border-white/10"
-					>
-						<div className="flex items-start gap-4">
-							<div className="p-3 rounded-xl bg-purple-600/20">
-								<Info className="w-6 h-6 text-purple-400" />
-							</div>
-							<div>
-								<h3 className="text-xl font-bold text-white mb-2">
-									Safe & Secure Downloads
-								</h3>
-								<p className="text-gray-400 leading-relaxed">
-									All downloads are verified and signed. Your privacy and
-									security are our top priority. Every release is scanned for
-									malware and comes with automatic updates to keep you
-									protected.
-								</p>
+					<div className="text-center max-w-2xl">
+						<h2 className="text-5xl font-bold mb-6 tracking-tight">
+							{current.type === 'tv' ? 'Stream on the Big Screen' : `Ready for ${current.name}`}
+						</h2>
+						<p className="text-gray-400 mb-10 text-lg leading-relaxed">{current.description}</p>
+
+						<div className="flex flex-col sm:flex-row items-center justify-center gap-5">
+							<button className="bg-white text-black px-12 py-5 rounded-full font-bold hover:scale-105 transition-transform flex items-center gap-3">
+								{current.type === 'tv' ? <Cast className="w-5 h-5" /> : <Download className="w-5 h-5" />}
+								{current.type === 'tv' ? 'Available on App Store' : 'Download Now'}
+							</button>
+							<div className="flex flex-col items-start text-left">
+								<div className="flex items-center gap-2 text-sm text-green-500 font-semibold uppercase tracking-tighter">
+									<CheckCircle2 className="w-4 h-4" /> Trusted Build
+								</div>
+								<span className="text-[11px] text-gray-500">{current.version} • {current.fileSize}</span>
 							</div>
 						</div>
-					</motion.div>
-
-					{/* Release Notes */}
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true }}
-						transition={{ delay: 0.7 }}
-						className="mt-8 text-center"
-					>
-						<a
-							href="#"
-							className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors"
-						>
-							<span className="text-sm font-medium">
-								View Release Notes & What's New
-							</span>
-							<svg
-								className="w-4 h-4"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M9 5l7 7-7 7"
-								/>
-							</svg>
-						</a>
-					</motion.div>
+					</div>
 				</div>
-			</div>
+
+				{/* 2. SYSTEM REQUIREMENTS */}
+				<div className="grid lg:grid-cols-2 gap-20 mb-40">
+					<div className="space-y-8">
+						<div>
+							<div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-bold uppercase tracking-widest mb-4">
+								<Activity className="w-3 h-3" /> System Requirements
+							</div>
+							<h2 className="text-4xl font-bold mb-6 tracking-tight">Optimized for your hardware.</h2>
+							<p className="text-gray-400 leading-relaxed">We leverage native APIs to ensure the smoothest performance and minimal battery drain on every device.</p>
+						</div>
+
+						<div className="grid gap-4">
+							{[
+								{ icon: Monitor, label: "OS Version", value: current.requirements.os },
+								{ icon: Cpu, label: "Processor", value: current.requirements.cpu },
+								{ icon: HardDrive, label: "Disk Space", value: current.requirements.storage },
+							].map((spec) => (
+								<div key={spec.value} className="flex items-center justify-between p-5 rounded-2xl bg-white/5 border border-white/10">
+									<div className="flex items-center gap-4 text-left">
+										<div className="p-2 rounded-lg bg-white/5"><spec.icon className="w-5 h-5 text-gray-400" /></div>
+										<span className="text-sm text-gray-400 font-medium">{spec.label}</span>
+									</div>
+									<span className="text-sm font-bold text-white">{spec.value}</span>
+								</div>
+							))}
+						</div>
+					</div>
+
+					<div className="relative group">
+						<div className="absolute -inset-1 bg-linear-to-r from-purple-500 to-blue-500 rounded-[2.5rem] blur opacity-20 group-hover:opacity-40 transition" />
+						<div className="relative bg-[#0a0a0a] p-10 rounded-[2.4rem] border border-white/10 h-full flex flex-col justify-between">
+							<div>
+								<ShieldCheck className="w-12 h-12 text-purple-500 mb-8" />
+								<h3 className="text-2xl font-bold mb-4">Verified Security</h3>
+								<p className="text-gray-400 leading-relaxed mb-8">All downloads are signed with an EV certificate and scanned against major antivirus engines.</p>
+							</div>
+							<div className="space-y-4">
+								<div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+									<div className="h-full w-full bg-purple-500" />
+								</div>
+								<div className="flex justify-between text-[11px] font-bold uppercase tracking-widest text-gray-500">
+									<span>Audit: Passed</span>
+									<span>Stable Release</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* 3. RELEASE NOTES / CHANGELOG */}
+				<div className="pt-20 border-t border-white/10">
+					<div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+						<div className="max-w-md text-left">
+							<div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-[10px] font-bold uppercase tracking-widest mb-4">
+								<Sparkles className="w-3 h-3" /> Changelog
+							</div>
+							<h2 className="text-4xl font-bold tracking-tight">What's New</h2>
+						</div>
+						<button className="text-sm font-semibold text-gray-400 hover:text-white flex items-center gap-2 transition-colors">
+							View Full History <ArrowRight className="w-4 h-4" />
+						</button>
+					</div>
+
+					<div className="grid gap-6">
+						{RECENT_RELEASES.map((release) => (
+							<div key={release.version} className="p-8 rounded-[2rem] bg-white/[0.02] border border-white/5 hover:border-white/10 transition-colors">
+								<div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+									<div className="flex items-center gap-4">
+										<span className="text-2xl font-bold font-mono">v{release.version}</span>
+										<span className="px-3 py-1 rounded-full bg-green-500/10 text-green-500 text-[10px] font-bold uppercase tracking-tighter">Latest Release</span>
+									</div>
+									<div className="flex items-center gap-2 text-xs text-gray-500 bg-white/5 px-3 py-1.5 rounded-full">
+										<Clock className="w-3.5 h-3.5" /> {release.date}
+									</div>
+								</div>
+								<div className="space-y-4 max-w-3xl text-left">
+									{release.changes.map((change) => (
+										<div key={change.text} className="flex gap-4">
+											<div className={`mt-2 w-1.5 h-1.5 rounded-full shrink-0 ${change.type === 'feat' ? 'bg-purple-500' : change.type === 'fix' ? 'bg-blue-500' : 'bg-green-500'}`} />
+											<p className="text-gray-400 leading-relaxed text-sm">
+												<span className="text-gray-200 font-medium capitalize">{change.type}: </span>{change.text}
+											</p>
+										</div>
+									))}
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+
+			</section>
 		</div>
 	);
 }
