@@ -1,5 +1,3 @@
-// components/admin-sidebar/index.tsx
-
 import { motion } from 'framer-motion'
 import { ChevronLeft, Search } from 'lucide-react'
 import { useState } from 'react'
@@ -32,13 +30,13 @@ export function AdminSidebar({
             initial={false}
             animate={{ width: effectiveCollapsed ? 76 : 280 }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            // REMOVED overflow-hidden so tooltips can show
             className={cn(
                 "relative z-30 flex h-full flex-col border-r bg-card/50 backdrop-blur-md shrink-0",
+                "overflow-visible",
                 className
             )}
         >
-            {/* Header - Fixed Height */}
+            {/* Header */}
             <div className="flex h-14 items-center justify-between px-4 shrink-0 overflow-hidden">
                 {!effectiveCollapsed && (
                     <motion.span
@@ -78,8 +76,7 @@ export function AdminSidebar({
 
             <Separator className={cn("mb-4 opacity-50", effectiveCollapsed ? "mx-auto w-10" : "mx-4 w-auto")} />
 
-            {/* Content Area - Uses overflow-visible to allow tooltips to pop out */}
-            <ScrollArea className="flex-1 overflow-visible">
+            <ScrollArea className="flex-1 w-full" type="auto">
                 <div className={cn(
                     "flex flex-col gap-8 pb-10 transition-all duration-300",
                     effectiveCollapsed ? "items-center" : "px-3"
@@ -87,7 +84,7 @@ export function AdminSidebar({
                     {groups.map((group) => (
                         <div key={group.group} className="w-full space-y-1">
                             {!effectiveCollapsed && (
-                                <h4 className="mb-2 px-3 text-[10px] font-bold text-muted-foreground/50 uppercase tracking-[0.2em]">
+                                <h4 className="mb-2 px-3 text-[10px] font-bold text-muted-foreground/50 uppercase tracking-[0.2em] whitespace-nowrap">
                                     {group.group}
                                 </h4>
                             )}
@@ -106,7 +103,7 @@ export function AdminSidebar({
                 </div>
             </ScrollArea>
 
-            <div className="mt-auto border-t bg-card/80 p-2">
+            <div className="mt-auto border-t bg-card/80 p-2 shrink-0">
                 <UserProfile isCollapsed={effectiveCollapsed} />
             </div>
         </motion.aside>
