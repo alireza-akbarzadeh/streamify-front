@@ -63,7 +63,7 @@ export function AppDialog(props: AppDialogProps) {
 		return (
 			<Drawer open={open} onOpenChange={onOpenChange}>
 				{trigger && <DrawerTrigger asChild>{trigger}</DrawerTrigger>}
-				<DrawerContent side="bottom" className="rounded-t-xl">
+				<DrawerContent className="rounded-t-xl">
 					<DrawerHeader>
 						{title && <DrawerTitle>{title}</DrawerTitle>}
 						{description && (
