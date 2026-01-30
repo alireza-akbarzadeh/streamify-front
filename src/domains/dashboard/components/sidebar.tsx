@@ -13,7 +13,6 @@ import { UserProfile } from './user-profile'
 
 export function AdminSidebar({ groups, pathname, onSearchOpen }: { groups: SidebarGroup[], pathname: string, onSearchOpen: () => void }) {
     const [isCollapsed, setIsCollapsed] = useState(false)
-    console.log('groups:', groups)
     return (
         <TooltipProvider>
             <motion.aside

@@ -1,9 +1,10 @@
+import { useQuery } from '@tanstack/react-query'
 import { Outlet, useRouterState } from '@tanstack/react-router'
 import { Bell, Search } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { dashboard_SIDEBAR } from '@/config/admin-sidebar'
+import { getSidebarData } from '../server/dahboard.functions'
 import { SearchSide } from './search-setting'
 import { AdminSidebar } from './sidebar'
 
@@ -11,7 +12,13 @@ export function AppSidebarLayout() {
     const [searchOpen, setSearchOpen] = useState(false)
     const pathname = useRouterState().location.pathname
 
-    const groups = dashboard_SIDEBAR
+    const userRole = "admin"
+
+    const { data: groups = [] } = useQuery({
+        queryKey: ['sidebar', userRole],
+        queryFn: () => getSidebarData({ data: userRole }),
+        staleTime: 1000 * 60 * 10,
+    })
 
     return (
         <div className="flex h-screen w-full overflow-hidden bg-background">

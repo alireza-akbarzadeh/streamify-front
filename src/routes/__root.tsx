@@ -22,6 +22,10 @@ import appCss from "../styles.css?url";
 
 interface MyRouterContext {
 	queryClient: QueryClient;
+	auth?: {
+		role: string;
+		id: string;
+	};
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
