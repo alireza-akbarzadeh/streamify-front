@@ -53,6 +53,17 @@ export default function AppHeader({ pathname }: AppHeaderProps) {
                 <div className="hidden lg:flex items-center gap-2 text-sm text-muted-foreground bg-muted/20 px-3 py-1 rounded-full border border-border/40">
                     <Zap className="w-3.5 h-3.5 text-primary animate-pulse" />
                     <DashboardBreadcrumbs pathname={pathname} />
+                    <div className="hidden xl:flex items-center gap-4 px-3 py-1 rounded-full bg-emerald-500/5 border border-emerald-500/10 transition-all hover:bg-emerald-500/10 cursor-help group">
+                        <div className="flex items-center gap-1.5">
+                            <div className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                            </div>
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600/80">Systems Nominal</span>
+                        </div>
+                        <div className="h-3 w-px bg-emerald-500/20" />
+                        <span className="text-[10px] font-mono text-emerald-600/70">99.9% Uptime</span>
+                    </div>
                 </div>
 
                 <div className="flex-1 max-w-md ml-auto md:ml-0 group">
