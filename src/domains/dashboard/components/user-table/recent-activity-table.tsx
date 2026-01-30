@@ -1,3 +1,5 @@
+import { useQuery } from "@tanstack/react-query"
+import type { ColumnFiltersState, Row } from "@tanstack/react-table"
 import {
     getCoreRowModel,
     getFilteredRowModel,
@@ -6,45 +8,23 @@ import {
 } from "@tanstack/react-table"
 import { CheckCircle2, Clock, XCircle } from "lucide-react"
 import * as React from "react"
-import { Table } from "@/components/table/data-table"
-import { userColumns } from "./user-columns"
-
-export type Transaction = {
-    id: string
-    user: string
-    email: string
-    phone: string
-    amount: number
-    status: 'Success' | 'Pending' | 'Failed'
-    joinedDate: string
-    plan: 'Premium' | 'Standard' | 'Free'
-    category: 'Movie' | 'Music' | 'Live'
-    lastLogin: string
-    ipAddress: string
-    device: 'Desktop' | 'Mobile' | 'Tablet'
-    verified: boolean
-}
-const data: Transaction[] = [
-    { id: '1', user: 'Alex Rivera', email: 'alex@vibe.com', phone: '+1 555-0101', amount: 49.00, status: 'Success', joinedDate: '2023-12-01', plan: 'Premium', category: 'Movie', lastLogin: '2m ago', ipAddress: '192.168.1.1', device: 'Desktop', verified: true },
-    { id: '2', user: 'Jordan Smith', email: 'j@vibe.com', phone: '+1 555-0102', amount: 12.50, status: 'Pending', joinedDate: '2024-01-10', plan: 'Standard', category: 'Music', lastLogin: '1h ago', ipAddress: '172.16.254.1', device: 'Mobile', verified: true },
-    { id: '3', user: 'Casey Knight', email: 'c@vibe.com', phone: '+1 555-0103', amount: 29.99, status: 'Success', joinedDate: '2024-01-15', plan: 'Premium', category: 'Live', lastLogin: 'Yesterday', ipAddress: '10.0.0.50', device: 'Tablet', verified: false },
-    { id: '4', user: 'Taylor Bell', email: 't@vibe.com', phone: '+1 555-0104', amount: 99.00, status: 'Failed', joinedDate: '2023-11-20', plan: 'Free', category: 'Movie', lastLogin: '3d ago', ipAddress: '45.12.88.10', device: 'Desktop', verified: true },
-    { id: '5', user: 'Morgan Lee', email: 'm@vibe.com', phone: '+1 555-0105', amount: 150.00, status: 'Success', joinedDate: '2023-10-05', plan: 'Premium', category: 'Movie', lastLogin: 'Just now', ipAddress: '192.168.1.44', device: 'Mobile', verified: true },
-    { id: '6', user: 'Sasha Grey', email: 's@vibe.com', phone: '+1 555-0106', amount: 59.00, status: 'Success', joinedDate: '2024-01-20', plan: 'Premium', category: 'Live', lastLogin: '12h ago', ipAddress: '88.2.14.21', device: 'Desktop', verified: true },
-]
-
-
-
-import type { ColumnFiltersState, Row } from "@tanstack/react-table"
 import { toast } from "sonner"
+import { Table } from "@/components/table/data-table"
 import { downloadCSV } from "@/lib/utils"
+import { getTransactions } from "../../server/dahboard.functions"
+import type { Transaction } from "../../server/mock-data"
+import { userColumns } from "./user-columns"
 
 export function RecentActivityTable() {
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
     const [rowSelection, setRowSelection] = React.useState({})
 
+    const { data: transactions = [], isLoading, isError } = useQuery({
+        queryKey: ["transactions"],
+        queryFn: () => getTransactions(),
+    })
     const table = useReactTable({
-        data,
+        data: transactions,
         columns: userColumns,
         state: { columnFilters, rowSelection },
         onColumnFiltersChange: setColumnFilters,
@@ -65,7 +45,9 @@ export function RecentActivityTable() {
     const handleDelete = (rows: Row<Transaction>[]) => {
         const selectedIds = rows.map(r => r.original.id)
         console.log("Deleting Transactions:", selectedIds)
-        // table.resetRowSelection() // Optional: clear selection after delete
+        toast.success("Deleted", {
+            description: `${rows.length} transaction(s) have been deleted.`
+        })
     }
 
     const handleDownload = (rows: Row<Transaction>[]) => {
@@ -81,7 +63,7 @@ export function RecentActivityTable() {
             });
         }
     }
-
+    if (isError) return <div className="p-8 text-center text-destructive">Failed to load data.</div>
     return (
         <Table.Root table={table}>
             <div className="space-y-6">
@@ -112,7 +94,7 @@ export function RecentActivityTable() {
                         </div>
                     </div>
                 </div>
-                {false ? (
+                {isLoading ? (
                     <Table.Loading columnsCount={userColumns.length} rowsCount={6} />
                 ) : (
                     <Table.Body columnsCount={userColumns.length} />

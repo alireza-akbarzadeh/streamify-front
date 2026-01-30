@@ -1,6 +1,7 @@
 // domains/dashboard/server/dashboard.functions.ts
 import { createServerFn } from "@tanstack/react-start";
 import { dashboard_SIDEBAR } from "@/config/admin-sidebar";
+import { transactions } from "./mock-data";
 
 export const getSidebarData = createServerFn({ method: "GET" })
 	.inputValidator((role: string) => role)
@@ -18,3 +19,10 @@ export const getSidebarData = createServerFn({ method: "GET" })
 
 		return filteredSidebar;
 	});
+
+export const getTransactions = createServerFn({ method: "GET" }).handler(
+	async () => {
+		await new Promise((resolve) => setTimeout(resolve, 1500));
+		return transactions;
+	},
+);

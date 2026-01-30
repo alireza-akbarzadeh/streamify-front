@@ -19,7 +19,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { cn } from '@/lib/utils'
-import type { Transaction } from "./recent-activity-table"
+import type { Transaction } from "../../server/mock-data"
 
 export const userColumns: ColumnDef<Transaction>[] = [
     {
@@ -29,7 +29,7 @@ export const userColumns: ColumnDef<Transaction>[] = [
                 checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
                 onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
                 aria-label="Select all"
-                className="translate-y-[2px] border-muted-foreground/50"
+                className="translate-y-0.5 border-muted-foreground/50"
             />
         ),
         cell: ({ row }) => (
@@ -37,7 +37,7 @@ export const userColumns: ColumnDef<Transaction>[] = [
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
                 aria-label="Select row"
-                className="translate-y-[2px] border-muted-foreground/50"
+                className="translate-y-0.5 border-muted-foreground/50"
             />
         ),
     },
@@ -136,6 +136,29 @@ export const userColumns: ColumnDef<Transaction>[] = [
                 </span>
             </div>
         )
+    },
+    {
+        accessorKey: "location",
+        header: "Location",
+        cell: ({ row }) => <span className="text-muted-foreground">{row.original.location}</span>
+    },
+    {
+        accessorKey: "riskScore",
+        header: "Risk",
+        cell: ({ row }) => {
+            const score = row.original.riskScore
+            return (
+                <div className="flex items-center gap-2">
+                    <div className="h-1.5 w-12 bg-muted rounded-full overflow-hidden">
+                        <div
+                            className={cn("h-full", score > 0.5 ? "bg-destructive" : "bg-emerald-500")}
+                            style={{ width: `${score * 100}%` }}
+                        />
+                    </div>
+                    <span className="text-[10px] font-mono">{(score * 100).toFixed(0)}%</span>
+                </div>
+            )
+        }
     },
     {
         id: "actions",
