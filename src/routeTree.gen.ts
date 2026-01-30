@@ -28,11 +28,12 @@ import { Route as authRegisterRouteImport } from './routes/(auth)/register'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
 import { Route as homeMusicRouteRouteImport } from './routes/(home)/music/route'
+import { Route as adminDashboardRouteRouteImport } from './routes/(admin)/dashboard/route'
 import { Route as homeMusicIndexRouteImport } from './routes/(home)/music/index'
 import { Route as homeMoviesIndexRouteImport } from './routes/(home)/movies/index'
 import { Route as homeLibraryIndexRouteImport } from './routes/(home)/library/index'
 import { Route as blogBlogIndexRouteImport } from './routes/(blog)/blog/index'
-import { Route as adminSettingIndexRouteImport } from './routes/(admin)/setting/index'
+import { Route as adminDashboardIndexRouteImport } from './routes/(admin)/dashboard/index'
 import { Route as homePlayPlayIdRouteImport } from './routes/(home)/play/$playId'
 import { Route as homeMusicSearchRouteImport } from './routes/(home)/music/search'
 import { Route as homeMusicLibraryRouteImport } from './routes/(home)/music/library'
@@ -42,6 +43,51 @@ import { Route as homeLibraryProfileRouteImport } from './routes/(home)/library/
 import { Route as homeExploreSectionRouteImport } from './routes/(home)/explore/$section'
 import { Route as blogBlogProfileRouteImport } from './routes/(blog)/blog/profile'
 import { Route as blogBlogBlogslugRouteImport } from './routes/(blog)/blog/$blogslug'
+import { Route as adminDashboardUsersIndexRouteImport } from './routes/(admin)/dashboard/users/index'
+import { Route as adminDashboardSupportIndexRouteImport } from './routes/(admin)/dashboard/support/index'
+import { Route as adminDashboardStreamsIndexRouteImport } from './routes/(admin)/dashboard/streams/index'
+import { Route as adminDashboardSettingsIndexRouteImport } from './routes/(admin)/dashboard/settings/index'
+import { Route as adminDashboardRolesIndexRouteImport } from './routes/(admin)/dashboard/roles/index'
+import { Route as adminDashboardReportsIndexRouteImport } from './routes/(admin)/dashboard/reports/index'
+import { Route as adminDashboardRecommendationsIndexRouteImport } from './routes/(admin)/dashboard/recommendations/index'
+import { Route as adminDashboardPaymentsIndexRouteImport } from './routes/(admin)/dashboard/payments/index'
+import { Route as adminDashboardNotificationsIndexRouteImport } from './routes/(admin)/dashboard/notifications/index'
+import { Route as adminDashboardMoviesIndexRouteImport } from './routes/(admin)/dashboard/movies/index'
+import { Route as adminDashboardMonitoringIndexRouteImport } from './routes/(admin)/dashboard/monitoring/index'
+import { Route as adminDashboardMediaIndexRouteImport } from './routes/(admin)/dashboard/media/index'
+import { Route as adminDashboardLogsIndexRouteImport } from './routes/(admin)/dashboard/logs/index'
+import { Route as adminDashboardDrmIndexRouteImport } from './routes/(admin)/dashboard/drm/index'
+import { Route as adminDashboardBackupsIndexRouteImport } from './routes/(admin)/dashboard/backups/index'
+import { Route as adminDashboardAuditLogsIndexRouteImport } from './routes/(admin)/dashboard/audit-logs/index'
+import { Route as adminDashboardAnalyticsIndexRouteImport } from './routes/(admin)/dashboard/analytics/index'
+import { Route as adminDashboardUsersUserIdRouteImport } from './routes/(admin)/dashboard/users/$userId'
+import { Route as adminDashboardSupportTicketIdRouteImport } from './routes/(admin)/dashboard/support/$ticketId'
+import { Route as adminDashboardPaymentsPaymentIdRouteImport } from './routes/(admin)/dashboard/payments/$paymentId'
+import { Route as adminDashboardMoviesCreateRouteImport } from './routes/(admin)/dashboard/movies/create'
+import { Route as adminDashboardMoviesMovieIdRouteImport } from './routes/(admin)/dashboard/movies/$movieId'
+import { Route as adminDashboardMediaMediaIdRouteImport } from './routes/(admin)/dashboard/media/$mediaId'
+import { Route as adminDashboardSubscriptionsUsersIndexRouteImport } from './routes/(admin)/dashboard/subscriptions/users/index'
+import { Route as adminDashboardSubscriptionsPlansIndexRouteImport } from './routes/(admin)/dashboard/subscriptions/plans/index'
+import { Route as adminDashboardSettingsLocalizationIndexRouteImport } from './routes/(admin)/dashboard/settings/localization/index'
+import { Route as adminDashboardSettingsIntegrationsIndexRouteImport } from './routes/(admin)/dashboard/settings/integrations/index'
+import { Route as adminDashboardSettingsGeneralIndexRouteImport } from './routes/(admin)/dashboard/settings/general/index'
+import { Route as adminDashboardSettingsFeaturesIndexRouteImport } from './routes/(admin)/dashboard/settings/features/index'
+import { Route as adminDashboardPlaybackErrorsIndexRouteImport } from './routes/(admin)/dashboard/playback/errors/index'
+import { Route as adminDashboardNotificationsCreateIndexRouteImport } from './routes/(admin)/dashboard/notifications/create/index'
+import { Route as adminDashboardNotificationsCampaignsIndexRouteImport } from './routes/(admin)/dashboard/notifications/campaigns/index'
+import { Route as adminDashboardMusicArtistsIndexRouteImport } from './routes/(admin)/dashboard/music/artists/index'
+import { Route as adminDashboardMusicAlbumsIndexRouteImport } from './routes/(admin)/dashboard/music/albums/index'
+import { Route as adminDashboardModerationReportsIndexRouteImport } from './routes/(admin)/dashboard/moderation/reports/index'
+import { Route as adminDashboardModerationRegionBlocksIndexRouteImport } from './routes/(admin)/dashboard/moderation/region-blocks/index'
+import { Route as adminDashboardModerationDmcaIndexRouteImport } from './routes/(admin)/dashboard/moderation/dmca/index'
+import { Route as adminDashboardMediaUploadsIndexRouteImport } from './routes/(admin)/dashboard/media/uploads/index'
+import { Route as adminDashboardLegalTermsIndexRouteImport } from './routes/(admin)/dashboard/legal/terms/index'
+import { Route as adminDashboardAnalyticsUsersIndexRouteImport } from './routes/(admin)/dashboard/analytics/users/index'
+import { Route as adminDashboardAnalyticsReportsIndexRouteImport } from './routes/(admin)/dashboard/analytics/reports/index'
+import { Route as adminDashboardAnalyticsContentIndexRouteImport } from './routes/(admin)/dashboard/analytics/content/index'
+import { Route as adminDashboardMusicArtistsArtistIdRouteImport } from './routes/(admin)/dashboard/music/artists/$artistId'
+import { Route as adminDashboardMusicAlbumsAlbumIdRouteImport } from './routes/(admin)/dashboard/music/albums/$albumId'
+import { Route as adminDashboardMusicAlbumsTracksIndexRouteImport } from './routes/(admin)/dashboard/music/albums/tracks/index'
 
 const homeIndexRoute = homeIndexRouteImport.update({
   id: '/(home)/',
@@ -138,6 +184,11 @@ const homeMusicRouteRoute = homeMusicRouteRouteImport.update({
   path: '/music',
   getParentRoute: () => rootRouteImport,
 } as any)
+const adminDashboardRouteRoute = adminDashboardRouteRouteImport.update({
+  id: '/(admin)/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const homeMusicIndexRoute = homeMusicIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -158,10 +209,10 @@ const blogBlogIndexRoute = blogBlogIndexRouteImport.update({
   path: '/blog/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const adminSettingIndexRoute = adminSettingIndexRouteImport.update({
-  id: '/(admin)/setting/',
-  path: '/setting/',
-  getParentRoute: () => rootRouteImport,
+const adminDashboardIndexRoute = adminDashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => adminDashboardRouteRoute,
 } as any)
 const homePlayPlayIdRoute = homePlayPlayIdRouteImport.update({
   id: '/(home)/play/$playId',
@@ -208,8 +259,277 @@ const blogBlogBlogslugRoute = blogBlogBlogslugRouteImport.update({
   path: '/blog/$blogslug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const adminDashboardUsersIndexRoute =
+  adminDashboardUsersIndexRouteImport.update({
+    id: '/users/',
+    path: '/users/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardSupportIndexRoute =
+  adminDashboardSupportIndexRouteImport.update({
+    id: '/support/',
+    path: '/support/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardStreamsIndexRoute =
+  adminDashboardStreamsIndexRouteImport.update({
+    id: '/streams/',
+    path: '/streams/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardSettingsIndexRoute =
+  adminDashboardSettingsIndexRouteImport.update({
+    id: '/settings/',
+    path: '/settings/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardRolesIndexRoute =
+  adminDashboardRolesIndexRouteImport.update({
+    id: '/roles/',
+    path: '/roles/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardReportsIndexRoute =
+  adminDashboardReportsIndexRouteImport.update({
+    id: '/reports/',
+    path: '/reports/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardRecommendationsIndexRoute =
+  adminDashboardRecommendationsIndexRouteImport.update({
+    id: '/recommendations/',
+    path: '/recommendations/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardPaymentsIndexRoute =
+  adminDashboardPaymentsIndexRouteImport.update({
+    id: '/payments/',
+    path: '/payments/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardNotificationsIndexRoute =
+  adminDashboardNotificationsIndexRouteImport.update({
+    id: '/notifications/',
+    path: '/notifications/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardMoviesIndexRoute =
+  adminDashboardMoviesIndexRouteImport.update({
+    id: '/movies/',
+    path: '/movies/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardMonitoringIndexRoute =
+  adminDashboardMonitoringIndexRouteImport.update({
+    id: '/monitoring/',
+    path: '/monitoring/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardMediaIndexRoute =
+  adminDashboardMediaIndexRouteImport.update({
+    id: '/media/',
+    path: '/media/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardLogsIndexRoute = adminDashboardLogsIndexRouteImport.update({
+  id: '/logs/',
+  path: '/logs/',
+  getParentRoute: () => adminDashboardRouteRoute,
+} as any)
+const adminDashboardDrmIndexRoute = adminDashboardDrmIndexRouteImport.update({
+  id: '/drm/',
+  path: '/drm/',
+  getParentRoute: () => adminDashboardRouteRoute,
+} as any)
+const adminDashboardBackupsIndexRoute =
+  adminDashboardBackupsIndexRouteImport.update({
+    id: '/backups/',
+    path: '/backups/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardAuditLogsIndexRoute =
+  adminDashboardAuditLogsIndexRouteImport.update({
+    id: '/audit-logs/',
+    path: '/audit-logs/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardAnalyticsIndexRoute =
+  adminDashboardAnalyticsIndexRouteImport.update({
+    id: '/analytics/',
+    path: '/analytics/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardUsersUserIdRoute =
+  adminDashboardUsersUserIdRouteImport.update({
+    id: '/users/$userId',
+    path: '/users/$userId',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardSupportTicketIdRoute =
+  adminDashboardSupportTicketIdRouteImport.update({
+    id: '/support/$ticketId',
+    path: '/support/$ticketId',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardPaymentsPaymentIdRoute =
+  adminDashboardPaymentsPaymentIdRouteImport.update({
+    id: '/payments/$paymentId',
+    path: '/payments/$paymentId',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardMoviesCreateRoute =
+  adminDashboardMoviesCreateRouteImport.update({
+    id: '/movies/create',
+    path: '/movies/create',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardMoviesMovieIdRoute =
+  adminDashboardMoviesMovieIdRouteImport.update({
+    id: '/movies/$movieId',
+    path: '/movies/$movieId',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardMediaMediaIdRoute =
+  adminDashboardMediaMediaIdRouteImport.update({
+    id: '/media/$mediaId',
+    path: '/media/$mediaId',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardSubscriptionsUsersIndexRoute =
+  adminDashboardSubscriptionsUsersIndexRouteImport.update({
+    id: '/subscriptions/users/',
+    path: '/subscriptions/users/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardSubscriptionsPlansIndexRoute =
+  adminDashboardSubscriptionsPlansIndexRouteImport.update({
+    id: '/subscriptions/plans/',
+    path: '/subscriptions/plans/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardSettingsLocalizationIndexRoute =
+  adminDashboardSettingsLocalizationIndexRouteImport.update({
+    id: '/settings/localization/',
+    path: '/settings/localization/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardSettingsIntegrationsIndexRoute =
+  adminDashboardSettingsIntegrationsIndexRouteImport.update({
+    id: '/settings/integrations/',
+    path: '/settings/integrations/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardSettingsGeneralIndexRoute =
+  adminDashboardSettingsGeneralIndexRouteImport.update({
+    id: '/settings/general/',
+    path: '/settings/general/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardSettingsFeaturesIndexRoute =
+  adminDashboardSettingsFeaturesIndexRouteImport.update({
+    id: '/settings/features/',
+    path: '/settings/features/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardPlaybackErrorsIndexRoute =
+  adminDashboardPlaybackErrorsIndexRouteImport.update({
+    id: '/playback/errors/',
+    path: '/playback/errors/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardNotificationsCreateIndexRoute =
+  adminDashboardNotificationsCreateIndexRouteImport.update({
+    id: '/notifications/create/',
+    path: '/notifications/create/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardNotificationsCampaignsIndexRoute =
+  adminDashboardNotificationsCampaignsIndexRouteImport.update({
+    id: '/notifications/campaigns/',
+    path: '/notifications/campaigns/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardMusicArtistsIndexRoute =
+  adminDashboardMusicArtistsIndexRouteImport.update({
+    id: '/music/artists/',
+    path: '/music/artists/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardMusicAlbumsIndexRoute =
+  adminDashboardMusicAlbumsIndexRouteImport.update({
+    id: '/music/albums/',
+    path: '/music/albums/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardModerationReportsIndexRoute =
+  adminDashboardModerationReportsIndexRouteImport.update({
+    id: '/moderation/reports/',
+    path: '/moderation/reports/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardModerationRegionBlocksIndexRoute =
+  adminDashboardModerationRegionBlocksIndexRouteImport.update({
+    id: '/moderation/region-blocks/',
+    path: '/moderation/region-blocks/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardModerationDmcaIndexRoute =
+  adminDashboardModerationDmcaIndexRouteImport.update({
+    id: '/moderation/dmca/',
+    path: '/moderation/dmca/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardMediaUploadsIndexRoute =
+  adminDashboardMediaUploadsIndexRouteImport.update({
+    id: '/media/uploads/',
+    path: '/media/uploads/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardLegalTermsIndexRoute =
+  adminDashboardLegalTermsIndexRouteImport.update({
+    id: '/legal/terms/',
+    path: '/legal/terms/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardAnalyticsUsersIndexRoute =
+  adminDashboardAnalyticsUsersIndexRouteImport.update({
+    id: '/analytics/users/',
+    path: '/analytics/users/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardAnalyticsReportsIndexRoute =
+  adminDashboardAnalyticsReportsIndexRouteImport.update({
+    id: '/analytics/reports/',
+    path: '/analytics/reports/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardAnalyticsContentIndexRoute =
+  adminDashboardAnalyticsContentIndexRouteImport.update({
+    id: '/analytics/content/',
+    path: '/analytics/content/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardMusicArtistsArtistIdRoute =
+  adminDashboardMusicArtistsArtistIdRouteImport.update({
+    id: '/music/artists/$artistId',
+    path: '/music/artists/$artistId',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardMusicAlbumsAlbumIdRoute =
+  adminDashboardMusicAlbumsAlbumIdRouteImport.update({
+    id: '/music/albums/$albumId',
+    path: '/music/albums/$albumId',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
+const adminDashboardMusicAlbumsTracksIndexRoute =
+  adminDashboardMusicAlbumsTracksIndexRouteImport.update({
+    id: '/music/albums/tracks/',
+    path: '/music/albums/tracks/',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
+  '/dashboard': typeof adminDashboardRouteRouteWithChildren
   '/music': typeof homeMusicRouteRouteWithChildren
   '/forgot-password': typeof authForgotPasswordRoute
   '/login': typeof authLoginRoute
@@ -238,11 +558,56 @@ export interface FileRoutesByFullPath {
   '/music/library': typeof homeMusicLibraryRoute
   '/music/search': typeof homeMusicSearchRoute
   '/play/$playId': typeof homePlayPlayIdRoute
-  '/setting': typeof adminSettingIndexRoute
+  '/dashboard/': typeof adminDashboardIndexRoute
   '/blog': typeof blogBlogIndexRoute
   '/library': typeof homeLibraryIndexRoute
   '/movies': typeof homeMoviesIndexRoute
   '/music/': typeof homeMusicIndexRoute
+  '/dashboard/media/$mediaId': typeof adminDashboardMediaMediaIdRoute
+  '/dashboard/movies/$movieId': typeof adminDashboardMoviesMovieIdRoute
+  '/dashboard/movies/create': typeof adminDashboardMoviesCreateRoute
+  '/dashboard/payments/$paymentId': typeof adminDashboardPaymentsPaymentIdRoute
+  '/dashboard/support/$ticketId': typeof adminDashboardSupportTicketIdRoute
+  '/dashboard/users/$userId': typeof adminDashboardUsersUserIdRoute
+  '/dashboard/analytics': typeof adminDashboardAnalyticsIndexRoute
+  '/dashboard/audit-logs': typeof adminDashboardAuditLogsIndexRoute
+  '/dashboard/backups': typeof adminDashboardBackupsIndexRoute
+  '/dashboard/drm': typeof adminDashboardDrmIndexRoute
+  '/dashboard/logs': typeof adminDashboardLogsIndexRoute
+  '/dashboard/media': typeof adminDashboardMediaIndexRoute
+  '/dashboard/monitoring': typeof adminDashboardMonitoringIndexRoute
+  '/dashboard/movies': typeof adminDashboardMoviesIndexRoute
+  '/dashboard/notifications': typeof adminDashboardNotificationsIndexRoute
+  '/dashboard/payments': typeof adminDashboardPaymentsIndexRoute
+  '/dashboard/recommendations': typeof adminDashboardRecommendationsIndexRoute
+  '/dashboard/reports': typeof adminDashboardReportsIndexRoute
+  '/dashboard/roles': typeof adminDashboardRolesIndexRoute
+  '/dashboard/settings': typeof adminDashboardSettingsIndexRoute
+  '/dashboard/streams': typeof adminDashboardStreamsIndexRoute
+  '/dashboard/support': typeof adminDashboardSupportIndexRoute
+  '/dashboard/users': typeof adminDashboardUsersIndexRoute
+  '/dashboard/music/albums/$albumId': typeof adminDashboardMusicAlbumsAlbumIdRoute
+  '/dashboard/music/artists/$artistId': typeof adminDashboardMusicArtistsArtistIdRoute
+  '/dashboard/analytics/content': typeof adminDashboardAnalyticsContentIndexRoute
+  '/dashboard/analytics/reports': typeof adminDashboardAnalyticsReportsIndexRoute
+  '/dashboard/analytics/users': typeof adminDashboardAnalyticsUsersIndexRoute
+  '/dashboard/legal/terms': typeof adminDashboardLegalTermsIndexRoute
+  '/dashboard/media/uploads': typeof adminDashboardMediaUploadsIndexRoute
+  '/dashboard/moderation/dmca': typeof adminDashboardModerationDmcaIndexRoute
+  '/dashboard/moderation/region-blocks': typeof adminDashboardModerationRegionBlocksIndexRoute
+  '/dashboard/moderation/reports': typeof adminDashboardModerationReportsIndexRoute
+  '/dashboard/music/albums': typeof adminDashboardMusicAlbumsIndexRoute
+  '/dashboard/music/artists': typeof adminDashboardMusicArtistsIndexRoute
+  '/dashboard/notifications/campaigns': typeof adminDashboardNotificationsCampaignsIndexRoute
+  '/dashboard/notifications/create': typeof adminDashboardNotificationsCreateIndexRoute
+  '/dashboard/playback/errors': typeof adminDashboardPlaybackErrorsIndexRoute
+  '/dashboard/settings/features': typeof adminDashboardSettingsFeaturesIndexRoute
+  '/dashboard/settings/general': typeof adminDashboardSettingsGeneralIndexRoute
+  '/dashboard/settings/integrations': typeof adminDashboardSettingsIntegrationsIndexRoute
+  '/dashboard/settings/localization': typeof adminDashboardSettingsLocalizationIndexRoute
+  '/dashboard/subscriptions/plans': typeof adminDashboardSubscriptionsPlansIndexRoute
+  '/dashboard/subscriptions/users': typeof adminDashboardSubscriptionsUsersIndexRoute
+  '/dashboard/music/albums/tracks': typeof adminDashboardMusicAlbumsTracksIndexRoute
 }
 export interface FileRoutesByTo {
   '/forgot-password': typeof authForgotPasswordRoute
@@ -272,14 +637,60 @@ export interface FileRoutesByTo {
   '/music/library': typeof homeMusicLibraryRoute
   '/music/search': typeof homeMusicSearchRoute
   '/play/$playId': typeof homePlayPlayIdRoute
-  '/setting': typeof adminSettingIndexRoute
+  '/dashboard': typeof adminDashboardIndexRoute
   '/blog': typeof blogBlogIndexRoute
   '/library': typeof homeLibraryIndexRoute
   '/movies': typeof homeMoviesIndexRoute
   '/music': typeof homeMusicIndexRoute
+  '/dashboard/media/$mediaId': typeof adminDashboardMediaMediaIdRoute
+  '/dashboard/movies/$movieId': typeof adminDashboardMoviesMovieIdRoute
+  '/dashboard/movies/create': typeof adminDashboardMoviesCreateRoute
+  '/dashboard/payments/$paymentId': typeof adminDashboardPaymentsPaymentIdRoute
+  '/dashboard/support/$ticketId': typeof adminDashboardSupportTicketIdRoute
+  '/dashboard/users/$userId': typeof adminDashboardUsersUserIdRoute
+  '/dashboard/analytics': typeof adminDashboardAnalyticsIndexRoute
+  '/dashboard/audit-logs': typeof adminDashboardAuditLogsIndexRoute
+  '/dashboard/backups': typeof adminDashboardBackupsIndexRoute
+  '/dashboard/drm': typeof adminDashboardDrmIndexRoute
+  '/dashboard/logs': typeof adminDashboardLogsIndexRoute
+  '/dashboard/media': typeof adminDashboardMediaIndexRoute
+  '/dashboard/monitoring': typeof adminDashboardMonitoringIndexRoute
+  '/dashboard/movies': typeof adminDashboardMoviesIndexRoute
+  '/dashboard/notifications': typeof adminDashboardNotificationsIndexRoute
+  '/dashboard/payments': typeof adminDashboardPaymentsIndexRoute
+  '/dashboard/recommendations': typeof adminDashboardRecommendationsIndexRoute
+  '/dashboard/reports': typeof adminDashboardReportsIndexRoute
+  '/dashboard/roles': typeof adminDashboardRolesIndexRoute
+  '/dashboard/settings': typeof adminDashboardSettingsIndexRoute
+  '/dashboard/streams': typeof adminDashboardStreamsIndexRoute
+  '/dashboard/support': typeof adminDashboardSupportIndexRoute
+  '/dashboard/users': typeof adminDashboardUsersIndexRoute
+  '/dashboard/music/albums/$albumId': typeof adminDashboardMusicAlbumsAlbumIdRoute
+  '/dashboard/music/artists/$artistId': typeof adminDashboardMusicArtistsArtistIdRoute
+  '/dashboard/analytics/content': typeof adminDashboardAnalyticsContentIndexRoute
+  '/dashboard/analytics/reports': typeof adminDashboardAnalyticsReportsIndexRoute
+  '/dashboard/analytics/users': typeof adminDashboardAnalyticsUsersIndexRoute
+  '/dashboard/legal/terms': typeof adminDashboardLegalTermsIndexRoute
+  '/dashboard/media/uploads': typeof adminDashboardMediaUploadsIndexRoute
+  '/dashboard/moderation/dmca': typeof adminDashboardModerationDmcaIndexRoute
+  '/dashboard/moderation/region-blocks': typeof adminDashboardModerationRegionBlocksIndexRoute
+  '/dashboard/moderation/reports': typeof adminDashboardModerationReportsIndexRoute
+  '/dashboard/music/albums': typeof adminDashboardMusicAlbumsIndexRoute
+  '/dashboard/music/artists': typeof adminDashboardMusicArtistsIndexRoute
+  '/dashboard/notifications/campaigns': typeof adminDashboardNotificationsCampaignsIndexRoute
+  '/dashboard/notifications/create': typeof adminDashboardNotificationsCreateIndexRoute
+  '/dashboard/playback/errors': typeof adminDashboardPlaybackErrorsIndexRoute
+  '/dashboard/settings/features': typeof adminDashboardSettingsFeaturesIndexRoute
+  '/dashboard/settings/general': typeof adminDashboardSettingsGeneralIndexRoute
+  '/dashboard/settings/integrations': typeof adminDashboardSettingsIntegrationsIndexRoute
+  '/dashboard/settings/localization': typeof adminDashboardSettingsLocalizationIndexRoute
+  '/dashboard/subscriptions/plans': typeof adminDashboardSubscriptionsPlansIndexRoute
+  '/dashboard/subscriptions/users': typeof adminDashboardSubscriptionsUsersIndexRoute
+  '/dashboard/music/albums/tracks': typeof adminDashboardMusicAlbumsTracksIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/(admin)/dashboard': typeof adminDashboardRouteRouteWithChildren
   '/(home)/music': typeof homeMusicRouteRouteWithChildren
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
   '/(auth)/login': typeof authLoginRoute
@@ -308,15 +719,61 @@ export interface FileRoutesById {
   '/(home)/music/library': typeof homeMusicLibraryRoute
   '/(home)/music/search': typeof homeMusicSearchRoute
   '/(home)/play/$playId': typeof homePlayPlayIdRoute
-  '/(admin)/setting/': typeof adminSettingIndexRoute
+  '/(admin)/dashboard/': typeof adminDashboardIndexRoute
   '/(blog)/blog/': typeof blogBlogIndexRoute
   '/(home)/library/': typeof homeLibraryIndexRoute
   '/(home)/movies/': typeof homeMoviesIndexRoute
   '/(home)/music/': typeof homeMusicIndexRoute
+  '/(admin)/dashboard/media/$mediaId': typeof adminDashboardMediaMediaIdRoute
+  '/(admin)/dashboard/movies/$movieId': typeof adminDashboardMoviesMovieIdRoute
+  '/(admin)/dashboard/movies/create': typeof adminDashboardMoviesCreateRoute
+  '/(admin)/dashboard/payments/$paymentId': typeof adminDashboardPaymentsPaymentIdRoute
+  '/(admin)/dashboard/support/$ticketId': typeof adminDashboardSupportTicketIdRoute
+  '/(admin)/dashboard/users/$userId': typeof adminDashboardUsersUserIdRoute
+  '/(admin)/dashboard/analytics/': typeof adminDashboardAnalyticsIndexRoute
+  '/(admin)/dashboard/audit-logs/': typeof adminDashboardAuditLogsIndexRoute
+  '/(admin)/dashboard/backups/': typeof adminDashboardBackupsIndexRoute
+  '/(admin)/dashboard/drm/': typeof adminDashboardDrmIndexRoute
+  '/(admin)/dashboard/logs/': typeof adminDashboardLogsIndexRoute
+  '/(admin)/dashboard/media/': typeof adminDashboardMediaIndexRoute
+  '/(admin)/dashboard/monitoring/': typeof adminDashboardMonitoringIndexRoute
+  '/(admin)/dashboard/movies/': typeof adminDashboardMoviesIndexRoute
+  '/(admin)/dashboard/notifications/': typeof adminDashboardNotificationsIndexRoute
+  '/(admin)/dashboard/payments/': typeof adminDashboardPaymentsIndexRoute
+  '/(admin)/dashboard/recommendations/': typeof adminDashboardRecommendationsIndexRoute
+  '/(admin)/dashboard/reports/': typeof adminDashboardReportsIndexRoute
+  '/(admin)/dashboard/roles/': typeof adminDashboardRolesIndexRoute
+  '/(admin)/dashboard/settings/': typeof adminDashboardSettingsIndexRoute
+  '/(admin)/dashboard/streams/': typeof adminDashboardStreamsIndexRoute
+  '/(admin)/dashboard/support/': typeof adminDashboardSupportIndexRoute
+  '/(admin)/dashboard/users/': typeof adminDashboardUsersIndexRoute
+  '/(admin)/dashboard/music/albums/$albumId': typeof adminDashboardMusicAlbumsAlbumIdRoute
+  '/(admin)/dashboard/music/artists/$artistId': typeof adminDashboardMusicArtistsArtistIdRoute
+  '/(admin)/dashboard/analytics/content/': typeof adminDashboardAnalyticsContentIndexRoute
+  '/(admin)/dashboard/analytics/reports/': typeof adminDashboardAnalyticsReportsIndexRoute
+  '/(admin)/dashboard/analytics/users/': typeof adminDashboardAnalyticsUsersIndexRoute
+  '/(admin)/dashboard/legal/terms/': typeof adminDashboardLegalTermsIndexRoute
+  '/(admin)/dashboard/media/uploads/': typeof adminDashboardMediaUploadsIndexRoute
+  '/(admin)/dashboard/moderation/dmca/': typeof adminDashboardModerationDmcaIndexRoute
+  '/(admin)/dashboard/moderation/region-blocks/': typeof adminDashboardModerationRegionBlocksIndexRoute
+  '/(admin)/dashboard/moderation/reports/': typeof adminDashboardModerationReportsIndexRoute
+  '/(admin)/dashboard/music/albums/': typeof adminDashboardMusicAlbumsIndexRoute
+  '/(admin)/dashboard/music/artists/': typeof adminDashboardMusicArtistsIndexRoute
+  '/(admin)/dashboard/notifications/campaigns/': typeof adminDashboardNotificationsCampaignsIndexRoute
+  '/(admin)/dashboard/notifications/create/': typeof adminDashboardNotificationsCreateIndexRoute
+  '/(admin)/dashboard/playback/errors/': typeof adminDashboardPlaybackErrorsIndexRoute
+  '/(admin)/dashboard/settings/features/': typeof adminDashboardSettingsFeaturesIndexRoute
+  '/(admin)/dashboard/settings/general/': typeof adminDashboardSettingsGeneralIndexRoute
+  '/(admin)/dashboard/settings/integrations/': typeof adminDashboardSettingsIntegrationsIndexRoute
+  '/(admin)/dashboard/settings/localization/': typeof adminDashboardSettingsLocalizationIndexRoute
+  '/(admin)/dashboard/subscriptions/plans/': typeof adminDashboardSubscriptionsPlansIndexRoute
+  '/(admin)/dashboard/subscriptions/users/': typeof adminDashboardSubscriptionsUsersIndexRoute
+  '/(admin)/dashboard/music/albums/tracks/': typeof adminDashboardMusicAlbumsTracksIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/dashboard'
     | '/music'
     | '/forgot-password'
     | '/login'
@@ -345,11 +802,56 @@ export interface FileRouteTypes {
     | '/music/library'
     | '/music/search'
     | '/play/$playId'
-    | '/setting'
+    | '/dashboard/'
     | '/blog'
     | '/library'
     | '/movies'
     | '/music/'
+    | '/dashboard/media/$mediaId'
+    | '/dashboard/movies/$movieId'
+    | '/dashboard/movies/create'
+    | '/dashboard/payments/$paymentId'
+    | '/dashboard/support/$ticketId'
+    | '/dashboard/users/$userId'
+    | '/dashboard/analytics'
+    | '/dashboard/audit-logs'
+    | '/dashboard/backups'
+    | '/dashboard/drm'
+    | '/dashboard/logs'
+    | '/dashboard/media'
+    | '/dashboard/monitoring'
+    | '/dashboard/movies'
+    | '/dashboard/notifications'
+    | '/dashboard/payments'
+    | '/dashboard/recommendations'
+    | '/dashboard/reports'
+    | '/dashboard/roles'
+    | '/dashboard/settings'
+    | '/dashboard/streams'
+    | '/dashboard/support'
+    | '/dashboard/users'
+    | '/dashboard/music/albums/$albumId'
+    | '/dashboard/music/artists/$artistId'
+    | '/dashboard/analytics/content'
+    | '/dashboard/analytics/reports'
+    | '/dashboard/analytics/users'
+    | '/dashboard/legal/terms'
+    | '/dashboard/media/uploads'
+    | '/dashboard/moderation/dmca'
+    | '/dashboard/moderation/region-blocks'
+    | '/dashboard/moderation/reports'
+    | '/dashboard/music/albums'
+    | '/dashboard/music/artists'
+    | '/dashboard/notifications/campaigns'
+    | '/dashboard/notifications/create'
+    | '/dashboard/playback/errors'
+    | '/dashboard/settings/features'
+    | '/dashboard/settings/general'
+    | '/dashboard/settings/integrations'
+    | '/dashboard/settings/localization'
+    | '/dashboard/subscriptions/plans'
+    | '/dashboard/subscriptions/users'
+    | '/dashboard/music/albums/tracks'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/forgot-password'
@@ -379,13 +881,59 @@ export interface FileRouteTypes {
     | '/music/library'
     | '/music/search'
     | '/play/$playId'
-    | '/setting'
+    | '/dashboard'
     | '/blog'
     | '/library'
     | '/movies'
     | '/music'
+    | '/dashboard/media/$mediaId'
+    | '/dashboard/movies/$movieId'
+    | '/dashboard/movies/create'
+    | '/dashboard/payments/$paymentId'
+    | '/dashboard/support/$ticketId'
+    | '/dashboard/users/$userId'
+    | '/dashboard/analytics'
+    | '/dashboard/audit-logs'
+    | '/dashboard/backups'
+    | '/dashboard/drm'
+    | '/dashboard/logs'
+    | '/dashboard/media'
+    | '/dashboard/monitoring'
+    | '/dashboard/movies'
+    | '/dashboard/notifications'
+    | '/dashboard/payments'
+    | '/dashboard/recommendations'
+    | '/dashboard/reports'
+    | '/dashboard/roles'
+    | '/dashboard/settings'
+    | '/dashboard/streams'
+    | '/dashboard/support'
+    | '/dashboard/users'
+    | '/dashboard/music/albums/$albumId'
+    | '/dashboard/music/artists/$artistId'
+    | '/dashboard/analytics/content'
+    | '/dashboard/analytics/reports'
+    | '/dashboard/analytics/users'
+    | '/dashboard/legal/terms'
+    | '/dashboard/media/uploads'
+    | '/dashboard/moderation/dmca'
+    | '/dashboard/moderation/region-blocks'
+    | '/dashboard/moderation/reports'
+    | '/dashboard/music/albums'
+    | '/dashboard/music/artists'
+    | '/dashboard/notifications/campaigns'
+    | '/dashboard/notifications/create'
+    | '/dashboard/playback/errors'
+    | '/dashboard/settings/features'
+    | '/dashboard/settings/general'
+    | '/dashboard/settings/integrations'
+    | '/dashboard/settings/localization'
+    | '/dashboard/subscriptions/plans'
+    | '/dashboard/subscriptions/users'
+    | '/dashboard/music/albums/tracks'
   id:
     | '__root__'
+    | '/(admin)/dashboard'
     | '/(home)/music'
     | '/(auth)/forgot-password'
     | '/(auth)/login'
@@ -414,14 +962,60 @@ export interface FileRouteTypes {
     | '/(home)/music/library'
     | '/(home)/music/search'
     | '/(home)/play/$playId'
-    | '/(admin)/setting/'
+    | '/(admin)/dashboard/'
     | '/(blog)/blog/'
     | '/(home)/library/'
     | '/(home)/movies/'
     | '/(home)/music/'
+    | '/(admin)/dashboard/media/$mediaId'
+    | '/(admin)/dashboard/movies/$movieId'
+    | '/(admin)/dashboard/movies/create'
+    | '/(admin)/dashboard/payments/$paymentId'
+    | '/(admin)/dashboard/support/$ticketId'
+    | '/(admin)/dashboard/users/$userId'
+    | '/(admin)/dashboard/analytics/'
+    | '/(admin)/dashboard/audit-logs/'
+    | '/(admin)/dashboard/backups/'
+    | '/(admin)/dashboard/drm/'
+    | '/(admin)/dashboard/logs/'
+    | '/(admin)/dashboard/media/'
+    | '/(admin)/dashboard/monitoring/'
+    | '/(admin)/dashboard/movies/'
+    | '/(admin)/dashboard/notifications/'
+    | '/(admin)/dashboard/payments/'
+    | '/(admin)/dashboard/recommendations/'
+    | '/(admin)/dashboard/reports/'
+    | '/(admin)/dashboard/roles/'
+    | '/(admin)/dashboard/settings/'
+    | '/(admin)/dashboard/streams/'
+    | '/(admin)/dashboard/support/'
+    | '/(admin)/dashboard/users/'
+    | '/(admin)/dashboard/music/albums/$albumId'
+    | '/(admin)/dashboard/music/artists/$artistId'
+    | '/(admin)/dashboard/analytics/content/'
+    | '/(admin)/dashboard/analytics/reports/'
+    | '/(admin)/dashboard/analytics/users/'
+    | '/(admin)/dashboard/legal/terms/'
+    | '/(admin)/dashboard/media/uploads/'
+    | '/(admin)/dashboard/moderation/dmca/'
+    | '/(admin)/dashboard/moderation/region-blocks/'
+    | '/(admin)/dashboard/moderation/reports/'
+    | '/(admin)/dashboard/music/albums/'
+    | '/(admin)/dashboard/music/artists/'
+    | '/(admin)/dashboard/notifications/campaigns/'
+    | '/(admin)/dashboard/notifications/create/'
+    | '/(admin)/dashboard/playback/errors/'
+    | '/(admin)/dashboard/settings/features/'
+    | '/(admin)/dashboard/settings/general/'
+    | '/(admin)/dashboard/settings/integrations/'
+    | '/(admin)/dashboard/settings/localization/'
+    | '/(admin)/dashboard/subscriptions/plans/'
+    | '/(admin)/dashboard/subscriptions/users/'
+    | '/(admin)/dashboard/music/albums/tracks/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  adminDashboardRouteRoute: typeof adminDashboardRouteRouteWithChildren
   homeMusicRouteRoute: typeof homeMusicRouteRouteWithChildren
   authForgotPasswordRoute: typeof authForgotPasswordRoute
   authLoginRoute: typeof authLoginRoute
@@ -447,7 +1041,6 @@ export interface RootRouteChildren {
   homeLibraryProfileRoute: typeof homeLibraryProfileRoute
   homeMoviesMovieIdRoute: typeof homeMoviesMovieIdRoute
   homePlayPlayIdRoute: typeof homePlayPlayIdRoute
-  adminSettingIndexRoute: typeof adminSettingIndexRoute
   blogBlogIndexRoute: typeof blogBlogIndexRoute
   homeLibraryIndexRoute: typeof homeLibraryIndexRoute
   homeMoviesIndexRoute: typeof homeMoviesIndexRoute
@@ -588,6 +1181,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof homeMusicRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(admin)/dashboard': {
+      id: '/(admin)/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof adminDashboardRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(home)/music/': {
       id: '/(home)/music/'
       path: '/'
@@ -616,12 +1216,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof blogBlogIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(admin)/setting/': {
-      id: '/(admin)/setting/'
-      path: '/setting'
-      fullPath: '/setting'
-      preLoaderRoute: typeof adminSettingIndexRouteImport
-      parentRoute: typeof rootRouteImport
+    '/(admin)/dashboard/': {
+      id: '/(admin)/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof adminDashboardIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
     }
     '/(home)/play/$playId': {
       id: '/(home)/play/$playId'
@@ -686,8 +1286,442 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof blogBlogBlogslugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(admin)/dashboard/users/': {
+      id: '/(admin)/dashboard/users/'
+      path: '/users'
+      fullPath: '/dashboard/users'
+      preLoaderRoute: typeof adminDashboardUsersIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/support/': {
+      id: '/(admin)/dashboard/support/'
+      path: '/support'
+      fullPath: '/dashboard/support'
+      preLoaderRoute: typeof adminDashboardSupportIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/streams/': {
+      id: '/(admin)/dashboard/streams/'
+      path: '/streams'
+      fullPath: '/dashboard/streams'
+      preLoaderRoute: typeof adminDashboardStreamsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/settings/': {
+      id: '/(admin)/dashboard/settings/'
+      path: '/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof adminDashboardSettingsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/roles/': {
+      id: '/(admin)/dashboard/roles/'
+      path: '/roles'
+      fullPath: '/dashboard/roles'
+      preLoaderRoute: typeof adminDashboardRolesIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/reports/': {
+      id: '/(admin)/dashboard/reports/'
+      path: '/reports'
+      fullPath: '/dashboard/reports'
+      preLoaderRoute: typeof adminDashboardReportsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/recommendations/': {
+      id: '/(admin)/dashboard/recommendations/'
+      path: '/recommendations'
+      fullPath: '/dashboard/recommendations'
+      preLoaderRoute: typeof adminDashboardRecommendationsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/payments/': {
+      id: '/(admin)/dashboard/payments/'
+      path: '/payments'
+      fullPath: '/dashboard/payments'
+      preLoaderRoute: typeof adminDashboardPaymentsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/notifications/': {
+      id: '/(admin)/dashboard/notifications/'
+      path: '/notifications'
+      fullPath: '/dashboard/notifications'
+      preLoaderRoute: typeof adminDashboardNotificationsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/movies/': {
+      id: '/(admin)/dashboard/movies/'
+      path: '/movies'
+      fullPath: '/dashboard/movies'
+      preLoaderRoute: typeof adminDashboardMoviesIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/monitoring/': {
+      id: '/(admin)/dashboard/monitoring/'
+      path: '/monitoring'
+      fullPath: '/dashboard/monitoring'
+      preLoaderRoute: typeof adminDashboardMonitoringIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/media/': {
+      id: '/(admin)/dashboard/media/'
+      path: '/media'
+      fullPath: '/dashboard/media'
+      preLoaderRoute: typeof adminDashboardMediaIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/logs/': {
+      id: '/(admin)/dashboard/logs/'
+      path: '/logs'
+      fullPath: '/dashboard/logs'
+      preLoaderRoute: typeof adminDashboardLogsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/drm/': {
+      id: '/(admin)/dashboard/drm/'
+      path: '/drm'
+      fullPath: '/dashboard/drm'
+      preLoaderRoute: typeof adminDashboardDrmIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/backups/': {
+      id: '/(admin)/dashboard/backups/'
+      path: '/backups'
+      fullPath: '/dashboard/backups'
+      preLoaderRoute: typeof adminDashboardBackupsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/audit-logs/': {
+      id: '/(admin)/dashboard/audit-logs/'
+      path: '/audit-logs'
+      fullPath: '/dashboard/audit-logs'
+      preLoaderRoute: typeof adminDashboardAuditLogsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/analytics/': {
+      id: '/(admin)/dashboard/analytics/'
+      path: '/analytics'
+      fullPath: '/dashboard/analytics'
+      preLoaderRoute: typeof adminDashboardAnalyticsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/users/$userId': {
+      id: '/(admin)/dashboard/users/$userId'
+      path: '/users/$userId'
+      fullPath: '/dashboard/users/$userId'
+      preLoaderRoute: typeof adminDashboardUsersUserIdRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/support/$ticketId': {
+      id: '/(admin)/dashboard/support/$ticketId'
+      path: '/support/$ticketId'
+      fullPath: '/dashboard/support/$ticketId'
+      preLoaderRoute: typeof adminDashboardSupportTicketIdRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/payments/$paymentId': {
+      id: '/(admin)/dashboard/payments/$paymentId'
+      path: '/payments/$paymentId'
+      fullPath: '/dashboard/payments/$paymentId'
+      preLoaderRoute: typeof adminDashboardPaymentsPaymentIdRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/movies/create': {
+      id: '/(admin)/dashboard/movies/create'
+      path: '/movies/create'
+      fullPath: '/dashboard/movies/create'
+      preLoaderRoute: typeof adminDashboardMoviesCreateRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/movies/$movieId': {
+      id: '/(admin)/dashboard/movies/$movieId'
+      path: '/movies/$movieId'
+      fullPath: '/dashboard/movies/$movieId'
+      preLoaderRoute: typeof adminDashboardMoviesMovieIdRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/media/$mediaId': {
+      id: '/(admin)/dashboard/media/$mediaId'
+      path: '/media/$mediaId'
+      fullPath: '/dashboard/media/$mediaId'
+      preLoaderRoute: typeof adminDashboardMediaMediaIdRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/subscriptions/users/': {
+      id: '/(admin)/dashboard/subscriptions/users/'
+      path: '/subscriptions/users'
+      fullPath: '/dashboard/subscriptions/users'
+      preLoaderRoute: typeof adminDashboardSubscriptionsUsersIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/subscriptions/plans/': {
+      id: '/(admin)/dashboard/subscriptions/plans/'
+      path: '/subscriptions/plans'
+      fullPath: '/dashboard/subscriptions/plans'
+      preLoaderRoute: typeof adminDashboardSubscriptionsPlansIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/settings/localization/': {
+      id: '/(admin)/dashboard/settings/localization/'
+      path: '/settings/localization'
+      fullPath: '/dashboard/settings/localization'
+      preLoaderRoute: typeof adminDashboardSettingsLocalizationIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/settings/integrations/': {
+      id: '/(admin)/dashboard/settings/integrations/'
+      path: '/settings/integrations'
+      fullPath: '/dashboard/settings/integrations'
+      preLoaderRoute: typeof adminDashboardSettingsIntegrationsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/settings/general/': {
+      id: '/(admin)/dashboard/settings/general/'
+      path: '/settings/general'
+      fullPath: '/dashboard/settings/general'
+      preLoaderRoute: typeof adminDashboardSettingsGeneralIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/settings/features/': {
+      id: '/(admin)/dashboard/settings/features/'
+      path: '/settings/features'
+      fullPath: '/dashboard/settings/features'
+      preLoaderRoute: typeof adminDashboardSettingsFeaturesIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/playback/errors/': {
+      id: '/(admin)/dashboard/playback/errors/'
+      path: '/playback/errors'
+      fullPath: '/dashboard/playback/errors'
+      preLoaderRoute: typeof adminDashboardPlaybackErrorsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/notifications/create/': {
+      id: '/(admin)/dashboard/notifications/create/'
+      path: '/notifications/create'
+      fullPath: '/dashboard/notifications/create'
+      preLoaderRoute: typeof adminDashboardNotificationsCreateIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/notifications/campaigns/': {
+      id: '/(admin)/dashboard/notifications/campaigns/'
+      path: '/notifications/campaigns'
+      fullPath: '/dashboard/notifications/campaigns'
+      preLoaderRoute: typeof adminDashboardNotificationsCampaignsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/music/artists/': {
+      id: '/(admin)/dashboard/music/artists/'
+      path: '/music/artists'
+      fullPath: '/dashboard/music/artists'
+      preLoaderRoute: typeof adminDashboardMusicArtistsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/music/albums/': {
+      id: '/(admin)/dashboard/music/albums/'
+      path: '/music/albums'
+      fullPath: '/dashboard/music/albums'
+      preLoaderRoute: typeof adminDashboardMusicAlbumsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/moderation/reports/': {
+      id: '/(admin)/dashboard/moderation/reports/'
+      path: '/moderation/reports'
+      fullPath: '/dashboard/moderation/reports'
+      preLoaderRoute: typeof adminDashboardModerationReportsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/moderation/region-blocks/': {
+      id: '/(admin)/dashboard/moderation/region-blocks/'
+      path: '/moderation/region-blocks'
+      fullPath: '/dashboard/moderation/region-blocks'
+      preLoaderRoute: typeof adminDashboardModerationRegionBlocksIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/moderation/dmca/': {
+      id: '/(admin)/dashboard/moderation/dmca/'
+      path: '/moderation/dmca'
+      fullPath: '/dashboard/moderation/dmca'
+      preLoaderRoute: typeof adminDashboardModerationDmcaIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/media/uploads/': {
+      id: '/(admin)/dashboard/media/uploads/'
+      path: '/media/uploads'
+      fullPath: '/dashboard/media/uploads'
+      preLoaderRoute: typeof adminDashboardMediaUploadsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/legal/terms/': {
+      id: '/(admin)/dashboard/legal/terms/'
+      path: '/legal/terms'
+      fullPath: '/dashboard/legal/terms'
+      preLoaderRoute: typeof adminDashboardLegalTermsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/analytics/users/': {
+      id: '/(admin)/dashboard/analytics/users/'
+      path: '/analytics/users'
+      fullPath: '/dashboard/analytics/users'
+      preLoaderRoute: typeof adminDashboardAnalyticsUsersIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/analytics/reports/': {
+      id: '/(admin)/dashboard/analytics/reports/'
+      path: '/analytics/reports'
+      fullPath: '/dashboard/analytics/reports'
+      preLoaderRoute: typeof adminDashboardAnalyticsReportsIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/analytics/content/': {
+      id: '/(admin)/dashboard/analytics/content/'
+      path: '/analytics/content'
+      fullPath: '/dashboard/analytics/content'
+      preLoaderRoute: typeof adminDashboardAnalyticsContentIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/music/artists/$artistId': {
+      id: '/(admin)/dashboard/music/artists/$artistId'
+      path: '/music/artists/$artistId'
+      fullPath: '/dashboard/music/artists/$artistId'
+      preLoaderRoute: typeof adminDashboardMusicArtistsArtistIdRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/music/albums/$albumId': {
+      id: '/(admin)/dashboard/music/albums/$albumId'
+      path: '/music/albums/$albumId'
+      fullPath: '/dashboard/music/albums/$albumId'
+      preLoaderRoute: typeof adminDashboardMusicAlbumsAlbumIdRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/music/albums/tracks/': {
+      id: '/(admin)/dashboard/music/albums/tracks/'
+      path: '/music/albums/tracks'
+      fullPath: '/dashboard/music/albums/tracks'
+      preLoaderRoute: typeof adminDashboardMusicAlbumsTracksIndexRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
   }
 }
+
+interface adminDashboardRouteRouteChildren {
+  adminDashboardIndexRoute: typeof adminDashboardIndexRoute
+  adminDashboardMediaMediaIdRoute: typeof adminDashboardMediaMediaIdRoute
+  adminDashboardMoviesMovieIdRoute: typeof adminDashboardMoviesMovieIdRoute
+  adminDashboardMoviesCreateRoute: typeof adminDashboardMoviesCreateRoute
+  adminDashboardPaymentsPaymentIdRoute: typeof adminDashboardPaymentsPaymentIdRoute
+  adminDashboardSupportTicketIdRoute: typeof adminDashboardSupportTicketIdRoute
+  adminDashboardUsersUserIdRoute: typeof adminDashboardUsersUserIdRoute
+  adminDashboardAnalyticsIndexRoute: typeof adminDashboardAnalyticsIndexRoute
+  adminDashboardAuditLogsIndexRoute: typeof adminDashboardAuditLogsIndexRoute
+  adminDashboardBackupsIndexRoute: typeof adminDashboardBackupsIndexRoute
+  adminDashboardDrmIndexRoute: typeof adminDashboardDrmIndexRoute
+  adminDashboardLogsIndexRoute: typeof adminDashboardLogsIndexRoute
+  adminDashboardMediaIndexRoute: typeof adminDashboardMediaIndexRoute
+  adminDashboardMonitoringIndexRoute: typeof adminDashboardMonitoringIndexRoute
+  adminDashboardMoviesIndexRoute: typeof adminDashboardMoviesIndexRoute
+  adminDashboardNotificationsIndexRoute: typeof adminDashboardNotificationsIndexRoute
+  adminDashboardPaymentsIndexRoute: typeof adminDashboardPaymentsIndexRoute
+  adminDashboardRecommendationsIndexRoute: typeof adminDashboardRecommendationsIndexRoute
+  adminDashboardReportsIndexRoute: typeof adminDashboardReportsIndexRoute
+  adminDashboardRolesIndexRoute: typeof adminDashboardRolesIndexRoute
+  adminDashboardSettingsIndexRoute: typeof adminDashboardSettingsIndexRoute
+  adminDashboardStreamsIndexRoute: typeof adminDashboardStreamsIndexRoute
+  adminDashboardSupportIndexRoute: typeof adminDashboardSupportIndexRoute
+  adminDashboardUsersIndexRoute: typeof adminDashboardUsersIndexRoute
+  adminDashboardMusicAlbumsAlbumIdRoute: typeof adminDashboardMusicAlbumsAlbumIdRoute
+  adminDashboardMusicArtistsArtistIdRoute: typeof adminDashboardMusicArtistsArtistIdRoute
+  adminDashboardAnalyticsContentIndexRoute: typeof adminDashboardAnalyticsContentIndexRoute
+  adminDashboardAnalyticsReportsIndexRoute: typeof adminDashboardAnalyticsReportsIndexRoute
+  adminDashboardAnalyticsUsersIndexRoute: typeof adminDashboardAnalyticsUsersIndexRoute
+  adminDashboardLegalTermsIndexRoute: typeof adminDashboardLegalTermsIndexRoute
+  adminDashboardMediaUploadsIndexRoute: typeof adminDashboardMediaUploadsIndexRoute
+  adminDashboardModerationDmcaIndexRoute: typeof adminDashboardModerationDmcaIndexRoute
+  adminDashboardModerationRegionBlocksIndexRoute: typeof adminDashboardModerationRegionBlocksIndexRoute
+  adminDashboardModerationReportsIndexRoute: typeof adminDashboardModerationReportsIndexRoute
+  adminDashboardMusicAlbumsIndexRoute: typeof adminDashboardMusicAlbumsIndexRoute
+  adminDashboardMusicArtistsIndexRoute: typeof adminDashboardMusicArtistsIndexRoute
+  adminDashboardNotificationsCampaignsIndexRoute: typeof adminDashboardNotificationsCampaignsIndexRoute
+  adminDashboardNotificationsCreateIndexRoute: typeof adminDashboardNotificationsCreateIndexRoute
+  adminDashboardPlaybackErrorsIndexRoute: typeof adminDashboardPlaybackErrorsIndexRoute
+  adminDashboardSettingsFeaturesIndexRoute: typeof adminDashboardSettingsFeaturesIndexRoute
+  adminDashboardSettingsGeneralIndexRoute: typeof adminDashboardSettingsGeneralIndexRoute
+  adminDashboardSettingsIntegrationsIndexRoute: typeof adminDashboardSettingsIntegrationsIndexRoute
+  adminDashboardSettingsLocalizationIndexRoute: typeof adminDashboardSettingsLocalizationIndexRoute
+  adminDashboardSubscriptionsPlansIndexRoute: typeof adminDashboardSubscriptionsPlansIndexRoute
+  adminDashboardSubscriptionsUsersIndexRoute: typeof adminDashboardSubscriptionsUsersIndexRoute
+  adminDashboardMusicAlbumsTracksIndexRoute: typeof adminDashboardMusicAlbumsTracksIndexRoute
+}
+
+const adminDashboardRouteRouteChildren: adminDashboardRouteRouteChildren = {
+  adminDashboardIndexRoute: adminDashboardIndexRoute,
+  adminDashboardMediaMediaIdRoute: adminDashboardMediaMediaIdRoute,
+  adminDashboardMoviesMovieIdRoute: adminDashboardMoviesMovieIdRoute,
+  adminDashboardMoviesCreateRoute: adminDashboardMoviesCreateRoute,
+  adminDashboardPaymentsPaymentIdRoute: adminDashboardPaymentsPaymentIdRoute,
+  adminDashboardSupportTicketIdRoute: adminDashboardSupportTicketIdRoute,
+  adminDashboardUsersUserIdRoute: adminDashboardUsersUserIdRoute,
+  adminDashboardAnalyticsIndexRoute: adminDashboardAnalyticsIndexRoute,
+  adminDashboardAuditLogsIndexRoute: adminDashboardAuditLogsIndexRoute,
+  adminDashboardBackupsIndexRoute: adminDashboardBackupsIndexRoute,
+  adminDashboardDrmIndexRoute: adminDashboardDrmIndexRoute,
+  adminDashboardLogsIndexRoute: adminDashboardLogsIndexRoute,
+  adminDashboardMediaIndexRoute: adminDashboardMediaIndexRoute,
+  adminDashboardMonitoringIndexRoute: adminDashboardMonitoringIndexRoute,
+  adminDashboardMoviesIndexRoute: adminDashboardMoviesIndexRoute,
+  adminDashboardNotificationsIndexRoute: adminDashboardNotificationsIndexRoute,
+  adminDashboardPaymentsIndexRoute: adminDashboardPaymentsIndexRoute,
+  adminDashboardRecommendationsIndexRoute:
+    adminDashboardRecommendationsIndexRoute,
+  adminDashboardReportsIndexRoute: adminDashboardReportsIndexRoute,
+  adminDashboardRolesIndexRoute: adminDashboardRolesIndexRoute,
+  adminDashboardSettingsIndexRoute: adminDashboardSettingsIndexRoute,
+  adminDashboardStreamsIndexRoute: adminDashboardStreamsIndexRoute,
+  adminDashboardSupportIndexRoute: adminDashboardSupportIndexRoute,
+  adminDashboardUsersIndexRoute: adminDashboardUsersIndexRoute,
+  adminDashboardMusicAlbumsAlbumIdRoute: adminDashboardMusicAlbumsAlbumIdRoute,
+  adminDashboardMusicArtistsArtistIdRoute:
+    adminDashboardMusicArtistsArtistIdRoute,
+  adminDashboardAnalyticsContentIndexRoute:
+    adminDashboardAnalyticsContentIndexRoute,
+  adminDashboardAnalyticsReportsIndexRoute:
+    adminDashboardAnalyticsReportsIndexRoute,
+  adminDashboardAnalyticsUsersIndexRoute:
+    adminDashboardAnalyticsUsersIndexRoute,
+  adminDashboardLegalTermsIndexRoute: adminDashboardLegalTermsIndexRoute,
+  adminDashboardMediaUploadsIndexRoute: adminDashboardMediaUploadsIndexRoute,
+  adminDashboardModerationDmcaIndexRoute:
+    adminDashboardModerationDmcaIndexRoute,
+  adminDashboardModerationRegionBlocksIndexRoute:
+    adminDashboardModerationRegionBlocksIndexRoute,
+  adminDashboardModerationReportsIndexRoute:
+    adminDashboardModerationReportsIndexRoute,
+  adminDashboardMusicAlbumsIndexRoute: adminDashboardMusicAlbumsIndexRoute,
+  adminDashboardMusicArtistsIndexRoute: adminDashboardMusicArtistsIndexRoute,
+  adminDashboardNotificationsCampaignsIndexRoute:
+    adminDashboardNotificationsCampaignsIndexRoute,
+  adminDashboardNotificationsCreateIndexRoute:
+    adminDashboardNotificationsCreateIndexRoute,
+  adminDashboardPlaybackErrorsIndexRoute:
+    adminDashboardPlaybackErrorsIndexRoute,
+  adminDashboardSettingsFeaturesIndexRoute:
+    adminDashboardSettingsFeaturesIndexRoute,
+  adminDashboardSettingsGeneralIndexRoute:
+    adminDashboardSettingsGeneralIndexRoute,
+  adminDashboardSettingsIntegrationsIndexRoute:
+    adminDashboardSettingsIntegrationsIndexRoute,
+  adminDashboardSettingsLocalizationIndexRoute:
+    adminDashboardSettingsLocalizationIndexRoute,
+  adminDashboardSubscriptionsPlansIndexRoute:
+    adminDashboardSubscriptionsPlansIndexRoute,
+  adminDashboardSubscriptionsUsersIndexRoute:
+    adminDashboardSubscriptionsUsersIndexRoute,
+  adminDashboardMusicAlbumsTracksIndexRoute:
+    adminDashboardMusicAlbumsTracksIndexRoute,
+}
+
+const adminDashboardRouteRouteWithChildren =
+  adminDashboardRouteRoute._addFileChildren(adminDashboardRouteRouteChildren)
 
 interface homeMusicRouteRouteChildren {
   homeMusicMusicidRoute: typeof homeMusicMusicidRoute
@@ -708,6 +1742,7 @@ const homeMusicRouteRouteWithChildren = homeMusicRouteRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
+  adminDashboardRouteRoute: adminDashboardRouteRouteWithChildren,
   homeMusicRouteRoute: homeMusicRouteRouteWithChildren,
   authForgotPasswordRoute: authForgotPasswordRoute,
   authLoginRoute: authLoginRoute,
@@ -733,7 +1768,6 @@ const rootRouteChildren: RootRouteChildren = {
   homeLibraryProfileRoute: homeLibraryProfileRoute,
   homeMoviesMovieIdRoute: homeMoviesMovieIdRoute,
   homePlayPlayIdRoute: homePlayPlayIdRoute,
-  adminSettingIndexRoute: adminSettingIndexRoute,
   blogBlogIndexRoute: blogBlogIndexRoute,
   homeLibraryIndexRoute: homeLibraryIndexRoute,
   homeMoviesIndexRoute: homeMoviesIndexRoute,

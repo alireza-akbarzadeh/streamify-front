@@ -70,9 +70,8 @@ export function Sidebar() {
 				<header className="pt-3 px-4 shadow-[0_4px_12px_rgba(0,0,0,0.5)] z-10">
 					{/* Library Header Row */}
 					<div
-						className={`flex items-center text-gray-400 mb-2 ${
-							isSidebarCollapsed ? "justify-center" : "justify-between"
-						}`}
+						className={`flex items-center text-gray-400 mb-2 ${isSidebarCollapsed ? "justify-center" : "justify-between"
+							}`}
 					>
 						<button
 							type="button"
@@ -126,11 +125,10 @@ export function Sidebar() {
 											type="button"
 											key={f}
 											onClick={() => setFilter(f)}
-											className={`text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap transition-all ${
-												activeFilter === f
+											className={`text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap transition-all ${activeFilter === f
 													? "bg-white text-black"
 													: "bg-[#2a2a2a] text-white hover:bg-[#333]"
-											}`}
+												}`}
 										>
 											{f}
 										</button>
