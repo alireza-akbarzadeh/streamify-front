@@ -68,10 +68,13 @@ export function CompactField<TForm extends { Field: any }, TOption = string>(
                         const getLabel = props.getOptionLabel || ((opt: TOption) => String(opt));
                         const renderOptionContent = props.renderOption || getLabel;
 
+                        const currentValue = (value as string) ?? "";
+
                         return (
                             <Select
-                                value={(value as string) ?? ""}
+                                value={currentValue}
                                 onValueChange={(val) => field.handleChange(val)}
+                                defaultValue={currentValue}
                             >
                                 <SelectTrigger className={cn(baseStyles, "h-11")}>
                                     <SelectValue placeholder={placeholder} />

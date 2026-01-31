@@ -13,6 +13,7 @@ const navLinks = [
 	{ label: "Weblog", href: "/blog" },
 	{ label: "Pricing", href: "/pricing" },
 	{ label: "Download", href: "/download" },
+	{ label: "Dashboard", href: "/dashboard" },
 ];
 export function RootHeader() {
 	const [isScrolled, setIsScrolled] = useState(false);
