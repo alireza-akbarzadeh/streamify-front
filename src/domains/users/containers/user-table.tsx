@@ -236,7 +236,7 @@ export function UserManagementTable() {
                     {isLoading ? (
                         <Table.Loading columnsCount={8} rowsCount={10} />
                     ) : (
-                        <Table.Body<UserAccount> onRowDoubleClick={(row) => navigate({ to: "/dashboard/users/$userId", params: { userId: row.original.id } })} columnsCount={8} />
+                        <Table.Body<UserAccount> onRowDoubleClick={(row) => navigate({ to: "/dashboard/users/edit", search: { userId: row.original.id } })} columnsCount={8} />
                     )}
                 </div>
 
