@@ -37,6 +37,7 @@ interface StatusFiltersProps {
 interface BodyProps<TData> {
     columnsCount: number
     onRowDoubleClick?: (row: Row<TData>) => void
+    onClick?: (row: Row<TData>) => void
 }
 
 import type { Row } from "@tanstack/react-table"
@@ -230,7 +231,7 @@ export const Table = {
             </div>
         )
     },
-    Body: <TData,>({ columnsCount, onRowDoubleClick }: BodyProps<TData>) => {
+    Body: <TData,>({ columnsCount, onRowDoubleClick, onClick }: BodyProps<TData>) => {
         const { table } = useTableContext<TData>()
         const rows = table.getRowModel().rows
 
@@ -266,6 +267,7 @@ export const Table = {
                                         className="hover:bg-primary/3 transition-colors group/row"
                                         onDoubleClick={() => onRowDoubleClick?.(row)}
                                         onClick={() => {
+                                            onClick?.(row);
                                             row.toggleSelected(!row.getIsSelected());
                                         }}
                                     >
