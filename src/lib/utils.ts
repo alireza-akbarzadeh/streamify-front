@@ -1,4 +1,4 @@
-import { Row } from "@tanstack/react-table";
+import type { Row } from "@tanstack/react-table";
 import { type ClassValue, clsx } from "clsx";
 import type { JSX } from "react";
 

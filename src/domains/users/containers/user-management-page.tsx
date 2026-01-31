@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Download, Plus } from "lucide-react";
 import * as React from "react";
 import { toast } from "sonner";
@@ -64,28 +65,21 @@ export default function UserManagementPage() {
 					>
 						<InviteUserForm onSuccess={() => setIsInviteOpen(false)} />
 					</AppDialog>
-					<AppDialog
-						open={isInviteOpen}
-						onOpenChange={setIsInviteOpen}
-						component="drawer"
-						title="Invite New Member"
-						description="Send an invitation link to a new user to join your organization."
-						trigger={
-							<Button
-								className={cn(
-									"h-10 px-6 rounded-xl",
-									"bg-primary text-primary-foreground font-black uppercase tracking-[0.15em] text-[10px]",
-									"shadow-[0_0_20px_-5px_rgba(var(--primary),0.4)] hover:shadow-[0_0_25px_-3px_rgba(var(--primary),0.5)]",
-									"border-t border-white/20 transition-all duration-300 active:scale-95 active:shadow-inner",
-								)}
-							>
-								<Plus className="mr-2 h-3.5 w-3.5 stroke-[3px]" />
-								Create User
-							</Button>
-						}
+
+					<Button
+						asChild
+						className={cn(
+							"h-10 px-6 rounded-xl",
+							"bg-primary text-primary-foreground font-black uppercase tracking-[0.15em] text-[10px]",
+							"shadow-[0_0_20px_-5px_rgba(var(--primary),0.4)] hover:shadow-[0_0_25px_-3px_rgba(var(--primary),0.5)]",
+							"border-t border-white/20 transition-all duration-300 active:scale-95 active:shadow-inner",
+						)}
 					>
-						<InviteUserForm onSuccess={() => setIsInviteOpen(false)} />
-					</AppDialog>
+						<Link to="/dashboard/users/$userId">
+							<Plus className="mr-2 h-3.5 w-3.5 stroke-[3px]" />
+							Create User
+						</Link>
+					</Button>
 				</div>
 			</div>
 

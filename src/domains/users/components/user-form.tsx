@@ -1,184 +1,205 @@
+import { useNavigate } from "@tanstack/react-router";
 import {
-	CheckCircle2,
-	Globe,
-	User as UserIcon,
-	Wallet
+	Globe, KeyRound,
+	Lock, Mail,
+	ShieldCheck, User
 } from "lucide-react";
 import { toast } from "sonner";
+import { z } from "zod";
 import { useForm } from "@/components/ui/forms/form";
-import { Textarea } from "@/components/ui/forms/textarea";
 import { Input } from "@/components/ui/input";
 import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue
+	Select, SelectContent, SelectItem,
+	SelectTrigger, SelectValue
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import type { UserAccount } from "../server/users.functions";
-import { userAccountSchema } from "../user.schema";
 
-interface UserFormProps {
+const userAccountSchema = z.object({
+	name: z.string().min(2, "Name is required"),
+	email: z.email("Invalid work email"),
+	role: z.enum(["Admin", "Moderator", "User"]),
+	status: z.enum(["active", "pending", "suspended"]),
+	twoFactorEnabled: z.boolean().default(false),
+	phone: z.string().optional(),
+	country: z.string().min(1, "Country is required"),
+	timezone: z.string().default("UTC"),
+	accountBalance: z.number().default(0),
+});
+
+type UserAccountFormData = z.infer<typeof userAccountSchema>;
+type AdvancedUserCRUDProps = {
 	initialData?: Partial<UserAccount>;
-	onSuccess: () => void;
-}
+};
 
-export function AdvancedUserForm({ initialData, onSuccess }: UserFormProps) {
+export function UserForm({ initialData }: AdvancedUserCRUDProps) {
+	const navigate = useNavigate()
 	const form = useForm(userAccountSchema, {
-		defaultValues: {
-			name: initialData?.name ?? "",
-			email: initialData?.email ?? "",
-			role: initialData?.role ?? "User",
-			status: initialData?.status ?? "active",
-			plan: initialData?.plan ?? "Free",
-			billingStatus: initialData?.billingStatus ?? "active",
-			accountBalance: initialData?.accountBalance ?? 0,
-			credits: initialData?.credits ?? 0,
-			city: initialData?.city ?? "",
-			country: initialData?.country ?? "",
-			timezone: initialData?.timezone ?? "UTC",
-			tags: initialData?.tags ?? [],
-			notes: initialData?.notes ?? "",
+		defaultValues: initialData ?? {
+			name: "",
+			email: "",
+			role: "User",
+			status: "active",
+			twoFactorEnabled: false,
+			country: "United States",
+			timezone: "UTC",
+			accountBalance: 0,
 		},
 		onSubmit: async ({ value }) => {
-			await new Promise((resolve) => setTimeout(resolve, 1000));
+			await new Promise((r) => setTimeout(r, 1000));
 			console.log("Saving User Account:", value);
-			toast.success("User account synchronized successfully");
-			onSuccess();
+			toast.success("Account updated successfully");
+			navigate({ to: "/dashboard/users" });
+
 		},
 	});
 
 	return (
-		<form.Root className="max-w-none space-y-10 pb-8">
-			{/* SECTION 1: CORE IDENTITY */}
-			<div className="space-y-4">
-				<div className="flex items-center gap-2 mb-2">
-					<div className="p-1.5 rounded-lg bg-primary/10 border border-primary/20">
-						<UserIcon className="h-3.5 w-3.5 text-primary" />
+		<form.Root className="max-w-4xl mx-auto space-y-12">
+
+			{/* SECTION: IDENTITY & STATUS */}
+			<section className="space-y-6">
+				<div className="flex items-center gap-3 pb-2 border-b border-border/40">
+					<div className="p-2 bg-primary/10 rounded-lg">
+						<User className="h-4 w-4 text-primary" />
 					</div>
-					<h3 className="text-[11px] font-black uppercase tracking-widest text-foreground">Identity & Access</h3>
+					<h2 className="text-sm font-black uppercase tracking-widest">Core Identity</h2>
 				</div>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-					<form.Field
-						name="name"
-						render={(field) => (
-							<field.Container label="Full Name">
-								<Input {...field.Controller} className="h-11 rounded-xl bg-muted/5 border-border/40" />
-							</field.Container>
-						)}
-					/>
-					<form.Field
-						name="email"
-						render={(field) => (
-							<field.Container label="Work Email">
-								<Input {...field.Controller} type="email" className="h-11 rounded-xl bg-muted/5 border-border/40" />
-							</field.Container>
-						)}
-					/>
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+					<form.Field name="name" render={(field) => (
+						<field.Container label="Full Name" detail="Publicly visible profile name">
+							<Input
+								{...field.Controller}
+								onChange={(e) => field.handleChange(e.target.value)}
+								className="h-12 rounded-xl bg-muted/5"
+							/>
+						</field.Container>
+					)} />
+
+					<form.Field name="email" render={(field) => (
+						<field.Container label="Email Address" detail="Primary login identifier">
+							<div className="relative">
+								<Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/40" />
+								<Input
+									{...field.Controller}
+									onChange={(e) => field.handleChange(e.target.value)}
+									className="pl-10 h-12 rounded-xl bg-muted/5"
+								/>
+							</div>
+						</field.Container>
+					)} />
 				</div>
 
-				<div className="grid grid-cols-3 gap-4">
+				<div className="grid grid-cols-2 md:grid-cols-3 gap-6">
 					<form.Field name="role" render={(field) => (
-						<field.Container label="System Role">
+						<field.Container label="Access Level">
 							<Select onValueChange={field.handleChange} defaultValue={field.state.value}>
-								<SelectTrigger className="h-11 rounded-xl bg-muted/5 border-border/40"><SelectValue /></SelectTrigger>
-								<SelectContent className="rounded-xl"><SelectItem value="User">User</SelectItem><SelectItem value="Moderator">Moderator</SelectItem><SelectItem value="Admin">Admin</SelectItem></SelectContent>
+								<SelectTrigger className="h-12 rounded-xl bg-muted/5"><SelectValue /></SelectTrigger>
+								<SelectContent className="rounded-xl">
+									<SelectItem value="User">Standard User</SelectItem>
+									<SelectItem value="Moderator">Moderator</SelectItem>
+									<SelectItem value="Admin">Administrator</SelectItem>
+								</SelectContent>
 							</Select>
 						</field.Container>
 					)} />
-					<form.Field name="status" render={(field) => (
-						<field.Container label="Status">
-							<Select onValueChange={field.handleChange} defaultValue={field.state.value}>
-								<SelectTrigger className="h-11 rounded-xl bg-muted/5 border-border/40"><SelectValue /></SelectTrigger>
-								<SelectContent className="rounded-xl"><SelectItem value="active">Active</SelectItem><SelectItem value="suspended">Suspended</SelectItem><SelectItem value="flagged">Flagged</SelectItem></SelectContent>
-							</Select>
-						</field.Container>
-					)} />
-					<form.Field name="plan" render={(field) => (
-						<field.Container label="Tiers">
-							<Select onValueChange={field.handleChange} defaultValue={field.state.value}>
-								<SelectTrigger className="h-11 rounded-xl bg-muted/5 border-border/40"><SelectValue /></SelectTrigger>
-								<SelectContent className="rounded-xl"><SelectItem value="Free">Free</SelectItem><SelectItem value="Standard">Standard</SelectItem><SelectItem value="Premium">Premium</SelectItem></SelectContent>
-							</Select>
-						</field.Container>
-					)} />
-				</div>
-			</div>
 
-			{/* SECTION 2: LOCALIZATION */}
-			<div className="space-y-4">
-				<div className="flex items-center gap-2 mb-2">
-					<div className="p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
-						<Globe className="h-3.5 w-3.5 text-emerald-500" />
-					</div>
-					<h3 className="text-[11px] font-black uppercase tracking-widest text-foreground">Localization</h3>
-				</div>
-				<div className="grid grid-cols-2 gap-4">
-					<form.Field name="country" render={(field) => (
-						<field.Container label="Country">
-							<Input {...field.Controller} className="h-11 rounded-xl bg-muted/5 border-border/40" />
+					<form.Field name="status" render={(field) => (
+						<field.Container label="Account Status">
+							<Select onValueChange={field.handleChange} defaultValue={field.state.value}>
+								<SelectTrigger className="h-12 rounded-xl bg-muted/5"><SelectValue /></SelectTrigger>
+								<SelectContent className="rounded-xl">
+									<SelectItem value="active">Active</SelectItem>
+									<SelectItem value="pending">Pending Review</SelectItem>
+									<SelectItem value="suspended">Suspended</SelectItem>
+								</SelectContent>
+							</Select>
 						</field.Container>
 					)} />
+				</div>
+			</section>
+
+			{/* SECTION: SECURITY & COMPLIANCE */}
+			<section className="p-6 rounded-[2rem] bg-amber-500/3 border border-amber-500/10 space-y-6">
+				<div className="flex items-center gap-3">
+					<div className="p-2 bg-amber-500/10 rounded-lg">
+						<ShieldCheck className="h-4 w-4 text-amber-600" />
+					</div>
+					<div>
+						<h2 className="text-sm font-black uppercase tracking-widest text-amber-900">Security Layers</h2>
+						<p className="text-[10px] text-amber-600 font-medium italic">Enforce multi-factor authentication requirements</p>
+					</div>
+				</div>
+
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+					<form.Field name="twoFactorEnabled" render={(field) => (
+						<field.Container
+							label="2FA Requirement"
+							detail="Mandatory 2FA challenge via authenticator app"
+							className="flex flex-row items-center justify-between space-y-0 gap-4"
+						>
+							<Switch
+								checked={field.state.value}
+								onCheckedChange={field.handleChange}
+								className="data-[state=checked]:bg-amber-500"
+							/>
+						</field.Container>
+					)} />
+
+					<div className="flex items-center gap-4 p-4 rounded-xl bg-background border border-amber-500/10">
+						<Lock className="h-8 w-8 text-amber-500/20 shrink-0" />
+						<div>
+							<p className="text-[11px] font-bold text-amber-900">Account Hardening</p>
+							<p className="text-[10px] text-muted-foreground leading-tight">Last password reset: 14 days ago.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* SECTION: REGIONAL & LOCALIZATION */}
+			<section className="space-y-6">
+				<div className="flex items-center gap-3 pb-2 border-b border-border/40">
+					<div className="p-2 bg-emerald-500/10 rounded-lg">
+						<Globe className="h-4 w-4 text-emerald-600" />
+					</div>
+					<h2 className="text-sm font-black uppercase tracking-widest">Regional Settings</h2>
+				</div>
+
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+					<form.Field name="country" render={(field) => (
+						<field.Container label="Country / Territory">
+							<Input
+								{...field.Controller}
+								onChange={(e) => field.handleChange(e.target.value)}
+								placeholder="e.g. United Kingdom"
+								className="h-12 rounded-xl bg-muted/5"
+							/>
+						</field.Container>
+					)} />
+
 					<form.Field name="timezone" render={(field) => (
 						<field.Container label="Timezone">
-							<Input {...field.Controller} placeholder="UTC+0" className="h-11 rounded-xl bg-muted/5 border-border/40" />
+							<Select onValueChange={field.handleChange} defaultValue={field.state.value}>
+								<SelectTrigger className="h-12 rounded-xl bg-muted/5"><SelectValue /></SelectTrigger>
+								<SelectContent className="rounded-xl">
+									<SelectItem value="UTC">UTC (London)</SelectItem>
+									<SelectItem value="EST">EST (New York)</SelectItem>
+									<SelectItem value="PST">PST (Los Angeles)</SelectItem>
+								</SelectContent>
+							</Select>
 						</field.Container>
 					)} />
 				</div>
-			</div>
+			</section>
 
-			{/* SECTION 3: BILLING & CREDITS */}
-			<div className="p-5 rounded-[2rem] bg-muted/20 border border-border/40 space-y-4">
-				<div className="flex items-center justify-between">
-					<div className="flex items-center gap-2">
-						<Wallet className="h-4 w-4 text-primary" />
-						<h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Financial Parameters</h3>
-					</div>
-				</div>
-				<div className="grid grid-cols-2 gap-6">
-					<form.Field name="accountBalance" render={(field) => (
-						<field.Container label="Balance ($)">
-							<Input
-								{...field.Controller}
-								type="number"
-								className="h-11 rounded-xl bg-background border-border/40 font-mono"
-								onChange={(e) => field.handleChange(Number(e.target.value))}
-							/>
-						</field.Container>
-					)} />
-					<form.Field name="credits" render={(field) => (
-						<field.Container label="System Credits">
-							<Input
-								{...field.Controller}
-								type="number"
-								className="h-11 rounded-xl bg-background border-border/40 font-mono"
-								onChange={(e) => field.handleChange(Number(e.target.value))}
-							/>
-						</field.Container>
-					)} />
-				</div>
-			</div>
-
-			{/* SECTION 4: METADATA */}
-			<div className="space-y-4">
-				<form.Field name="notes" render={(field) => (
-					<field.Container label="Internal Admin Notes" detail="Visible only to administrators and moderators">
-						<Textarea
-							{...field.Controller}
-							className="min-h-[100px] rounded-2xl bg-muted/5 border-border/40 resize-none"
-							placeholder="Add specific user behavior notes or history..."
-						/>
-					</field.Container>
-				)} />
-			</div>
-
-			<form.Submit className="h-14 rounded-2xl bg-primary text-primary-foreground font-black uppercase tracking-[0.2em] text-xs border-t border-white/20 shadow-xl shadow-primary/20">
-				<div className="flex items-center gap-2">
-					<CheckCircle2 className="h-4 w-4" />
-					Commit Account Changes
+			<form.Submit className="h-16 rounded-[1.5rem] bg-foreground text-background hover:bg-foreground/90 transition-all shadow-2xl">
+				<div className="flex items-center justify-center gap-3">
+					<KeyRound className="h-4 w-4" />
+					Synchronize Account Changes
 				</div>
 			</form.Submit>
+
 		</form.Root>
 	);
 }

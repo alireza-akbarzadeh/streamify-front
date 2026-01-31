@@ -63,6 +63,8 @@ import { Route as adminDashboardBackupsIndexRouteImport } from './routes/(admin)
 import { Route as adminDashboardAuditLogsIndexRouteImport } from './routes/(admin)/dashboard/audit-logs/index'
 import { Route as adminDashboardAnalyticsIndexRouteImport } from './routes/(admin)/dashboard/analytics/index'
 import { Route as adminDashboardAbTestsIndexRouteImport } from './routes/(admin)/dashboard/ab-tests/index'
+import { Route as adminDashboardUsersEditRouteImport } from './routes/(admin)/dashboard/users/edit'
+import { Route as adminDashboardUsersCreateRouteImport } from './routes/(admin)/dashboard/users/create'
 import { Route as adminDashboardUsersUserIdRouteImport } from './routes/(admin)/dashboard/users/$userId'
 import { Route as adminDashboardSupportTicketIdRouteImport } from './routes/(admin)/dashboard/support/$ticketId'
 import { Route as adminDashboardPaymentsPaymentIdRouteImport } from './routes/(admin)/dashboard/payments/$paymentId'
@@ -381,6 +383,17 @@ const adminDashboardAbTestsIndexRoute =
     path: '/ab-tests/',
     getParentRoute: () => adminDashboardRouteRoute,
   } as any)
+const adminDashboardUsersEditRoute = adminDashboardUsersEditRouteImport.update({
+  id: '/users/edit',
+  path: '/users/edit',
+  getParentRoute: () => adminDashboardRouteRoute,
+} as any)
+const adminDashboardUsersCreateRoute =
+  adminDashboardUsersCreateRouteImport.update({
+    id: '/users/create',
+    path: '/users/create',
+    getParentRoute: () => adminDashboardRouteRoute,
+  } as any)
 const adminDashboardUsersUserIdRoute =
   adminDashboardUsersUserIdRouteImport.update({
     id: '/users/$userId',
@@ -597,6 +610,8 @@ export interface FileRoutesByFullPath {
   '/dashboard/payments/$paymentId': typeof adminDashboardPaymentsPaymentIdRoute
   '/dashboard/support/$ticketId': typeof adminDashboardSupportTicketIdRoute
   '/dashboard/users/$userId': typeof adminDashboardUsersUserIdRoute
+  '/dashboard/users/create': typeof adminDashboardUsersCreateRoute
+  '/dashboard/users/edit': typeof adminDashboardUsersEditRoute
   '/dashboard/ab-tests': typeof adminDashboardAbTestsIndexRoute
   '/dashboard/analytics': typeof adminDashboardAnalyticsIndexRoute
   '/dashboard/audit-logs': typeof adminDashboardAuditLogsIndexRoute
@@ -680,6 +695,8 @@ export interface FileRoutesByTo {
   '/dashboard/payments/$paymentId': typeof adminDashboardPaymentsPaymentIdRoute
   '/dashboard/support/$ticketId': typeof adminDashboardSupportTicketIdRoute
   '/dashboard/users/$userId': typeof adminDashboardUsersUserIdRoute
+  '/dashboard/users/create': typeof adminDashboardUsersCreateRoute
+  '/dashboard/users/edit': typeof adminDashboardUsersEditRoute
   '/dashboard/ab-tests': typeof adminDashboardAbTestsIndexRoute
   '/dashboard/analytics': typeof adminDashboardAnalyticsIndexRoute
   '/dashboard/audit-logs': typeof adminDashboardAuditLogsIndexRoute
@@ -766,6 +783,8 @@ export interface FileRoutesById {
   '/(admin)/dashboard/payments/$paymentId': typeof adminDashboardPaymentsPaymentIdRoute
   '/(admin)/dashboard/support/$ticketId': typeof adminDashboardSupportTicketIdRoute
   '/(admin)/dashboard/users/$userId': typeof adminDashboardUsersUserIdRoute
+  '/(admin)/dashboard/users/create': typeof adminDashboardUsersCreateRoute
+  '/(admin)/dashboard/users/edit': typeof adminDashboardUsersEditRoute
   '/(admin)/dashboard/ab-tests/': typeof adminDashboardAbTestsIndexRoute
   '/(admin)/dashboard/analytics/': typeof adminDashboardAnalyticsIndexRoute
   '/(admin)/dashboard/audit-logs/': typeof adminDashboardAuditLogsIndexRoute
@@ -853,6 +872,8 @@ export interface FileRouteTypes {
     | '/dashboard/payments/$paymentId'
     | '/dashboard/support/$ticketId'
     | '/dashboard/users/$userId'
+    | '/dashboard/users/create'
+    | '/dashboard/users/edit'
     | '/dashboard/ab-tests'
     | '/dashboard/analytics'
     | '/dashboard/audit-logs'
@@ -936,6 +957,8 @@ export interface FileRouteTypes {
     | '/dashboard/payments/$paymentId'
     | '/dashboard/support/$ticketId'
     | '/dashboard/users/$userId'
+    | '/dashboard/users/create'
+    | '/dashboard/users/edit'
     | '/dashboard/ab-tests'
     | '/dashboard/analytics'
     | '/dashboard/audit-logs'
@@ -1021,6 +1044,8 @@ export interface FileRouteTypes {
     | '/(admin)/dashboard/payments/$paymentId'
     | '/(admin)/dashboard/support/$ticketId'
     | '/(admin)/dashboard/users/$userId'
+    | '/(admin)/dashboard/users/create'
+    | '/(admin)/dashboard/users/edit'
     | '/(admin)/dashboard/ab-tests/'
     | '/(admin)/dashboard/analytics/'
     | '/(admin)/dashboard/audit-logs/'
@@ -1478,6 +1503,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof adminDashboardAbTestsIndexRouteImport
       parentRoute: typeof adminDashboardRouteRoute
     }
+    '/(admin)/dashboard/users/edit': {
+      id: '/(admin)/dashboard/users/edit'
+      path: '/users/edit'
+      fullPath: '/dashboard/users/edit'
+      preLoaderRoute: typeof adminDashboardUsersEditRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(admin)/dashboard/users/create': {
+      id: '/(admin)/dashboard/users/create'
+      path: '/users/create'
+      fullPath: '/dashboard/users/create'
+      preLoaderRoute: typeof adminDashboardUsersCreateRouteImport
+      parentRoute: typeof adminDashboardRouteRoute
+    }
     '/(admin)/dashboard/users/$userId': {
       id: '/(admin)/dashboard/users/$userId'
       path: '/users/$userId'
@@ -1692,6 +1731,8 @@ interface adminDashboardRouteRouteChildren {
   adminDashboardPaymentsPaymentIdRoute: typeof adminDashboardPaymentsPaymentIdRoute
   adminDashboardSupportTicketIdRoute: typeof adminDashboardSupportTicketIdRoute
   adminDashboardUsersUserIdRoute: typeof adminDashboardUsersUserIdRoute
+  adminDashboardUsersCreateRoute: typeof adminDashboardUsersCreateRoute
+  adminDashboardUsersEditRoute: typeof adminDashboardUsersEditRoute
   adminDashboardAbTestsIndexRoute: typeof adminDashboardAbTestsIndexRoute
   adminDashboardAnalyticsIndexRoute: typeof adminDashboardAnalyticsIndexRoute
   adminDashboardAuditLogsIndexRoute: typeof adminDashboardAuditLogsIndexRoute
@@ -1745,6 +1786,8 @@ const adminDashboardRouteRouteChildren: adminDashboardRouteRouteChildren = {
   adminDashboardPaymentsPaymentIdRoute: adminDashboardPaymentsPaymentIdRoute,
   adminDashboardSupportTicketIdRoute: adminDashboardSupportTicketIdRoute,
   adminDashboardUsersUserIdRoute: adminDashboardUsersUserIdRoute,
+  adminDashboardUsersCreateRoute: adminDashboardUsersCreateRoute,
+  adminDashboardUsersEditRoute: adminDashboardUsersEditRoute,
   adminDashboardAbTestsIndexRoute: adminDashboardAbTestsIndexRoute,
   adminDashboardAnalyticsIndexRoute: adminDashboardAnalyticsIndexRoute,
   adminDashboardAuditLogsIndexRoute: adminDashboardAuditLogsIndexRoute,
