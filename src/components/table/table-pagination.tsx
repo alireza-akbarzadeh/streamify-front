@@ -1,32 +1,29 @@
-import type { Table } from "@tanstack/react-table"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { useTableContext } from "./table-context"
 
-interface DataTablePaginationProps<TData> {
-    table: Table<TData>
-}
+export function TablePagination<TData>() {
+    const { table } = useTableContext<TData>()
 
-export function DataTablePagination<TData>({ table }: DataTablePaginationProps<TData>) {
     const pageIndex = table.getState().pagination.pageIndex
     const pageCount = table.getPageCount()
 
     return (
-        <div className="flex items-center justify-between px-2 py-2">
+        <div className="flex items-center justify-between px-2 py-2 w-full">
             {/* Left Side: Selection Info */}
             <div className="hidden sm:block text-[11px] font-medium text-muted-foreground uppercase tracking-widest">
                 {table.getFilteredSelectedRowModel().rows.length} of{" "}
                 {table.getFilteredRowModel().rows.length} row(s) selected
             </div>
 
-            {/* Right Side: Navigation */}
+            {/* Navigation Logic Remains the Same */}
             <div className="flex items-center gap-2 ml-auto">
                 <span className="text-[11px] font-bold text-muted-foreground mr-2">
                     Page {pageIndex + 1} of {pageCount}
                 </span>
 
                 <div className="flex items-center gap-1">
-                    {/* Previous Button */}
                     <Button
                         variant="outline"
                         size="icon"
@@ -37,15 +34,12 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
                         <ChevronLeft className="size-4" />
                     </Button>
 
-                    {/* Page Numbers (Smart Slice) */}
                     <div className="flex items-center gap-1">
                         {Array.from({ length: Math.min(5, pageCount) }, (_, i) => {
-                            // Basic logic to show pages around current index
                             let pageNum = i;
                             if (pageCount > 5 && pageIndex > 2) {
                                 pageNum = Math.min(pageIndex - 2 + i, pageCount - 5 + i);
                             }
-
                             return (
                                 <Button
                                     key={pageNum}
@@ -62,7 +56,6 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
                         })}
                     </div>
 
-                    {/* Next Button */}
                     <Button
                         variant="outline"
                         size="icon"
