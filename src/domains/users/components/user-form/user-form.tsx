@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import { Mail, MapPin, Shield, User, Users, Zap } from "lucide-react";
+import { Mail, Shield, User, Users, Zap } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useForm } from "@/components/ui/forms/form";
@@ -32,6 +32,14 @@ export function UserForm({ initialData, mode = "create" }: { initialData?: Parti
 	});
 
 	const containerStyle = "max-w-[1100px] mx-auto bg-slate-900/40 backdrop-blur-3xl border border-white/5 rounded-[1.5rem] overflow-hidden shadow-2xl";
+
+	type CountryOption = { code: string; name: string; flag: string };
+
+	const countries: CountryOption[] = [
+		{ code: "US", name: "United States", flag: "🇺🇸" },
+		{ code: "UK", name: "United Kingdom", flag: "🇬🇧" },
+		{ code: "CA", name: "Canada", flag: "🇨🇦" },
+	];
 
 	return (
 		<div className="min-h-screen bg-slate-950 text-slate-300 py-12 px-6 font-sans">
@@ -97,14 +105,18 @@ export function UserForm({ initialData, mode = "create" }: { initialData?: Parti
 								<CompactField
 									form={form}
 									name="country"
-									label="Region"
-									placeholder="Enter country"
-									icon={MapPin}
+									type="select"
+									label="Country"
+									options={countries}
+									getOptionValue={(opt) => opt.code}
+									getOptionLabel={(opt) => opt.name}
+									renderOption={(opt) => (
+										<span>{opt.flag} {opt.name}</span>
+									)}
 								/>
 							</div>
 						</div>
 					</div>
-
 					{/* FOOTER ACTIONS */}
 					<div className="flex items-center justify-end gap-3 pt-6 border-t border-white/5">
 						<Button

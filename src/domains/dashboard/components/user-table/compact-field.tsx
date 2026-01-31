@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
  * This correctly infers the union of all possible field names
  */
 type ExtractFieldName<TForm> = TForm extends {
+    // biome-ignore lint/suspicious/noExplicitAny: Inferring field names from Field component's generic props
     Field: (props: infer TProps) => any;
 }
     ? TProps extends { name: infer TName }
@@ -27,19 +28,25 @@ interface BaseCompactFieldProps<TForm> {
     className?: string;
 }
 
-type CompactFieldProps<TForm> =
+type CompactFieldProps<TForm, TOption = string> =
     | (BaseCompactFieldProps<TForm> & {
         type?: "text" | "textarea" | "switch" | "phone";
         options?: never;
+        getOptionValue?: never;
+        getOptionLabel?: never;
+        renderOption?: never;
     })
     | (BaseCompactFieldProps<TForm> & {
         type: "select";
-        options: readonly string[];
+        options: readonly TOption[];
+        getOptionValue?: (option: TOption) => string;
+        getOptionLabel?: (option: TOption) => string;
+        renderOption?: (option: TOption) => React.ReactNode;
     });
 
 // biome-ignore lint/suspicious/noExplicitAny: Form can have any Field component structure
-export function CompactField<TForm extends { Field: any }>(
-    props: CompactFieldProps<TForm>
+export function CompactField<TForm extends { Field: any }, TOption = string>(
+    props: CompactFieldProps<TForm, TOption>
 ) {
     const { form, name, placeholder, icon: Icon, type = "text" } = props;
 
@@ -56,7 +63,11 @@ export function CompactField<TForm extends { Field: any }>(
                 const value = field.state.value;
 
                 switch (type) {
-                    case "select":
+                    case "select": {
+                        const getValue = props.getOptionValue || ((opt: TOption) => String(opt));
+                        const getLabel = props.getOptionLabel || ((opt: TOption) => String(opt));
+                        const renderOptionContent = props.renderOption || getLabel;
+
                         return (
                             <Select
                                 value={(value as string) ?? ""}
@@ -66,14 +77,18 @@ export function CompactField<TForm extends { Field: any }>(
                                     <SelectValue placeholder={placeholder} />
                                 </SelectTrigger>
                                 <SelectContent className="bg-slate-900 border-white/10 text-white shadow-2xl font-sans">
-                                    {props.options?.map((opt) => (
-                                        <SelectItem key={opt} value={opt} className="capitalize cursor-pointer focus:bg-white/5">
-                                            {opt}
-                                        </SelectItem>
-                                    ))}
+                                    {props.options?.map((opt) => {
+                                        const optValue = getValue(opt);
+                                        return (
+                                            <SelectItem key={optValue} value={optValue} className="capitalize cursor-pointer focus:bg-white/5">
+                                                {renderOptionContent(opt)}
+                                            </SelectItem>
+                                        );
+                                    })}
                                 </SelectContent>
                             </Select>
                         );
+                    }
 
                     case "textarea":
                         return (
