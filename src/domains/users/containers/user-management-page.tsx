@@ -75,7 +75,7 @@ export default function UserManagementPage() {
 							"border-t border-white/20 transition-all duration-300 active:scale-95 active:shadow-inner",
 						)}
 					>
-						<Link to="/dashboard/users/$userId">
+						<Link to="/dashboard/users/create">
 							<Plus className="mr-2 h-3.5 w-3.5 stroke-[3px]" />
 							Create User
 						</Link>

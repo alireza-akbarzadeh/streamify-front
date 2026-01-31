@@ -1,31 +1,32 @@
 import z from "zod";
 
 export const userAccountSchema = z.object({
-	// Identity
+	// Core Identity
 	name: z.string().min(2, "Name is required"),
-	email: z.string().email("Invalid email"),
-	avatar: z.string().url("Invalid avatar URL").optional(),
-	organization: z.string().optional(),
-
-	// Status & Access
+	email: z.string().email("Invalid work email"),
 	role: z.enum(["Admin", "Moderator", "User"]),
-	status: z.enum(["active", "pending", "suspended", "flagged", "deactivated"]),
-	plan: z.enum(["Free", "Standard", "Premium"]),
+	status: z.enum(["active", "pending", "suspended"]),
 
-	// Profile & Locale
-	city: z.string().optional(),
-	country: z.string().optional(),
-	timezone: z.string().optional(),
-	locale: z.string().optional(),
+	// Security
+	twoFactorEnabled: z.boolean().default(false),
+	phone: z.string().optional(),
 
-	// Billing
-	billingStatus: z.enum(["active", "past_due", "cancelled", "trialing"]),
-	accountBalance: z.number().min(0),
-	credits: z.number().int().min(0),
+	// Regional
+	country: z.string().min(1, "Country is required"),
+	timezone: z.string().default("UTC"),
+	locale: z.string().default("en-US"),
 
-	// Metadata
+	// Billing & Plan
+	plan: z.enum(["Free", "Standard", "Premium"]).default("Free"),
+	billingStatus: z
+		.enum(["active", "past_due", "cancelled", "trialing"])
+		.default("active"),
+	accountBalance: z.number().default(0),
+	credits: z.number().min(0).default(0),
+
+	// Admin & Org
+	organization: z.string().optional(),
+	manager: z.string().optional(),
+	notes: z.string().max(500, "Notes are too long").optional(),
 	tags: z.array(z.string()).default([]),
-	notes: z.string().optional(),
 });
-
-export type UserAccountFormData = z.infer<typeof userAccountSchema>;

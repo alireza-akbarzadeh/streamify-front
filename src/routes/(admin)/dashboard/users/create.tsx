@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
-import { UserForm } from '@/domains/users/components/user-form'
+import { UserForm } from '@/domains/users/components/user-form/user-form'
 
 export const Route = createFileRoute('/(admin)/dashboard/users/create')({
     component: RouteComponent,

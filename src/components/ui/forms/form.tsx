@@ -9,8 +9,8 @@ import type {
 import { useField, useForm as useTanStackForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-adapter";
 import type { ComponentProps, FC, ReactNode } from "react";
+import React from "react";
 import type { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import type { AsChildProps } from "@/components/ui/slot";
@@ -182,18 +182,43 @@ function FieldDetail({ asChild, className, children, ...props }: FieldDetailProp
 function FieldMessage({ asChild, className, children, ...props }: FieldMessageProps) {
 	const field = useFieldInstance();
 	const Comp = asChild ? Slot : "p";
-	const error = field.state.meta.isTouched && field.hasErrors ? field.state.meta.errors[0] : null;
-	if (!children && !error) return null;
+
+	// 1. Get the raw error
+	const rawError = field.state.meta.isTouched && field.hasErrors
+		? field.state.meta.errors[0]
+		: null;
+
+	// 2. Extract the string message safely
+	const errorMessage = React.useMemo(() => {
+		if (!rawError) return null;
+
+		// If it's a string, return it
+		if (typeof rawError === 'string') return rawError;
+
+		// If it's a Zod-style error object with a message property
+		if (typeof rawError === 'object' && 'message' in (rawError as any)) {
+			return (rawError as any).message;
+		}
+
+		// Fallback for arrays or other object types
+		return String(rawError);
+	}, [rawError]);
+
+	if (!children && !errorMessage) return null;
+
 	return (
 		<Comp
-			className={cn("text-[10px] font-bold", error ? "text-destructive" : "text-muted-foreground", className)}
+			className={cn(
+				"text-[10px] font-bold",
+				errorMessage ? "text-destructive" : "text-muted-foreground",
+				className
+			)}
 			{...props}
 		>
-			{error?.toString() || children}
+			{errorMessage || children}
 		</Comp>
 	);
 }
-
 function FieldContainer({ label, detail, message, children, className }: FieldContainerProps) {
 	return (
 		<div className={cn("space-y-1.5", className)}>

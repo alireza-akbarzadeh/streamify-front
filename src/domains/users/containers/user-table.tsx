@@ -1,3 +1,4 @@
+import { useNavigate } from "@tanstack/react-router";
 import { useStore } from "@tanstack/react-store";
 import {
     type ColumnFiltersState,
@@ -39,6 +40,8 @@ export function UserManagementTable() {
     const { users, isLoading, error } = useStore(userUIStore);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [rowSelection, setRowSelection] = React.useState({});
+
+    const navigate = useNavigate()
 
     React.useEffect(() => {
         fetchUsersAction();
@@ -233,7 +236,7 @@ export function UserManagementTable() {
                     {isLoading ? (
                         <Table.Loading columnsCount={8} rowsCount={10} />
                     ) : (
-                        <Table.Body columnsCount={8} />
+                        <Table.Body<UserAccount> onRowDoubleClick={(row) => navigate({ to: "/dashboard/users/$userId", params: { userId: row.original.id } })} columnsCount={8} />
                     )}
                 </div>
 

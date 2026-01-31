@@ -32,11 +32,12 @@ interface StatusFiltersProps {
     title?: string
 }
 
-interface BodyProps {
+interface BodyProps<TData> {
     columnsCount: number
+    onRowDoubleClick?: (row: Row<TData>) => void
 }
 
-import { Row } from "@tanstack/react-table"
+import type { Row } from "@tanstack/react-table"
 import {
     AlertDialog,
     AlertDialogAction,
@@ -57,7 +58,6 @@ interface BulkActionsProps<TData> {
     deleteDescription?: string
 }
 
-// 2. THE COMPOUND COMPONENT OBJECT
 export const Table = {
     Root: TableRoot,
 
@@ -155,8 +155,8 @@ export const Table = {
         )
     },
 
-    Body: ({ columnsCount }: BodyProps) => {
-        const { table } = useTableContext()
+    Body: <TData,>({ columnsCount, onRowDoubleClick }: BodyProps<TData>) => {
+        const { table } = useTableContext<TData>()
         const rows = table.getRowModel().rows
 
         return (
@@ -173,7 +173,7 @@ export const Table = {
                                             className={cn(
                                                 "p-5 text-left font-black text-muted-foreground uppercase tracking-widest text-[10px]",
                                                 // Sticky Header for the first column (Identity)
-                                                header.column.id === "name" && "sticky left-0 z-20 bg-muted/90 backdrop-blur-md shadow-[4px_0_10px_-5px_rgba(0,0,0,0.1)]"
+                                                header.column.id === "name" && "sticky left-0 z-20 "
                                             )}
                                         >
                                             {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
@@ -188,14 +188,18 @@ export const Table = {
                                     <tr
                                         key={row.id}
                                         data-state={row.getIsSelected() && "selected"}
-                                        className="hover:bg-primary/[0.03] transition-colors group/row"
+                                        className="hover:bg-primary/3 transition-colors group/row"
+                                        onDoubleClick={() => onRowDoubleClick?.(row)}
+                                        onClick={() => {
+                                            row.toggleSelected(!row.getIsSelected());
+                                        }}
                                     >
                                         {row.getVisibleCells().map(cell => (
                                             <td
                                                 key={cell.id}
                                                 className={cn(
                                                     "p-4 align-middle transition-colors",
-                                                    cell.column.id === "name" && "sticky left-0 z-10 bg-card/90 group-hover/row:bg-primary/[0.05] backdrop-blur-md border-r border-border/20 shadow-[4px_0_10px_-5px_rgba(0,0,0,0.1)]"
+                                                    cell.column.id === "name" && "sticky left-0 z-10  backdrop-blur-md border-r border-border/20 shadow-[4px_0_10px_-5px_rgba(0,0,0,0.1)]"
                                                 )}
                                             >
                                                 <div className="flex items-center">
