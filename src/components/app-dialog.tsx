@@ -45,11 +45,12 @@ export function AppDialog(props: AppDialogProps) {
 		component,
 	} = props;
 	const { isMobile } = useMediaQuery();
+
 	if (component === "sheet") {
 		return (
 			<Sheet open={open} onOpenChange={onOpenChange}>
 				{trigger && <SheetTrigger asChild>{trigger}</SheetTrigger>}
-				<SheetContent side="bottom" className="rounded-t-xl">
+				<SheetContent side="bottom" className="rounded-t-[20px] border-t border-white/10 bg-[#121212]">
 					<SheetHeader>
 						{title && <SheetTitle>{title}</SheetTitle>}
 						{description && <SheetDescription>{description}</SheetDescription>}
@@ -59,18 +60,22 @@ export function AppDialog(props: AppDialogProps) {
 			</Sheet>
 		);
 	}
+
 	if (isMobile) {
 		return (
 			<Drawer open={open} onOpenChange={onOpenChange}>
 				{trigger && <DrawerTrigger asChild>{trigger}</DrawerTrigger>}
-				<DrawerContent className="rounded-t-xl">
-					<DrawerHeader>
-						{title && <DrawerTitle>{title}</DrawerTitle>}
+				<DrawerContent className="rounded-t-[20px] border-t border-white/10 bg-[#121212] focus:outline-none">
+					{/* iPhone Styled Handle Bar */}
+					<div className="mx-auto mt-3 h-1.5 w-12 shrink-0 rounded-full bg-white/20" />
+
+					<DrawerHeader className="mt-2">
+						{title && <DrawerTitle className="text-center text-lg font-semibold">{title}</DrawerTitle>}
 						{description && (
-							<DrawerDescription>{description}</DrawerDescription>
+							<DrawerDescription className="text-center">{description}</DrawerDescription>
 						)}
 					</DrawerHeader>
-					<div className="mt-4">{children}</div>
+					<div className="mt-2 px-4 pb-8">{children}</div>
 				</DrawerContent>
 			</Drawer>
 		);
@@ -79,7 +84,7 @@ export function AppDialog(props: AppDialogProps) {
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			{trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-			<DialogContent className="sm:max-w-106.25">
+			<DialogContent className="sm:max-w-106.25 bg-[#1a1a1a] border-white/10 shadow-2xl">
 				<DialogHeader>
 					{title && <DialogTitle>{title}</DialogTitle>}
 					{description && <DialogDescription>{description}</DialogDescription>}

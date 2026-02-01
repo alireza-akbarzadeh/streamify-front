@@ -83,6 +83,13 @@ export function BottomPlayer({
         [],
     );
 
+    // Optimized handler for mobile dialog
+    const handleAddClick = (e: React.MouseEvent | React.TouchEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        openAddToPlaylist(currentSong);
+    };
+
     const formatTime = (seconds: number) => {
         const mins = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
@@ -99,7 +106,7 @@ export function BottomPlayer({
             className={cn(
                 "fixed bottom-0 left-0 right-0 z-[100] select-none",
                 "h-20 md:h-24 px-2 md:px-4 bg-black/90 backdrop-blur-xl border-t border-white/5",
-                "pb-[env(safe-area-inset-bottom)]" // Support for mobile home bars
+                "pb-[env(safe-area-inset-bottom)]"
             )}
         >
             {/* Top Micro-Progress Bar (Mobile Only) */}
@@ -132,7 +139,8 @@ export function BottomPlayer({
                             {currentSong.artist}
                         </div>
                     </div>
-                    {/* Like & Add Hidden on very small screens, visible on md */}
+
+                    {/* Desktop Like & Add */}
                     <div className="hidden sm:flex items-center gap-3 ml-2">
                         <button onClick={() => toggleLike(currentSong.id)} className={cn("transition-colors", isLiked ? "text-pink-500" : "text-[#b3b3b3] hover:text-white")}>
                             <Heart className={cn("w-5 h-5", isLiked && "fill-current")} />
@@ -146,12 +154,13 @@ export function BottomPlayer({
                 {/* 2. CENTER: Main Controls */}
                 <div className="flex-1 max-w-[45%] flex flex-col items-center">
                     <div className="flex items-center gap-4 md:gap-6 mb-1 md:mb-2">
-                        {/* Hidden on Mobile */}
                         <button onClick={toggleShuffle} className={cn("hidden md:block", isShuffle ? "text-purple-500" : "text-[#b3b3b3] hover:text-white")}>
                             <Shuffle className="w-4 h-4" />
                         </button>
-                        <button className="hidden md:block text-[#b3b3b3] hover:text-white">
-                            <SkipBack className="w-5 h-5 fill-current" />
+
+                        {/* SkipBack: Visible on mobile now */}
+                        <button className="text-[#b3b3b3] hover:text-white">
+                            <SkipBack className="w-6 h-6 md:w-5 md:h-5 fill-current" />
                         </button>
 
                         <motion.button
@@ -167,14 +176,15 @@ export function BottomPlayer({
                         </motion.button>
 
                         <button className="text-[#b3b3b3] hover:text-white">
-                            <SkipForward className="w-5 h-5 fill-current" />
+                            <SkipForward className="w-6 h-6 md:w-5 md:h-5 fill-current" />
                         </button>
+
                         <button className="hidden md:block text-[#b3b3b3] hover:text-white">
                             <Repeat className="w-4 h-4" />
                         </button>
                     </div>
 
-                    {/* Progress Bar (Hidden on Mobile - replaced by top micro-bar) */}
+                    {/* Progress Bar (Desktop) */}
                     <div className="hidden md:flex items-center gap-2 w-full">
                         <span className="text-[11px] text-[#a7a7a7] tabular-nums w-10 text-right">
                             {formatTime(currentTime)}
@@ -182,31 +192,6 @@ export function BottomPlayer({
                         <div
                             ref={progressBarRef}
                             onClick={handleProgressSeek}
-                            onKeyDown={(e) => {
-                                if (!progressBarRef.current) return;
-                                const step = 5; // seconds per arrow press
-                                if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
-                                    e.preventDefault();
-                                    const next = Math.max(
-                                        0,
-                                        Math.min(duration, currentTime + (e.key === "ArrowRight" ? step : -step)),
-                                    );
-                                    onTimeChange(Math.floor(next));
-                                } else if (e.key === "Home") {
-                                    e.preventDefault();
-                                    onTimeChange(0);
-                                } else if (e.key === "End") {
-                                    e.preventDefault();
-                                    onTimeChange(duration);
-                                }
-                            }}
-                            role="slider"
-                            tabIndex={0}
-                            aria-orientation="horizontal"
-                            aria-valuemin={0}
-                            aria-valuemax={duration}
-                            aria-valuenow={currentTime}
-                            aria-valuetext={formatTime(currentTime)}
                             className="flex-1 h-1 bg-[#4d4d4d] rounded-full group cursor-pointer relative"
                         >
                             <div
@@ -226,12 +211,22 @@ export function BottomPlayer({
 
                 {/* 3. RIGHT: Volume & Extras */}
                 <div className="flex items-center gap-3 w-auto md:w-[30%] justify-end">
-                    {/* On Mobile, only show heart or add icon here */}
+                    {/* Mobile Like & Plus Circle */}
                     <button
                         onClick={() => toggleLike(currentSong.id)}
                         className={cn("md:hidden transition-colors", isLiked ? "text-pink-500" : "text-[#b3b3b3]")}
                     >
                         <Heart className={cn("w-6 h-6", isLiked && "fill-current")} />
+                    </button>
+
+                    {/* RESTORED: PlusCircle for Mobile Dialog */}
+                    <button
+                        type="button"
+                        onClick={handleAddClick}
+                        onTouchStart={handleAddClick}
+                        className="md:hidden text-[#b3b3b3] active:text-white transition-colors relative z-50 p-1"
+                    >
+                        <PlusCircle className="w-6 h-6" />
                     </button>
 
                     {/* Desktop Extra Icons */}
@@ -241,7 +236,7 @@ export function BottomPlayer({
                         <MonitorSpeaker className="w-4 h-4 text-[#b3b3b3]" />
                     </div>
 
-                    {/* Volume Bar (Hidden on Mobile) */}
+                    {/* Volume Bar (Desktop) */}
                     <div className="hidden md:flex items-center gap-2 group w-24 lg:w-32">
                         <button onClick={toggleMute} className="text-[#b3b3b3] hover:text-white">
                             {isMuted || volume === 0 ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
@@ -249,27 +244,6 @@ export function BottomPlayer({
                         <div
                             ref={volumeBarRef}
                             onClick={handleVolumeSeek}
-                            onKeyDown={(e) => {
-                                if (!volumeBarRef.current) return;
-                                const step = 5;
-                                if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
-                                    const current = isMuted ? 0 : volume;
-                                    const next = Math.max(
-                                        0,
-                                        Math.min(100, current + (e.key === "ArrowRight" ? step : -step)),
-                                    );
-                                    setVolume(next);
-                                } else if (e.key === "Home") {
-                                    setVolume(0);
-                                } else if (e.key === "End") {
-                                    setVolume(100);
-                                }
-                            }}
-                            role="slider"
-                            tabIndex={0}
-                            aria-valuemin={0}
-                            aria-valuemax={100}
-                            aria-valuenow={activeVolume}
                             className="flex-1 h-1 bg-[#4d4d4d] rounded-full relative cursor-pointer"
                         >
                             <div

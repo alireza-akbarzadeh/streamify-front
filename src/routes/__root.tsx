@@ -68,7 +68,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 					<TooltipProvider>{children}</TooltipProvider>
 					<Toaster />
 				</ThemeProvider>
-				<TanStackDevtools
+				{/* <TanStackDevtools
 					config={{ position: "bottom-right" }}
 					plugins={[
 						{
@@ -79,7 +79,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 						TanStackQueryDevtools,
 						AiDevtools,
 					]}
-				/>
+				/> */}
 				<Scripts />
 			</body>
 		</html>
