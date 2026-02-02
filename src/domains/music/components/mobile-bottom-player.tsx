@@ -136,7 +136,7 @@ export function MobilePlayer() {
                                     <h2 className="text-3xl font-black text-white truncate">{currentSong.title}</h2>
                                     <p className="text-xl text-white/60 truncate font-medium">{currentSong.artist}</p>
                                 </div>
-                                <LikeButton isLiked={currentSong.isLiked} iconSize="medium" onClick={() => musicAction.toggleLike(currentSong)} />
+                                <LikeButton isLiked={currentSong.isLiked} iconSize="large" onClick={() => musicAction.toggleLike(currentSong)} />
                                 <AddToPlaylistModal />
                             </div>
 

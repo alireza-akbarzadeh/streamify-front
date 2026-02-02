@@ -24,7 +24,7 @@ export function LikeButton({
 		"x-small": "size-4",
 		small: "size-5",
 		medium: "size-6",
-		large: "size-8",
+		large: "size-7",
 		"extra-large": "size-10",
 	};
 
@@ -33,7 +33,7 @@ export function LikeButton({
 			variant="ghost"
 			onClick={onClick}
 			className={cn(
-				"rounded-full transition-all duration-300",
+				"rounded-full w-12 h-12 transition-all duration-300",
 				isLiked ? "text-pink-500 hover:text-pink-600 bg-pink-500/10" : "text-[#b3b3b3] hover:text-white bg-white/5",
 				className
 			)}

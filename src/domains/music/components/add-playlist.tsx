@@ -29,7 +29,7 @@ export function AddToPlaylistModal(props: AddToPlaylistModalProps) {
 						e.stopPropagation();
 						musicAction.toggleAddToPlayListModal();
 					}}
-					className="p-1.5 rounded-full border border-white/20 hover:bg-white/10  text-gray-400 hover:text-white transition-colors"
+					className="py-1.5 px-2 rounded-full border border-white/20 hover:bg-white/10  text-gray-400 hover:text-white transition-colors"
 				>
 					<Plus className="w-6 h-7" />
 				</button>
