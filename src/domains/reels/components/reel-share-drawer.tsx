@@ -10,6 +10,7 @@ import {
     DrawerTitle,
     DrawerTrigger
 } from '@/components/ui/drawer';
+import { layoutSize } from '../reels.domain';
 
 interface ShareDrawerProps {
     videoUrl: string;
@@ -41,7 +42,7 @@ export function ShareDrawer({ videoUrl }: ShareDrawerProps) {
             </DrawerTrigger>
 
             {/* 2. CONTENT: This is the slide-up menu */}
-            <DrawerContent className="bg-[#0F0F0F] border-t border-white/10 text-white pb-10 outline-none">
+            <DrawerContent className={`bg-[#0a0a0a] border-t border-white/10 text-white pb-10 outline-none ${layoutSize}`}>
                 {/* iPhone Style Drag Handle */}
                 <div className="mx-auto mt-3 h-1.5 w-12 rounded-full bg-white/20" />
 
@@ -71,7 +72,7 @@ export function ShareDrawer({ videoUrl }: ShareDrawerProps) {
 // Internal component for the drawer icons
 function ShareOption({ icon, label, onClick }: { icon: React.ReactNode; label: string; onClick?: () => void }) {
     return (
-        <button onClick={onClick} className="flex flex-col items-center gap-2 min-w-[70px] outline-none">
+        <button onClick={onClick} className="flex flex-col items-center gap-2 min-w-17.5 outline-none">
             <div className="size-14 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors border border-white/5">
                 {icon}
             </div>

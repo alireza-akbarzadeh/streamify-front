@@ -19,10 +19,11 @@ export const reelsQueryOptions = {
     queryFn: () => getVideoReels(),
 };
 
+export const layoutSize = "max-w-xl mx-auto"
+
 export function ReelsDomain() {
     const { data: serverVideos, isLoading } = useQuery(reelsQueryOptions);
     const { videos, activeTab, activeVideoId, commentModalOpen } = useStore(reelsStore);
-    const [open, setOpen] = useState<boolean>(false);
     const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -61,23 +62,21 @@ export function ReelsDomain() {
     }, [videos]);
 
     if (isLoading) return (
-        <div className="h-screen w-full flex items-center justify-center bg-black">
+        <div className="h-screen w-full flex items-center justify-center  bg-[#0a0a0a]">
             <Loader2 className="size-10 text-white animate-spin" />
         </div>
     );
-
     return (
-        <main vaul-drawer-wrapper="" className="bg-black">
+        <main vaul-drawer-wrapper="" className={`bg-[#0a0a0a] items-center relative flex justify-center ${layoutSize}`}>
             <div className="relative h-screen w-screen bg-black overflow-hidden select-none">
 
                 {/* Header */}
                 <motion.header
                     initial={{ y: -20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 pt-12 pb-4 bg-linear-to-b from-black/80 to-transparent"
+                    className={`fixed top-0  w-full z-50 flex items-center justify-between px-6 pt-12 pb-4 bg-linear-to-b from-black/80 to-transparent ${layoutSize}`}
                 >
                     <div className="flex space-x-4">
-                        <MobileHeader show onOpenChange={setOpen} open={open} />
                         <button className="text-white hover:opacity-70 transition-opacity">
                             <Search className="size-6" />
                         </button>

@@ -185,14 +185,22 @@ export function VideoCard({ video, isActive, onVideoEnd }: VideoCardProps) {
             </button>
 
             {/** biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-            <div className={cn("no-pause absolute bottom-0 left-0 right-0 h-8 flex items-end cursor-pointer z-50 transition-opacity", isFocused ? "opacity-0" : "opacity-100")} onClick={(e) => { e.stopPropagation(); handleSeek(e); }}>
+            <div className={cn("no-pause hidden absolute bottom-0 left-0 right-0 h-8 md:flex items-end cursor-pointer z-50 transition-opacity", isFocused ? "opacity-0" : "opacity-100")} onClick={(e) => { e.stopPropagation(); handleSeek(e); }}>
                 <div className="w-full h-1 bg-white/20 group-hover:h-2 transition-all relative">
                     <motion.div className="h-full bg-linear-to-r from-purple-500 to-pink-500 shadow-[0_0_15px_rgba(192,38,211,0.6)] relative" style={{ width: `${progress}%` }}>
                         <div className="absolute right-0 top-1/2 -translate-y-1/2 size-3 bg-white rounded-full scale-0 group-hover:scale-100 transition-transform shadow-lg" />
                     </motion.div>
                 </div>
             </div>
-
+            {/** biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+            <div className={cn("no-pause flex absolute bottom-0 left-0 right-0  items-end cursor-pointer z-50 transition-opacity", isFocused ? "opacity-0" : "opacity-100")} onClick={(e) => { e.stopPropagation(); handleSeek(e); }}>
+                <div className="w-full h-1 bg-white/20 group-hover:h-2 transition-all relative">
+                    <motion.div className="h-full bg-linear-to-r from-purple-500 to-pink-500 shadow-[0_0_15px_rgba(192,38,211,0.6)] relative" style={{ width: `${progress}%` }}>
+                        <div className="absolute right-0 top-1/2 -translate-y-1/2 size-3 bg-white rounded-full scale-0 group-hover:scale-100 transition-transform shadow-lg" />
+                    </motion.div>
+                    asdasdasd
+                </div>
+            </div>
             <AnimatePresence>
                 {isShowingHeart && (
                     <motion.div initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1.5, opacity: 1 }} exit={{ scale: 2, opacity: 0 }} className="absolute inset-0 flex items-center justify-center pointer-events-none z-50">
@@ -200,7 +208,6 @@ export function VideoCard({ video, isActive, onVideoEnd }: VideoCardProps) {
                     </motion.div>
                 )}
             </AnimatePresence>
-
             <ReelMoreMenu isOpen={isMenuOpen} onClose={() => setMoreMenuVideo(null)} onAction={() => { }} />
         </div>
     );

@@ -9,6 +9,7 @@ import {
     DrawerTitle
 } from '@/components/ui/drawer';
 import { Input } from '@/components/ui/input';
+import { layoutSize } from '../reels.domain';
 import { closeComments, reelsStore } from '../reels.store';
 import type { CommentItem } from '../reels.types';
 import { getReelComments } from '../server/reels.functions';
@@ -33,7 +34,7 @@ export default function CommentModal({ videoId }: { videoId: number }) {
         }
     };
 
-    const newLocal = "fixed bottom-0 left-0 right-0 bg-[#0F0F0F] border-t border-white/10 text-white max-h-[85vh] outline-none flex flex-col z-[100]";
+    const newLocal = `fixed bottom-0 left-0 right-0 bg-[#0F0F0F] border-t border-white/10 text-white max-h-[85vh] outline-none flex flex-col z-[100] ${layoutSize}`;
     return (
         <Drawer
             open={commentModalOpen}
@@ -41,7 +42,7 @@ export default function CommentModal({ videoId }: { videoId: number }) {
             shouldScaleBackground
         >
             <DrawerContent className={newLocal}>
-                <div className="mx-auto mt-3 h-1.5 w-12 flex-shrink-0 rounded-full bg-white/30" />
+                <div className="mx-auto mt-3 h-1.5 w-12 shrink-0 rounded-full bg-white/30" />
 
                 <DrawerHeader className="border-b border-white/5 px-6 pb-4 mt-2">
                     <DrawerTitle className="text-left font-bold text-base flex items-baseline">

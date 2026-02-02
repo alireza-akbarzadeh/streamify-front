@@ -31,7 +31,7 @@ export function ReelMoreMenu({ isOpen, onClose, onAction }: ReelMoreMenuProps) {
     return (
         <AnimatePresence>
             {isOpen && (
-                <div className="absolute inset-0 z-[100] flex items-end justify-center overflow-hidden">
+                <div className="absolute inset-0 z-100 flex items-end justify-center overflow-hidden">
                     {/* Backdrop with premium blur - clickable to close */}
                     <motion.div
                         initial={{ opacity: 0 }}
@@ -94,7 +94,7 @@ export function ReelMoreMenu({ isOpen, onClose, onAction }: ReelMoreMenuProps) {
                             </div>
 
                             {/* Secondary List Actions - Full width row items */}
-                            <div className="overflow-hidden rounded-[2rem] bg-white/[0.03] border border-white/5">
+                            <div className="overflow-hidden rounded-[2rem] bg-white/3 border border-white/5">
                                 <MenuListItem
                                     icon={<UserMinus className="size-5 text-orange-400" />}
                                     label="Unfollow"
