@@ -1,10 +1,12 @@
 /** biome-ignore-all lint/a11y/useKeyWithClickEvents: <explanation> */
+
 import { useStore } from "@tanstack/react-store";
 import { AnimatePresence, motion, useAnimation } from "framer-motion";
-import { ChevronDown, ListMusic, MoreHorizontal, Pause, Play, Share2, SkipBack, SkipForward } from "lucide-react";
+import { ChevronDown, ListMusic, Mic2, MoreHorizontal, Pause, Pin, Play, Radio, Share2, SkipBack, SkipForward, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { LikeButton } from "@/components/buttons/like-button";
-import { Drawer, DrawerContent } from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { musicAction, musicStore } from "../music.store";
 import { AddToPlaylistModal } from "./add-playlist";
 
@@ -17,6 +19,30 @@ export function MobilePlayer() {
     const store = useStore(musicStore);
     const { currentSong, isPlaying, progressPercentage, currentTime } = store;
 
+    // --- SHARE FUNCTIONALITY ---
+    const handleShare = async () => {
+        if (!currentSong) return;
+
+        const shareData = {
+            title: currentSong.title,
+            text: `Check out ${currentSong.title} by ${currentSong.artist}`,
+            url: window.location.href, // Or a specific song link if you have one
+        };
+
+        try {
+            if (navigator.share) {
+                await navigator.share(shareData);
+            } else {
+                // Fallback: Copy to clipboard
+                await navigator.clipboard.writeText(window.location.href);
+                alert("Link copied to clipboard!");
+            }
+        } catch (err) {
+            console.error("Error sharing:", err);
+        }
+    };
+
+    // --- DRAG / SEEK LOGIC ---
     const handleSeek = useCallback((e: React.MouseEvent | React.TouchEvent | PointerEvent) => {
         if (!progressBarRef.current || !currentSong) return;
         const rect = progressBarRef.current.getBoundingClientRect();
@@ -27,7 +53,7 @@ export function MobilePlayer() {
 
     const onPointerDown = (e: React.PointerEvent) => {
         e.stopPropagation();
-        setIsDragging(true); // Disable transitions while dragging
+        setIsDragging(true);
         handleSeek(e);
 
         const onPointerMove = (moveEvent: PointerEvent) => {
@@ -35,7 +61,7 @@ export function MobilePlayer() {
         };
 
         const onPointerUp = () => {
-            setIsDragging(false); // Re-enable transitions
+            setIsDragging(false);
             document.removeEventListener('pointermove', onPointerMove);
             document.removeEventListener('pointerup', onPointerUp);
         };
@@ -44,6 +70,7 @@ export function MobilePlayer() {
         document.addEventListener('pointerup', onPointerUp);
     };
 
+    // --- ANIMATION & TICKER ---
     useEffect(() => {
         controls.start({
             scale: isPlaying ? 1 : 0.85,
@@ -92,7 +119,6 @@ export function MobilePlayer() {
                                 transition={{ ease: "linear", duration: isPlaying ? 1 : 0 }}
                             />
                         </div>
-                        {/* ... rest of mini player ... */}
                         <div className="flex items-center gap-3 min-w-0 flex-1">
                             <img src={currentSong.albumArt} className="w-12 h-12 rounded-lg object-cover" alt="" />
                             <div className="min-w-0 flex-1">
@@ -121,9 +147,40 @@ export function MobilePlayer() {
                             </button>
                             <div className="flex flex-col items-center">
                                 <span className="text-[10px] uppercase tracking-[0.2em] text-white/50 font-black">Playing From Album</span>
-                                <span className="text-xs text-white font-bold truncate max-w-[200px] mt-1">{currentSong.album}</span>
+                                <span className="text-xs text-white font-bold truncate max-w-50 mt-1">{currentSong.album}</span>
                             </div>
-                            <button className="p-2 -mr-2"><MoreHorizontal className="w-6 h-6 text-white" /></button>
+
+                            {/* --- THREE DOTS BUTTON (Dropdown) --- */}
+                            <Drawer>
+                                <DrawerTrigger asChild>
+                                    <button className="p-2 -mr-2 outline-none">
+                                        <MoreHorizontal className="w-6 h-6 text-white" />
+                                    </button>
+                                </DrawerTrigger>
+                                <DrawerContent className="bg-[#282828] border-white/10 text-white ">
+                                    <div className="mx-auto mt-3 h-1.5 w-12 shrink-0 rounded-full bg-white/20" />
+                                    <DrawerTrigger asChild className="gap-3 py-3 focus:bg-white/10 cursor-pointer">
+                                        <Button>
+                                            <Radio className="w-4 h-4" /> Go to song radio
+                                        </Button>
+                                    </DrawerTrigger>
+                                    <DrawerTrigger asChild className="gap-3 py-3 focus:bg-white/10 cursor-pointer">
+                                        <Button >
+                                            <Mic2 className="w-4 h-4" /> View lyrics
+                                        </Button>
+                                    </DrawerTrigger>
+                                    <DrawerTrigger asChild className="gap-3 py-3 focus:bg-white/10 text-red-400 focus:text-red-400 cursor-pointer">
+                                        <Button>
+                                            <Trash2 className="w-4 h-4" /> Remove from queue
+                                        </Button>
+                                    </DrawerTrigger>
+                                    <DrawerTrigger asChild className="gap-3 py-3 focus:bg-white/10 text-red-400 focus:text-red-400 cursor-pointer">
+                                        <Button onClick={() => musicAction.togglePin(currentSong.id)}>
+                                            <Pin className="w-4 h-4" /> Remove from queue
+                                        </Button>
+                                    </DrawerTrigger>
+                                </DrawerContent>
+                            </Drawer>
                         </div>
 
                         <div className="flex-1 flex items-center justify-center py-4">
@@ -133,11 +190,13 @@ export function MobilePlayer() {
                         <div className="mt-8 space-y-8">
                             <div className="flex items-center justify-between">
                                 <div className="min-w-0">
-                                    <h2 className="text-3xl font-black text-white truncate">{currentSong.title}</h2>
-                                    <p className="text-xl text-white/60 truncate font-medium">{currentSong.artist}</p>
+                                    <h2 className="text-2xl font-black text-white truncate">{currentSong.title}</h2>
+                                    <p className="text-lg text-white/60 truncate font-medium">{currentSong.artist}</p>
                                 </div>
-                                <LikeButton isLiked={currentSong.isLiked} iconSize="large" onClick={() => musicAction.toggleLike(currentSong)} />
-                                <AddToPlaylistModal />
+                                <div className="flex items-center gap-4">
+                                    <LikeButton isLiked={currentSong.isLiked} iconSize="large" onClick={() => musicAction.toggleLike(currentSong)} />
+                                    <AddToPlaylistModal />
+                                </div>
                             </div>
 
                             {/* --- THE DRAGGABLE PROGRESS BAR --- */}
@@ -147,21 +206,15 @@ export function MobilePlayer() {
                                     onPointerDown={onPointerDown}
                                     className="h-6 flex items-center w-full group cursor-pointer touch-none relative"
                                 >
-                                    {/* Rail */}
                                     <div className="h-1.5 w-full bg-white/10 rounded-full relative overflow-visible">
-                                        {/* Filled Part */}
                                         <motion.div
                                             className="h-full bg-white rounded-full absolute left-0 top-0"
                                             animate={{ width: `${progressPercentage}%` }}
-                                            // When dragging, duration is 0 for instant feedback. 
-                                            // When playing, duration is 1s for smooth movement.
                                             transition={{
                                                 ease: "linear",
                                                 duration: isDragging ? 0 : (isPlaying ? 1 : 0.2)
                                             }}
                                         />
-
-                                        {/* Drag Circle (Thumb) */}
                                         <motion.div
                                             className="absolute top-1/2 -translate-y-1/2 size-4 bg-white rounded-full shadow-xl"
                                             animate={{
@@ -172,7 +225,7 @@ export function MobilePlayer() {
                                                 left: { ease: "linear", duration: isDragging ? 0 : (isPlaying ? 1 : 0.2) },
                                                 scale: { type: "spring", stiffness: 300, damping: 20 }
                                             }}
-                                            style={{ x: "-50%" }} // Center the thumb on the progress line
+                                            style={{ x: "-50%" }}
                                         />
                                     </div>
                                 </div>
@@ -182,8 +235,16 @@ export function MobilePlayer() {
                                 </div>
                             </div>
 
+                            {/* Main Controls */}
                             <div className="flex items-center justify-between">
-                                <button className="text-white/40"><Share2 className="w-6 h-6" /></button>
+                                {/* --- SHARE BUTTON --- */}
+                                <button
+                                    onClick={handleShare}
+                                    className="text-white/40 active:text-white transition-colors"
+                                >
+                                    <Share2 className="w-6 h-6" />
+                                </button>
+
                                 <div className="flex items-center gap-8">
                                     <button onClick={musicAction.skipPrevious} className="text-white"><SkipBack className="w-9 h-9 fill-current" /></button>
                                     <button onClick={musicAction.togglePlay} className="w-20 h-20 rounded-full bg-white flex items-center justify-center shadow-xl">

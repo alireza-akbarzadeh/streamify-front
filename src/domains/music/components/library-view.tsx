@@ -3,10 +3,9 @@ import { motion } from "framer-motion";
 import { Clock, Heart, Pause, Play } from "lucide-react";
 // Import your stores and actions
 import {
+	musicAction,
 	musicStore,
 	type Song,
-	setCurrentSong,
-	togglePlay,
 } from "@/domains/music/music.store";
 import { playerStore, toggleLike } from "@/domains/music/player.store";
 
@@ -54,9 +53,9 @@ export function LibraryView() {
 
 	const handleSongClick = (song: Song) => {
 		if (activeSongId === song.id) {
-			togglePlay();
+			musicAction.togglePlay();
 		} else {
-			setCurrentSong(song);
+			musicAction.setCurrentSong(song);
 		}
 	};
 
@@ -189,8 +188,8 @@ export function LibraryView() {
 									>
 										<Heart
 											className={`w-4 h-4 ${likedSongIds.has(song.id)
-													? "fill-pink-500 text-pink-500 border-none"
-													: "text-gray-400 hover:text-white"
+												? "fill-pink-500 text-pink-500 border-none"
+												: "text-gray-400 hover:text-white"
 												}`}
 										/>
 									</button>

@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Heart, MoreHorizontal, Play } from "lucide-react";
 import { useState } from "react";
 // Import your stores and types
-import { musicStore, setCurrentSong } from "@/domains/music/music.store";
+import { musicAction, musicStore } from "@/domains/music/music.store";
 import { MusicSearch } from "../components/music-search";
 
 // --- MOCK DATA ---
@@ -180,11 +180,11 @@ export function SearchView() {
 										return (
 											<div
 												key={song.id}
-												onClick={() => setCurrentSong(song)}
+												onClick={() => musicAction.setCurrentSong(song)}
 												onKeyDown={(e) => {
 													if (e.key === "Enter" || e.key === " ") {
 														e.preventDefault();
-														setCurrentSong(song);
+														musicAction.setCurrentSong(song);
 													}
 												}}
 												className="flex items-center gap-3 p-2 rounded-md hover:bg-white/10 group cursor-pointer"
