@@ -31,6 +31,7 @@ export function CreatePlaylistDialog({
 			setPlaylistName("");
 			setDescription("");
 			onClose();
+			musicAction.toggleAddToPlayListModal()
 		}
 	};
 

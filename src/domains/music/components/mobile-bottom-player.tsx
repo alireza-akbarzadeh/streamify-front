@@ -342,7 +342,7 @@ export function MobilePlayer() {
                                                     {isAlbumPinned ? "Unpin album" : "Pin album"}
                                                 </span>
                                                 {isAlbumPinned && (
-                                                    <div className="ml-auto px-2 py-0.5 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full">
+                                                    <div className="ml-auto px-2 py-0.5 bg-linear-to-r from-purple-500/20 to-pink-500/20 rounded-full">
                                                         <Check className="w-3 h-3 text-purple-400" />
                                                     </div>
                                                 )}
