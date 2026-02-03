@@ -96,6 +96,7 @@ const searchFilters = [
 	"Podcasts & Shows",
 ];
 
+
 export function SearchView() {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [activeFilter, setActiveFilter] = useState("All");
