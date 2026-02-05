@@ -6,16 +6,18 @@ import { Link as RouterLink } from "@tanstack/react-router";
 import type { ComponentProps } from "react";
 import type { FileRouteTypes } from "@/routeTree.gen";
 
-type InternalLink = "." | ".." | Exclude<FileRouteTypes["to"], "">;
+export type InternalLink = "." | ".." | Exclude<FileRouteTypes["to"], "">;
 type ExternalLink = `http${"s" | ""}://${string}.${string}`;
 type AnchorLink = `#${string}`;
 type ValidLink = InternalLink | ExternalLink | AnchorLink;
 
+
+
 type LinkProps<To extends ValidLink> = (To extends InternalLink
 	? LinkComponentProps<"a", RegisteredRouter, string, To>
 	: ComponentProps<"a">) & {
-	to: To;
-};
+		to: To;
+	};
 
 function Link<To extends ValidLink>(props: LinkProps<To>) {
 	switch (true) {

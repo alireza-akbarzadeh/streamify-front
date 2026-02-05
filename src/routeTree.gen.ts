@@ -9,9 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as profileRouteRouteImport } from './routes/(profile)/route'
+import { Route as libraryRouteRouteImport } from './routes/(library)/route'
 import { Route as homeIndexRouteImport } from './routes/(home)/index'
-import { Route as profileProfileRouteImport } from './routes/(profile)/profile'
 import { Route as homeTermsRouteImport } from './routes/(home)/terms'
 import { Route as homePrivacyRouteImport } from './routes/(home)/privacy'
 import { Route as homePricingRouteImport } from './routes/(home)/pricing'
@@ -31,18 +30,26 @@ import { Route as authLoginRouteImport } from './routes/(auth)/login'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
 import { Route as homeMusicRouteRouteImport } from './routes/(home)/music/route'
 import { Route as adminDashboardRouteRouteImport } from './routes/(admin)/dashboard/route'
+import { Route as libraryLibraryIndexRouteImport } from './routes/(library)/library/index'
 import { Route as homeReelsIndexRouteImport } from './routes/(home)/reels/index'
 import { Route as homeMusicIndexRouteImport } from './routes/(home)/music/index'
 import { Route as homeMoviesIndexRouteImport } from './routes/(home)/movies/index'
-import { Route as homeLibraryIndexRouteImport } from './routes/(home)/library/index'
 import { Route as blogBlogIndexRouteImport } from './routes/(blog)/blog/index'
 import { Route as adminDashboardIndexRouteImport } from './routes/(admin)/dashboard/index'
+import { Route as libraryLibraryVideosRouteImport } from './routes/(library)/library/videos'
+import { Route as libraryLibrarySearchRouteImport } from './routes/(library)/library/search'
+import { Route as libraryLibrarySavedRouteImport } from './routes/(library)/library/saved'
+import { Route as libraryLibraryProfileRouteImport } from './routes/(library)/library/profile'
+import { Route as libraryLibraryPodcastRouteImport } from './routes/(library)/library/podcast'
+import { Route as libraryLibraryMusicRouteImport } from './routes/(library)/library/music'
+import { Route as libraryLibraryLikedRouteImport } from './routes/(library)/library/liked'
+import { Route as libraryLibraryHistoryRouteImport } from './routes/(library)/library/history'
+import { Route as libraryLibraryBlogsRouteImport } from './routes/(library)/library/blogs'
 import { Route as homePlayPlayIdRouteImport } from './routes/(home)/play/$playId'
 import { Route as homeMusicSearchRouteImport } from './routes/(home)/music/search'
 import { Route as homeMusicLibraryRouteImport } from './routes/(home)/music/library'
 import { Route as homeMusicMusicidRouteImport } from './routes/(home)/music/$musicid'
 import { Route as homeMoviesMovieIdRouteImport } from './routes/(home)/movies/$movieId'
-import { Route as homeLibraryProfileRouteImport } from './routes/(home)/library/profile'
 import { Route as homeExploreSectionRouteImport } from './routes/(home)/explore/$section'
 import { Route as blogBlogProfileRouteImport } from './routes/(blog)/blog/profile'
 import { Route as blogBlogBlogslugRouteImport } from './routes/(blog)/blog/$blogslug'
@@ -100,19 +107,14 @@ import { Route as adminDashboardAnalyticsContentIndexRouteImport } from './route
 import { Route as adminDashboardMusicArtistsArtistIdRouteImport } from './routes/(admin)/dashboard/music/artists/$artistId'
 import { Route as adminDashboardMusicAlbumsAlbumIdRouteImport } from './routes/(admin)/dashboard/music/albums/$albumId'
 
-const profileRouteRoute = profileRouteRouteImport.update({
-  id: '/(profile)',
+const libraryRouteRoute = libraryRouteRouteImport.update({
+  id: '/(library)',
   getParentRoute: () => rootRouteImport,
 } as any)
 const homeIndexRoute = homeIndexRouteImport.update({
   id: '/(home)/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any)
-const profileProfileRoute = profileProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => profileRouteRoute,
 } as any)
 const homeTermsRoute = homeTermsRouteImport.update({
   id: '/(home)/terms',
@@ -209,6 +211,11 @@ const adminDashboardRouteRoute = adminDashboardRouteRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const libraryLibraryIndexRoute = libraryLibraryIndexRouteImport.update({
+  id: '/library/',
+  path: '/library/',
+  getParentRoute: () => libraryRouteRoute,
+} as any)
 const homeReelsIndexRoute = homeReelsIndexRouteImport.update({
   id: '/(home)/reels/',
   path: '/reels/',
@@ -224,11 +231,6 @@ const homeMoviesIndexRoute = homeMoviesIndexRouteImport.update({
   path: '/movies/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const homeLibraryIndexRoute = homeLibraryIndexRouteImport.update({
-  id: '/(home)/library/',
-  path: '/library/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const blogBlogIndexRoute = blogBlogIndexRouteImport.update({
   id: '/(blog)/blog/',
   path: '/blog/',
@@ -238,6 +240,51 @@ const adminDashboardIndexRoute = adminDashboardIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => adminDashboardRouteRoute,
+} as any)
+const libraryLibraryVideosRoute = libraryLibraryVideosRouteImport.update({
+  id: '/library/videos',
+  path: '/library/videos',
+  getParentRoute: () => libraryRouteRoute,
+} as any)
+const libraryLibrarySearchRoute = libraryLibrarySearchRouteImport.update({
+  id: '/library/search',
+  path: '/library/search',
+  getParentRoute: () => libraryRouteRoute,
+} as any)
+const libraryLibrarySavedRoute = libraryLibrarySavedRouteImport.update({
+  id: '/library/saved',
+  path: '/library/saved',
+  getParentRoute: () => libraryRouteRoute,
+} as any)
+const libraryLibraryProfileRoute = libraryLibraryProfileRouteImport.update({
+  id: '/library/profile',
+  path: '/library/profile',
+  getParentRoute: () => libraryRouteRoute,
+} as any)
+const libraryLibraryPodcastRoute = libraryLibraryPodcastRouteImport.update({
+  id: '/library/podcast',
+  path: '/library/podcast',
+  getParentRoute: () => libraryRouteRoute,
+} as any)
+const libraryLibraryMusicRoute = libraryLibraryMusicRouteImport.update({
+  id: '/library/music',
+  path: '/library/music',
+  getParentRoute: () => libraryRouteRoute,
+} as any)
+const libraryLibraryLikedRoute = libraryLibraryLikedRouteImport.update({
+  id: '/library/liked',
+  path: '/library/liked',
+  getParentRoute: () => libraryRouteRoute,
+} as any)
+const libraryLibraryHistoryRoute = libraryLibraryHistoryRouteImport.update({
+  id: '/library/history',
+  path: '/library/history',
+  getParentRoute: () => libraryRouteRoute,
+} as any)
+const libraryLibraryBlogsRoute = libraryLibraryBlogsRouteImport.update({
+  id: '/library/blogs',
+  path: '/library/blogs',
+  getParentRoute: () => libraryRouteRoute,
 } as any)
 const homePlayPlayIdRoute = homePlayPlayIdRouteImport.update({
   id: '/(home)/play/$playId',
@@ -262,11 +309,6 @@ const homeMusicMusicidRoute = homeMusicMusicidRouteImport.update({
 const homeMoviesMovieIdRoute = homeMoviesMovieIdRouteImport.update({
   id: '/(home)/movies/$movieId',
   path: '/movies/$movieId',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const homeLibraryProfileRoute = homeLibraryProfileRouteImport.update({
-  id: '/(home)/library/profile',
-  path: '/library/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const homeExploreSectionRoute = homeExploreSectionRouteImport.update({
@@ -620,23 +662,30 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof homePricingRoute
   '/privacy': typeof homePrivacyRoute
   '/terms': typeof homeTermsRoute
-  '/profile': typeof profileProfileRoute
   '/': typeof homeIndexRoute
   '/blog/$blogslug': typeof blogBlogBlogslugRoute
   '/blog/profile': typeof blogBlogProfileRoute
   '/explore/$section': typeof homeExploreSectionRoute
-  '/library/profile': typeof homeLibraryProfileRoute
   '/movies/$movieId': typeof homeMoviesMovieIdRoute
   '/music/$musicid': typeof homeMusicMusicidRoute
   '/music/library': typeof homeMusicLibraryRoute
   '/music/search': typeof homeMusicSearchRoute
   '/play/$playId': typeof homePlayPlayIdRoute
+  '/library/blogs': typeof libraryLibraryBlogsRoute
+  '/library/history': typeof libraryLibraryHistoryRoute
+  '/library/liked': typeof libraryLibraryLikedRoute
+  '/library/music': typeof libraryLibraryMusicRoute
+  '/library/podcast': typeof libraryLibraryPodcastRoute
+  '/library/profile': typeof libraryLibraryProfileRoute
+  '/library/saved': typeof libraryLibrarySavedRoute
+  '/library/search': typeof libraryLibrarySearchRoute
+  '/library/videos': typeof libraryLibraryVideosRoute
   '/dashboard/': typeof adminDashboardIndexRoute
   '/blog': typeof blogBlogIndexRoute
-  '/library': typeof homeLibraryIndexRoute
   '/movies': typeof homeMoviesIndexRoute
   '/music/': typeof homeMusicIndexRoute
   '/reels': typeof homeReelsIndexRoute
+  '/library': typeof libraryLibraryIndexRoute
   '/dashboard/media/$mediaId': typeof adminDashboardMediaMediaIdRoute
   '/dashboard/movies/$movieId': typeof adminDashboardMoviesMovieIdRoute
   '/dashboard/movies/create': typeof adminDashboardMoviesCreateRoute
@@ -709,23 +758,30 @@ export interface FileRoutesByTo {
   '/pricing': typeof homePricingRoute
   '/privacy': typeof homePrivacyRoute
   '/terms': typeof homeTermsRoute
-  '/profile': typeof profileProfileRoute
   '/': typeof homeIndexRoute
   '/blog/$blogslug': typeof blogBlogBlogslugRoute
   '/blog/profile': typeof blogBlogProfileRoute
   '/explore/$section': typeof homeExploreSectionRoute
-  '/library/profile': typeof homeLibraryProfileRoute
   '/movies/$movieId': typeof homeMoviesMovieIdRoute
   '/music/$musicid': typeof homeMusicMusicidRoute
   '/music/library': typeof homeMusicLibraryRoute
   '/music/search': typeof homeMusicSearchRoute
   '/play/$playId': typeof homePlayPlayIdRoute
+  '/library/blogs': typeof libraryLibraryBlogsRoute
+  '/library/history': typeof libraryLibraryHistoryRoute
+  '/library/liked': typeof libraryLibraryLikedRoute
+  '/library/music': typeof libraryLibraryMusicRoute
+  '/library/podcast': typeof libraryLibraryPodcastRoute
+  '/library/profile': typeof libraryLibraryProfileRoute
+  '/library/saved': typeof libraryLibrarySavedRoute
+  '/library/search': typeof libraryLibrarySearchRoute
+  '/library/videos': typeof libraryLibraryVideosRoute
   '/dashboard': typeof adminDashboardIndexRoute
   '/blog': typeof blogBlogIndexRoute
-  '/library': typeof homeLibraryIndexRoute
   '/movies': typeof homeMoviesIndexRoute
   '/music': typeof homeMusicIndexRoute
   '/reels': typeof homeReelsIndexRoute
+  '/library': typeof libraryLibraryIndexRoute
   '/dashboard/media/$mediaId': typeof adminDashboardMediaMediaIdRoute
   '/dashboard/movies/$movieId': typeof adminDashboardMoviesMovieIdRoute
   '/dashboard/movies/create': typeof adminDashboardMoviesCreateRoute
@@ -782,7 +838,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/(profile)': typeof profileRouteRouteWithChildren
+  '/(library)': typeof libraryRouteRouteWithChildren
   '/(admin)/dashboard': typeof adminDashboardRouteRouteWithChildren
   '/(home)/music': typeof homeMusicRouteRouteWithChildren
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
@@ -802,23 +858,30 @@ export interface FileRoutesById {
   '/(home)/pricing': typeof homePricingRoute
   '/(home)/privacy': typeof homePrivacyRoute
   '/(home)/terms': typeof homeTermsRoute
-  '/(profile)/profile': typeof profileProfileRoute
   '/(home)/': typeof homeIndexRoute
   '/(blog)/blog/$blogslug': typeof blogBlogBlogslugRoute
   '/(blog)/blog/profile': typeof blogBlogProfileRoute
   '/(home)/explore/$section': typeof homeExploreSectionRoute
-  '/(home)/library/profile': typeof homeLibraryProfileRoute
   '/(home)/movies/$movieId': typeof homeMoviesMovieIdRoute
   '/(home)/music/$musicid': typeof homeMusicMusicidRoute
   '/(home)/music/library': typeof homeMusicLibraryRoute
   '/(home)/music/search': typeof homeMusicSearchRoute
   '/(home)/play/$playId': typeof homePlayPlayIdRoute
+  '/(library)/library/blogs': typeof libraryLibraryBlogsRoute
+  '/(library)/library/history': typeof libraryLibraryHistoryRoute
+  '/(library)/library/liked': typeof libraryLibraryLikedRoute
+  '/(library)/library/music': typeof libraryLibraryMusicRoute
+  '/(library)/library/podcast': typeof libraryLibraryPodcastRoute
+  '/(library)/library/profile': typeof libraryLibraryProfileRoute
+  '/(library)/library/saved': typeof libraryLibrarySavedRoute
+  '/(library)/library/search': typeof libraryLibrarySearchRoute
+  '/(library)/library/videos': typeof libraryLibraryVideosRoute
   '/(admin)/dashboard/': typeof adminDashboardIndexRoute
   '/(blog)/blog/': typeof blogBlogIndexRoute
-  '/(home)/library/': typeof homeLibraryIndexRoute
   '/(home)/movies/': typeof homeMoviesIndexRoute
   '/(home)/music/': typeof homeMusicIndexRoute
   '/(home)/reels/': typeof homeReelsIndexRoute
+  '/(library)/library/': typeof libraryLibraryIndexRoute
   '/(admin)/dashboard/media/$mediaId': typeof adminDashboardMediaMediaIdRoute
   '/(admin)/dashboard/movies/$movieId': typeof adminDashboardMoviesMovieIdRoute
   '/(admin)/dashboard/movies/create': typeof adminDashboardMoviesCreateRoute
@@ -895,23 +958,30 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/privacy'
     | '/terms'
-    | '/profile'
     | '/'
     | '/blog/$blogslug'
     | '/blog/profile'
     | '/explore/$section'
-    | '/library/profile'
     | '/movies/$movieId'
     | '/music/$musicid'
     | '/music/library'
     | '/music/search'
     | '/play/$playId'
+    | '/library/blogs'
+    | '/library/history'
+    | '/library/liked'
+    | '/library/music'
+    | '/library/podcast'
+    | '/library/profile'
+    | '/library/saved'
+    | '/library/search'
+    | '/library/videos'
     | '/dashboard/'
     | '/blog'
-    | '/library'
     | '/movies'
     | '/music/'
     | '/reels'
+    | '/library'
     | '/dashboard/media/$mediaId'
     | '/dashboard/movies/$movieId'
     | '/dashboard/movies/create'
@@ -984,23 +1054,30 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/privacy'
     | '/terms'
-    | '/profile'
     | '/'
     | '/blog/$blogslug'
     | '/blog/profile'
     | '/explore/$section'
-    | '/library/profile'
     | '/movies/$movieId'
     | '/music/$musicid'
     | '/music/library'
     | '/music/search'
     | '/play/$playId'
+    | '/library/blogs'
+    | '/library/history'
+    | '/library/liked'
+    | '/library/music'
+    | '/library/podcast'
+    | '/library/profile'
+    | '/library/saved'
+    | '/library/search'
+    | '/library/videos'
     | '/dashboard'
     | '/blog'
-    | '/library'
     | '/movies'
     | '/music'
     | '/reels'
+    | '/library'
     | '/dashboard/media/$mediaId'
     | '/dashboard/movies/$movieId'
     | '/dashboard/movies/create'
@@ -1056,7 +1133,7 @@ export interface FileRouteTypes {
     | '/dashboard/subscriptions/users'
   id:
     | '__root__'
-    | '/(profile)'
+    | '/(library)'
     | '/(admin)/dashboard'
     | '/(home)/music'
     | '/(auth)/forgot-password'
@@ -1076,23 +1153,30 @@ export interface FileRouteTypes {
     | '/(home)/pricing'
     | '/(home)/privacy'
     | '/(home)/terms'
-    | '/(profile)/profile'
     | '/(home)/'
     | '/(blog)/blog/$blogslug'
     | '/(blog)/blog/profile'
     | '/(home)/explore/$section'
-    | '/(home)/library/profile'
     | '/(home)/movies/$movieId'
     | '/(home)/music/$musicid'
     | '/(home)/music/library'
     | '/(home)/music/search'
     | '/(home)/play/$playId'
+    | '/(library)/library/blogs'
+    | '/(library)/library/history'
+    | '/(library)/library/liked'
+    | '/(library)/library/music'
+    | '/(library)/library/podcast'
+    | '/(library)/library/profile'
+    | '/(library)/library/saved'
+    | '/(library)/library/search'
+    | '/(library)/library/videos'
     | '/(admin)/dashboard/'
     | '/(blog)/blog/'
-    | '/(home)/library/'
     | '/(home)/movies/'
     | '/(home)/music/'
     | '/(home)/reels/'
+    | '/(library)/library/'
     | '/(admin)/dashboard/media/$mediaId'
     | '/(admin)/dashboard/movies/$movieId'
     | '/(admin)/dashboard/movies/create'
@@ -1149,7 +1233,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  profileRouteRoute: typeof profileRouteRouteWithChildren
+  libraryRouteRoute: typeof libraryRouteRouteWithChildren
   adminDashboardRouteRoute: typeof adminDashboardRouteRouteWithChildren
   homeMusicRouteRoute: typeof homeMusicRouteRouteWithChildren
   authForgotPasswordRoute: typeof authForgotPasswordRoute
@@ -1173,22 +1257,20 @@ export interface RootRouteChildren {
   blogBlogBlogslugRoute: typeof blogBlogBlogslugRoute
   blogBlogProfileRoute: typeof blogBlogProfileRoute
   homeExploreSectionRoute: typeof homeExploreSectionRoute
-  homeLibraryProfileRoute: typeof homeLibraryProfileRoute
   homeMoviesMovieIdRoute: typeof homeMoviesMovieIdRoute
   homePlayPlayIdRoute: typeof homePlayPlayIdRoute
   blogBlogIndexRoute: typeof blogBlogIndexRoute
-  homeLibraryIndexRoute: typeof homeLibraryIndexRoute
   homeMoviesIndexRoute: typeof homeMoviesIndexRoute
   homeReelsIndexRoute: typeof homeReelsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/(profile)': {
-      id: '/(profile)'
+    '/(library)': {
+      id: '/(library)'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof profileRouteRouteImport
+      preLoaderRoute: typeof libraryRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(home)/': {
@@ -1197,13 +1279,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof homeIndexRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/(profile)/profile': {
-      id: '/(profile)/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof profileProfileRouteImport
-      parentRoute: typeof profileRouteRoute
     }
     '/(home)/terms': {
       id: '/(home)/terms'
@@ -1338,6 +1413,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof adminDashboardRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(library)/library/': {
+      id: '/(library)/library/'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof libraryLibraryIndexRouteImport
+      parentRoute: typeof libraryRouteRoute
+    }
     '/(home)/reels/': {
       id: '/(home)/reels/'
       path: '/reels'
@@ -1359,13 +1441,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof homeMoviesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(home)/library/': {
-      id: '/(home)/library/'
-      path: '/library'
-      fullPath: '/library'
-      preLoaderRoute: typeof homeLibraryIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/(blog)/blog/': {
       id: '/(blog)/blog/'
       path: '/blog'
@@ -1379,6 +1454,69 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/'
       preLoaderRoute: typeof adminDashboardIndexRouteImport
       parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/(library)/library/videos': {
+      id: '/(library)/library/videos'
+      path: '/library/videos'
+      fullPath: '/library/videos'
+      preLoaderRoute: typeof libraryLibraryVideosRouteImport
+      parentRoute: typeof libraryRouteRoute
+    }
+    '/(library)/library/search': {
+      id: '/(library)/library/search'
+      path: '/library/search'
+      fullPath: '/library/search'
+      preLoaderRoute: typeof libraryLibrarySearchRouteImport
+      parentRoute: typeof libraryRouteRoute
+    }
+    '/(library)/library/saved': {
+      id: '/(library)/library/saved'
+      path: '/library/saved'
+      fullPath: '/library/saved'
+      preLoaderRoute: typeof libraryLibrarySavedRouteImport
+      parentRoute: typeof libraryRouteRoute
+    }
+    '/(library)/library/profile': {
+      id: '/(library)/library/profile'
+      path: '/library/profile'
+      fullPath: '/library/profile'
+      preLoaderRoute: typeof libraryLibraryProfileRouteImport
+      parentRoute: typeof libraryRouteRoute
+    }
+    '/(library)/library/podcast': {
+      id: '/(library)/library/podcast'
+      path: '/library/podcast'
+      fullPath: '/library/podcast'
+      preLoaderRoute: typeof libraryLibraryPodcastRouteImport
+      parentRoute: typeof libraryRouteRoute
+    }
+    '/(library)/library/music': {
+      id: '/(library)/library/music'
+      path: '/library/music'
+      fullPath: '/library/music'
+      preLoaderRoute: typeof libraryLibraryMusicRouteImport
+      parentRoute: typeof libraryRouteRoute
+    }
+    '/(library)/library/liked': {
+      id: '/(library)/library/liked'
+      path: '/library/liked'
+      fullPath: '/library/liked'
+      preLoaderRoute: typeof libraryLibraryLikedRouteImport
+      parentRoute: typeof libraryRouteRoute
+    }
+    '/(library)/library/history': {
+      id: '/(library)/library/history'
+      path: '/library/history'
+      fullPath: '/library/history'
+      preLoaderRoute: typeof libraryLibraryHistoryRouteImport
+      parentRoute: typeof libraryRouteRoute
+    }
+    '/(library)/library/blogs': {
+      id: '/(library)/library/blogs'
+      path: '/library/blogs'
+      fullPath: '/library/blogs'
+      preLoaderRoute: typeof libraryLibraryBlogsRouteImport
+      parentRoute: typeof libraryRouteRoute
     }
     '/(home)/play/$playId': {
       id: '/(home)/play/$playId'
@@ -1413,13 +1551,6 @@ declare module '@tanstack/react-router' {
       path: '/movies/$movieId'
       fullPath: '/movies/$movieId'
       preLoaderRoute: typeof homeMoviesMovieIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(home)/library/profile': {
-      id: '/(home)/library/profile'
-      path: '/library/profile'
-      fullPath: '/library/profile'
-      preLoaderRoute: typeof homeLibraryProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(home)/explore/$section': {
@@ -1817,16 +1948,34 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface profileRouteRouteChildren {
-  profileProfileRoute: typeof profileProfileRoute
+interface libraryRouteRouteChildren {
+  libraryLibraryBlogsRoute: typeof libraryLibraryBlogsRoute
+  libraryLibraryHistoryRoute: typeof libraryLibraryHistoryRoute
+  libraryLibraryLikedRoute: typeof libraryLibraryLikedRoute
+  libraryLibraryMusicRoute: typeof libraryLibraryMusicRoute
+  libraryLibraryPodcastRoute: typeof libraryLibraryPodcastRoute
+  libraryLibraryProfileRoute: typeof libraryLibraryProfileRoute
+  libraryLibrarySavedRoute: typeof libraryLibrarySavedRoute
+  libraryLibrarySearchRoute: typeof libraryLibrarySearchRoute
+  libraryLibraryVideosRoute: typeof libraryLibraryVideosRoute
+  libraryLibraryIndexRoute: typeof libraryLibraryIndexRoute
 }
 
-const profileRouteRouteChildren: profileRouteRouteChildren = {
-  profileProfileRoute: profileProfileRoute,
+const libraryRouteRouteChildren: libraryRouteRouteChildren = {
+  libraryLibraryBlogsRoute: libraryLibraryBlogsRoute,
+  libraryLibraryHistoryRoute: libraryLibraryHistoryRoute,
+  libraryLibraryLikedRoute: libraryLibraryLikedRoute,
+  libraryLibraryMusicRoute: libraryLibraryMusicRoute,
+  libraryLibraryPodcastRoute: libraryLibraryPodcastRoute,
+  libraryLibraryProfileRoute: libraryLibraryProfileRoute,
+  libraryLibrarySavedRoute: libraryLibrarySavedRoute,
+  libraryLibrarySearchRoute: libraryLibrarySearchRoute,
+  libraryLibraryVideosRoute: libraryLibraryVideosRoute,
+  libraryLibraryIndexRoute: libraryLibraryIndexRoute,
 }
 
-const profileRouteRouteWithChildren = profileRouteRoute._addFileChildren(
-  profileRouteRouteChildren,
+const libraryRouteRouteWithChildren = libraryRouteRoute._addFileChildren(
+  libraryRouteRouteChildren,
 )
 
 interface adminDashboardRouteRouteChildren {
@@ -1981,7 +2130,7 @@ const homeMusicRouteRouteWithChildren = homeMusicRouteRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
-  profileRouteRoute: profileRouteRouteWithChildren,
+  libraryRouteRoute: libraryRouteRouteWithChildren,
   adminDashboardRouteRoute: adminDashboardRouteRouteWithChildren,
   homeMusicRouteRoute: homeMusicRouteRouteWithChildren,
   authForgotPasswordRoute: authForgotPasswordRoute,
@@ -2005,11 +2154,9 @@ const rootRouteChildren: RootRouteChildren = {
   blogBlogBlogslugRoute: blogBlogBlogslugRoute,
   blogBlogProfileRoute: blogBlogProfileRoute,
   homeExploreSectionRoute: homeExploreSectionRoute,
-  homeLibraryProfileRoute: homeLibraryProfileRoute,
   homeMoviesMovieIdRoute: homeMoviesMovieIdRoute,
   homePlayPlayIdRoute: homePlayPlayIdRoute,
   blogBlogIndexRoute: blogBlogIndexRoute,
-  homeLibraryIndexRoute: homeLibraryIndexRoute,
   homeMoviesIndexRoute: homeMoviesIndexRoute,
   homeReelsIndexRoute: homeReelsIndexRoute,
 }

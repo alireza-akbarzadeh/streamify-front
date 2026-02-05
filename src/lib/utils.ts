@@ -309,3 +309,31 @@ export function downloadCSV<TData>(
 		return false;
 	}
 }
+
+// Helper functions
+export const formatDuration = (seconds: number): string => {
+	const hrs = Math.floor(seconds / 3600);
+	const mins = Math.floor((seconds % 3600) / 60);
+	const secs = seconds % 60;
+
+	if (hrs > 0) {
+		return `${hrs}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+	}
+	return `${mins}:${secs.toString().padStart(2, "0")}`;
+};
+
+export const formatViews = (views: number): string => {
+	if (views >= 1000000) {
+		return `${(views / 1000000).toFixed(1)}M views`;
+	}
+	if (views >= 1000) {
+		return `${(views / 1000).toFixed(1)}K views`;
+	}
+	return `${views} views`;
+};
+
+export const formatPayerTime = (seconds: number) => {
+	const mins = Math.floor(seconds / 60);
+	const secs = Math.floor(seconds % 60);
+	return `${mins}:${secs.toString().padStart(2, "0")}`;
+};

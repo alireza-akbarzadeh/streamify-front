@@ -1,7 +1,6 @@
 import CTASection from "./cta-Section";
 import DeviceExperience from "./device-experience";
 import FeaturedContent from "./featured-content";
-
 import HeroSection from "./hero-section";
 import RecommendationsShowcase from "./recommendation";
 import ValueProposition from "./value-proposition";

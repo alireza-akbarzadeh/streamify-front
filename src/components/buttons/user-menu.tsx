@@ -1,0 +1,111 @@
+import { Link } from "@tanstack/react-router";
+import { AnimatePresence, motion } from "framer-motion";
+import { Crown, Library, LogOut, Settings, Sparkles } from "lucide-react";
+import type React from "react";
+import { useRef, useState } from "react";
+import { Image } from "@/components/ui/image.tsx";
+import { cn } from "@/lib/utils";
+
+export function UserMenu() {
+	const [open, setOpen] = useState(false);
+	const ref = useRef<HTMLDivElement>(null);
+
+	return (
+		<div
+			ref={ref}
+			className="relative"
+			onMouseEnter={() => setOpen(true)}
+			onMouseLeave={() => setOpen(false)}
+		>
+			{/* AVATAR BUTTON */}
+			<button className="group relative flex items-center gap-2 rounded-full p-1.5 transition-all hover:bg-white/5">
+				{/* Glow */}
+				<span className="absolute inset-0 rounded-full bg-indigo-500/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
+
+				{/* Avatar */}
+				<div className="relative size-9 rounded-full overflow-hidden ring-2 ring-white/10 group-hover:ring-indigo-400/60 transition-all">
+					<Image
+						src="https://i.pravatar.cc/100?img=12"
+						alt="User avatar"
+						className="h-full w-full object-cover"
+					/>
+				</div>
+
+				{/* Premium Badge */}
+				<Crown className="size-4 text-yellow-400 opacity-80 group-hover:opacity-100 transition-opacity" />
+			</button>
+
+			{/* DROPDOWN */}
+			<AnimatePresence>
+				{open && (
+					<motion.div
+						initial={{ opacity: 0, y: 8, scale: 0.98 }}
+						animate={{ opacity: 1, y: 0, scale: 1 }}
+						exit={{ opacity: 0, y: 8, scale: 0.98 }}
+						transition={{ duration: 0.2, ease: "easeOut" }}
+						className={cn(
+							"absolute right-0 mt-3 w-64 overflow-hidden",
+							"rounded-2xl border border-white/10",
+							"bg-[#0b0b0c]/90 backdrop-blur-xl shadow-2xl",
+						)}
+					>
+						{/* USER INFO */}
+						<div className="px-4 py-3 border-b border-white/5">
+							<p className="text-sm font-semibold text-white">
+								Alireza Akbarzadeh
+							</p>
+							<p className="text-xs text-slate-400">Premium Member</p>
+						</div>
+
+						{/* ACTIONS */}
+						<div className="p-2 space-y-1">
+							<MenuItem to="/library" icon={Library} label="Library" />
+							<MenuItem to="/settings" icon={Settings} label="Settings" />
+							<MenuItem
+								to="/pricing"
+								icon={Sparkles}
+								label="Manage Subscription"
+								highlight
+							/>
+						</div>
+
+						{/* LOGOUT */}
+						<div className="border-t border-white/5 p-2">
+							<button className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 transition">
+								<LogOut className="size-4" />
+								Logout
+							</button>
+						</div>
+					</motion.div>
+				)}
+			</AnimatePresence>
+		</div>
+	);
+}
+
+function MenuItem({
+	to,
+	icon: Icon,
+	label,
+	highlight,
+}: {
+	to: string;
+	icon: React.ElementType;
+	label: string;
+	highlight?: boolean;
+}) {
+	return (
+		<Link
+			to={to}
+			className={cn(
+				"flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition",
+				highlight
+					? "bg-indigo-500/10 text-indigo-300 hover:bg-indigo-500/20"
+					: "text-slate-300 hover:bg-white/5",
+			)}
+		>
+			<Icon className="size-4" />
+			{label}
+		</Link>
+	);
+}

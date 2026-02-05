@@ -15,7 +15,7 @@ export function PlatformCard({ platform, index, isRecommended }) {
 			setIsDownloading(false);
 			setIsDownloaded(true);
 
-			// Reset after animation
+			// Reset after motion
 			setTimeout(() => setIsDownloaded(false), 3000);
 		}, 2000);
 	};

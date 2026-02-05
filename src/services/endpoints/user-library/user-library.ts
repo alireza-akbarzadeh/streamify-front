@@ -37,7 +37,7 @@ import type {
 } from "../../models";
 
 /**
- * Returns the full movie objects for everything the user has saved.
+ * Returns the full movie objects for everything the user has saved.tsx.
  * @summary Get all movies in user's watchlist
  */
 export const getUserWatchlist = (signal?: AbortSignal) => {

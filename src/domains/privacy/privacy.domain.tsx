@@ -152,7 +152,7 @@ export function PrivacyDomain() {
                                         {[
                                             "Account information (name, email address, password)",
                                             "Payment information (credit card details, billing address)",
-                                            "Profile information (profile picture, preferences, playlists)",
+                                            "Profile information (library picture, preferences, playlists)",
                                             "Contact information for customer support",
                                         ].map((item) => (
                                             <li

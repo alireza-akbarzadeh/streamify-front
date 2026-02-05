@@ -120,7 +120,7 @@ export function SearchSide({ data }: CommandSettingProps) {
                         <Settings className="mr-3 h-4 w-4 text-muted-foreground" />
                         <span className="text-sm font-medium">System Settings</span>
                     </CommandItem>
-                    <CommandItem onSelect={() => onSelect('/dashboard/profile')}>
+                    <CommandItem onSelect={() => onSelect('/dashboard/library')}>
                         <User className="mr-3 h-4 w-4 text-muted-foreground" />
                         <span className="text-sm font-medium">My Profile</span>
                     </CommandItem>

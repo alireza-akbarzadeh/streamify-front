@@ -63,7 +63,7 @@ export function UserProfilePage() {
 	];
 
 	const tabs = [
-		{ id: "saved", label: "Library", icon: Bookmark },
+		{ id: "saved.tsx", label: "Library", icon: Bookmark },
 		{ id: "liked", label: "Likes", icon: Heart },
 		{ id: "history", label: "History", icon: History },
 	];

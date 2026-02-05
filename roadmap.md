@@ -195,3 +195,208 @@ For platform owners:
 - Social sharing
 - Comments & reviews
 - Real-time lyrics
+
+
+[//]: # () library
+
+**Role & Mindset**
+You are a senior product engineer and UI architect building a **production-ready streaming platform UI library** using **TanStack Start**.
+Think like Spotify + YouTube + Medium — but modular, clean, and scalable.
+No backend required. Focus entirely on **interactive, high-quality frontend architecture** that can later be connected to real APIs.
+
+---
+
+## Tech Stack (Strict Requirements)
+
+* **Framework:** TanStack Start
+* **Routing:** TanStack Router
+* **State Management:** TanStack Store
+* **UI Library:** shadcn/ui
+* **Animations:** Framer Motion
+* **Styling:** Tailwind CSS
+* **Data:** Mock arrays only (realistic, structured, extensible)
+* **Backend:** ❌ None (API-ready architecture only)
+
+---
+
+## Product Scope
+
+Create a **unified streaming experience** that supports:
+
+* 🎵 Music
+* 🎬 Movies & Videos
+* 📝 Blogs (music & movie related)
+* 🎙 Podcasts (music & movie related)
+
+This is a **library / starter system**, not just pages.
+Components must be reusable, composable, and scalable.
+
+---
+
+## Core Features (Must-Have)
+
+### User Experience
+
+* Fully responsive: **desktop, tablet, mobile**
+* Premium, modern UI with smooth micro-interactions
+* Dark-first aesthetic (cinematic, streaming vibe)
+* Framer Motion animations for:
+
+    * Page transitions
+    * List → detail navigation
+    * Hover & tap feedback
+    * Skeleton loaders & empty states
+
+### User Sections (Like YouTube / Spotify)
+
+* **History**
+
+    * Watched videos
+    * Played music
+    * Read blogs
+    * Listened podcasts
+      (each in separated, clearly defined sections)
+
+* **Liked Content**
+
+    * Liked music
+    * Liked videos
+    * Liked blogs
+    * Liked podcasts
+
+* **Bookmarks / Saved**
+
+    * Save content for later
+    * Grouped by content type
+
+* **Profile**
+
+    * Avatar
+    * Username
+    * Activity summary
+    * Stats (mocked)
+
+---
+
+## Pages & Views
+
+### Global
+
+* App Shell (sidebar + top bar)
+* Mobile bottom navigation
+* Command palette / quick search
+* Notification dropdown (mocked)
+
+### Music
+
+* Music home
+* Track list
+* Album view
+* Artist view
+* Mini player + expanded player
+* Queue & history
+
+### Video / Movie
+
+* Video grid
+* Video detail page
+* Watch history
+* Continue watching
+
+### Blog
+
+* Blog feed
+* Blog article page
+* Author card
+* Read history
+
+### Podcast
+
+* Podcast feed
+* Episode list
+* Player integration
+* Episode history
+
+---
+
+## State Management Rules
+
+* Use **TanStack Store** for:
+
+    * Auth-like user state (mocked)
+    * History tracking
+    * Likes
+    * Bookmarks
+    * Player state (music & podcast)
+* State structure must be **API-ready**
+* No prop drilling
+* Clean selectors & actions
+
+---
+
+## UI & Component Design
+
+* Use **shadcn/ui** components as a base
+* Extend them with:
+
+    * Custom variants
+    * Motion wrappers
+* Build reusable components:
+
+    * MediaCard
+    * PlayButton
+    * LikeButton
+    * BookmarkButton
+    * Skeleton loaders
+    * Empty states
+* Consistent spacing, typography, and hierarchy
+
+---
+
+## Animation Guidelines (Framer Motion)
+
+* Subtle, elegant, not flashy
+* Use:
+
+    * `AnimatePresence`
+    * Layout animations
+    * Shared element transitions
+* Motion should **enhance clarity**, not distract
+
+---
+
+## Data & Architecture
+
+* Use realistic mock data:
+
+    * IDs
+    * timestamps
+    * relations (user → content)
+* Prepare everything for future API integration:
+
+    * Clear boundaries
+    * No hard coupling
+* Folder structure should reflect real-world production apps
+
+---
+
+## Quality Bar
+
+* Code must feel **senior-level**
+* No demo-looking UI
+* No shortcuts
+* Everything should feel:
+
+    * Thoughtful
+    * Maintainable
+    * Scalable
+    * Premium
+
+---
+
+## Final Goal
+
+Deliver a **fully interactive, visually impressive streaming platform UI library** built with TanStack Start — something that could realistically become a real product once APIs are connected.
+
+
+

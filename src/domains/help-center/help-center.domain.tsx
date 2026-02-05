@@ -104,7 +104,7 @@ export function HelpCenter() {
         {
             id: 10,
             category: "privacy",
-            question: "Can I make my profile private?",
+            question: "Can I make my library private?",
             answer:
                 'Yes, go to Settings > Privacy and toggle "Private Profile". This hides your playlists and listening activity from other users.',
         },

@@ -142,7 +142,7 @@ export function CommandSetting(props: CommandSettingProps) {
 				<CommandGroup heading="Settings & Account">
 					<CommandItem
 						onSelect={() => {
-							/* Navigate to profile */ setOpen(false);
+							/* Navigate to library */ setOpen(false);
 						}}
 						className="cursor-pointer"
 					>

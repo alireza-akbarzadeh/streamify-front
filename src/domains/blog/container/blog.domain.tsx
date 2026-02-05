@@ -68,7 +68,7 @@ export default function Blog() {
 					{filteredArticles.length > 0 ? (
 						<motion.div
 							layout
-							// The key ensures the animation re-runs when the result set changes
+							// The key ensures the motion re-runs when the result set changes
 							key={`${activeCategory}-${searchQuery}`}
 							initial="hidden"
 							animate="show"

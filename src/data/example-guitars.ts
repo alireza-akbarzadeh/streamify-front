@@ -23,7 +23,7 @@ const guitars: Array<Guitar> = [
 		name: "Video Game Guitar",
 		image: "/example-guitar-video-games.jpg",
 		description:
-			"The Video Game Guitar is a unique acoustic guitar that features a design inspired by video games. It has a sleek, high-gloss finish and a comfortable playability. The guitar's ergonomic body and fast neck profile ensure comfortable playability for hours on end.",
+			"The Video Game Guitar is a unique acoustic guitar that features a design inspired by video games. It has a sleek, high-gloss finish and a comfortable playability. The guitar's ergonomic body and fast neck library ensure comfortable playability for hours on end.",
 		shortDescription:
 			"A unique electric guitar with a video game design, high-gloss finish, and comfortable playability.",
 		price: 699,
@@ -33,7 +33,7 @@ const guitars: Array<Guitar> = [
 		name: "Superhero Guitar",
 		image: "/example-guitar-superhero.jpg",
 		description:
-			"The Superhero Guitar is a bold black electric guitar that stands out with its unique superhero logo design. Its sleek, high-gloss finish and powerful pickups make it perfect for high-energy performances. The guitar's ergonomic body and fast neck profile ensure comfortable playability for hours on end.",
+			"The Superhero Guitar is a bold black electric guitar that stands out with its unique superhero logo design. Its sleek, high-gloss finish and powerful pickups make it perfect for high-energy performances. The guitar's ergonomic body and fast neck library ensure comfortable playability for hours on end.",
 		shortDescription:
 			"A bold black electric guitar with a unique superhero logo, high-gloss finish, and powerful pickups.",
 		price: 699,
@@ -53,7 +53,7 @@ const guitars: Array<Guitar> = [
 		name: "Racing Guitar",
 		image: "/example-guitar-racing.jpg",
 		description:
-			"Engineered for speed and precision, the Racing Guitar embodies the spirit of motorsport in every curve and contour. Its aerodynamic body, painted in classic racing stripes and high-gloss finish, is crafted from lightweight materials that allow for effortless play during extended performances. The custom low-action setup and streamlined neck profile enable lightning-fast fretwork, while specially designed pickups deliver a high-octane tone that cuts through any mix. Built with performance-grade hardware including racing-inspired control knobs and checkered flag inlays, this guitar isn't just played—it's driven to the limits of musical possibility.",
+			"Engineered for speed and precision, the Racing Guitar embodies the spirit of motorsport in every curve and contour. Its aerodynamic body, painted in classic racing stripes and high-gloss finish, is crafted from lightweight materials that allow for effortless play during extended performances. The custom low-action setup and streamlined neck library enable lightning-fast fretwork, while specially designed pickups deliver a high-octane tone that cuts through any mix. Built with performance-grade hardware including racing-inspired control knobs and checkered flag inlays, this guitar isn't just played—it's driven to the limits of musical possibility.",
 		shortDescription:
 			"A lightweight, aerodynamic guitar with racing stripes and a low-action setup designed for speed and precision.",
 		price: 679,

@@ -11,6 +11,7 @@
 
 :root {
   /* Shadcn / Radix UI Tokens */
+
   --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.21 0.006 285.885);
@@ -29,6 +30,7 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.552 0.016 285.938);
+
   --chart-1: oklch(0.811 0.111 293.571);
   --chart-2: oklch(0.606 0.25 292.717);
   --chart-3: oklch(0.541 0.281 293.009);
@@ -42,6 +44,12 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.552 0.016 285.938);
+  --gradient-primary: linear-gradient(135deg, hsl(270, 100%, 65%) 0%, hsl(330, 100%, 65%) 100%);
+  --gradient-glow: linear-gradient(135deg, hsl(270, 100%, 70%) 0%, hsl(330, 100%, 70%) 100%);
+  --gradient-subtle: linear-gradient(135deg, hsl(270, 100%, 65%, 0.1) 0%, hsl(330, 100%, 65%, 0.1) 100%);
+  --glass-bg: hsl(0 0% 100% / 0.03);
+  --glass-border: hsl(0 0% 100% / 0.08);
+  --glass-hover: hsl(0 0% 100% / 0.06);
 }
 
 @theme inline {
@@ -154,4 +162,76 @@
 
 .test-mono {
   font-family: "Geist Mono Variable" !important;
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-[var(--glass-bg)] border border-[var(--glass-border)] backdrop-blur-xl;
+  }
+
+  .glass-card-hover {
+    @apply hover:bg-[var(--glass-hover)] hover:border-[hsl(0_0%_100%_/_0.12)] transition-all duration-300;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
+  }
+
+  .gradient-border {
+    position: relative;
+  }
+
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: var(--gradient-primary);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .glow-effect {
+    box-shadow: 0 0 40px -10px hsl(270 100% 65% / 0.4),
+    0 0 80px -20px hsl(330 100% 65% / 0.3);
+  }
+
+  .social-icon {
+    @apply p-3 rounded-xl bg-[var(--glass-bg)] border border-[var(--glass-border)]
+    text-muted-foreground transition-all duration-300
+    hover:text-foreground hover:bg-[var(--glass-hover)] hover:border-[hsl(0_0%_100%_/_0.15)]
+    hover:scale-110 hover:shadow-lg;
+  }
+
+  .footer-link {
+    @apply text-muted-foreground text-sm transition-all duration-300
+    hover:text-foreground hover:translate-x-1;
+  }
+
+  .store-button {
+    @apply flex items-center gap-3 px-5 py-3 rounded-2xl
+    bg-[var(--glass-bg)] border border-[var(--glass-border)]
+    transition-all duration-300
+    hover:bg-[var(--glass-hover)] hover:border-[hsl(0_0%_100%_/_0.15)]
+    hover:scale-105 hover:shadow-xl;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary;
+  }
+}
+@keyframes gradient-x {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 5s ease infinite;
 }

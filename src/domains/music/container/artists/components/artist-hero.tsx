@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import type { Artist } from "../artist.domains";
 
 export function ArtistHero({ artist }: { artist: Artist }) {
-
 	const [isFollowing, setIsFollowing] = useState(false);
 	const [showFullBio, setShowFullBio] = useState(false);
 
@@ -164,7 +163,7 @@ export function ArtistHero({ artist }: { artist: Artist }) {
 								Play
 							</Button>
 
-							{/* Follow button with animation */}
+							{/* Follow button with motion */}
 							<motion.div
 								whileHover={{ scale: 1.05 }}
 								whileTap={{ scale: 0.95 }}
@@ -172,10 +171,11 @@ export function ArtistHero({ artist }: { artist: Artist }) {
 								<Button
 									onClick={handleFollow}
 									variant="outline"
-									className={`h-14 px-8 rounded-full font-semibold text-lg transition-all ${isFollowing
-										? "bg-transparent border-2 border-white/30 text-white hover:border-red-500/50 hover:text-red-500"
-										: "bg-white/10 backdrop-blur-xl border-2 border-white/30 text-white hover:bg-white/20"
-										}`}
+									className={`h-14 px-8 rounded-full font-semibold text-lg transition-all ${
+										isFollowing
+											? "bg-transparent border-2 border-white/30 text-white hover:border-red-500/50 hover:text-red-500"
+											: "bg-white/10 backdrop-blur-xl border-2 border-white/30 text-white hover:bg-white/20"
+									}`}
 								>
 									<motion.div
 										animate={{
