@@ -60,9 +60,9 @@ export function UserMenu() {
 						{/* ACTIONS */}
 						<div className="p-2 space-y-1">
 							<MenuItem to="/library" icon={Library} label="Library" />
-							<MenuItem to="/settings" icon={Settings} label="Settings" />
+							<MenuItem to="/library/setting" icon={Settings} label="Settings" />
 							<MenuItem
-								to="/pricing"
+								to="/library/subscription"
 								icon={Sparkles}
 								label="Manage Subscription"
 								highlight

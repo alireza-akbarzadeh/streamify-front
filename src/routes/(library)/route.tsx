@@ -27,12 +27,10 @@ function LibraryLayout() {
 
 	return (
 		<div className="relative min-h-screen bg-background text-foreground selection:bg-primary/30">
-			{/* 1. Desktop Sidebar */}
 			<div className="hidden md:block">
 				<LibraryAppSidebar />
 			</div>
 
-			{/* 2. Main Content Area */}
 			<motion.main
 				initial={false}
 				animate={{
@@ -42,15 +40,13 @@ function LibraryLayout() {
 				className={cn(
 					"min-h-screen flex flex-col",
 					"pb-24 md:pb-8",
-					hasCurrentMedia && "pb-48 md:pb-40", // Space for the floating player
+					hasCurrentMedia && "pb-48 md:pb-40",
 				)}
 			>
-				{/* Top Bar */}
 				<div className="sticky top-0 z-30 bg-background/50 backdrop-blur-md pt-4">
 					<LibraryTopBar />
 				</div>
 
-				{/* Page Content */}
 				<div className="px-4 md:px-8 lg:px-12 pt-6">
 					<Outlet />
 				</div>
@@ -76,7 +72,6 @@ function LibraryLayout() {
 				)}
 			</AnimatePresence>
 
-			{/* 4. Mobile Nav */}
 			<div className="md:hidden">
 				<LibraryMobileNav />
 			</div>

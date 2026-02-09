@@ -37,6 +37,8 @@ import { Route as homeMoviesIndexRouteImport } from './routes/(home)/movies/inde
 import { Route as blogBlogIndexRouteImport } from './routes/(blog)/blog/index'
 import { Route as adminDashboardIndexRouteImport } from './routes/(admin)/dashboard/index'
 import { Route as libraryLibraryVideosRouteImport } from './routes/(library)/library/videos'
+import { Route as libraryLibrarySubscriptionRouteImport } from './routes/(library)/library/subscription'
+import { Route as libraryLibrarySettingRouteImport } from './routes/(library)/library/setting'
 import { Route as libraryLibrarySearchRouteImport } from './routes/(library)/library/search'
 import { Route as libraryLibrarySavedRouteImport } from './routes/(library)/library/saved'
 import { Route as libraryLibraryProfileRouteImport } from './routes/(library)/library/profile'
@@ -244,6 +246,17 @@ const adminDashboardIndexRoute = adminDashboardIndexRouteImport.update({
 const libraryLibraryVideosRoute = libraryLibraryVideosRouteImport.update({
   id: '/library/videos',
   path: '/library/videos',
+  getParentRoute: () => libraryRouteRoute,
+} as any)
+const libraryLibrarySubscriptionRoute =
+  libraryLibrarySubscriptionRouteImport.update({
+    id: '/library/subscription',
+    path: '/library/subscription',
+    getParentRoute: () => libraryRouteRoute,
+  } as any)
+const libraryLibrarySettingRoute = libraryLibrarySettingRouteImport.update({
+  id: '/library/setting',
+  path: '/library/setting',
   getParentRoute: () => libraryRouteRoute,
 } as any)
 const libraryLibrarySearchRoute = libraryLibrarySearchRouteImport.update({
@@ -679,6 +692,8 @@ export interface FileRoutesByFullPath {
   '/library/profile': typeof libraryLibraryProfileRoute
   '/library/saved': typeof libraryLibrarySavedRoute
   '/library/search': typeof libraryLibrarySearchRoute
+  '/library/setting': typeof libraryLibrarySettingRoute
+  '/library/subscription': typeof libraryLibrarySubscriptionRoute
   '/library/videos': typeof libraryLibraryVideosRoute
   '/dashboard/': typeof adminDashboardIndexRoute
   '/blog': typeof blogBlogIndexRoute
@@ -775,6 +790,8 @@ export interface FileRoutesByTo {
   '/library/profile': typeof libraryLibraryProfileRoute
   '/library/saved': typeof libraryLibrarySavedRoute
   '/library/search': typeof libraryLibrarySearchRoute
+  '/library/setting': typeof libraryLibrarySettingRoute
+  '/library/subscription': typeof libraryLibrarySubscriptionRoute
   '/library/videos': typeof libraryLibraryVideosRoute
   '/dashboard': typeof adminDashboardIndexRoute
   '/blog': typeof blogBlogIndexRoute
@@ -875,6 +892,8 @@ export interface FileRoutesById {
   '/(library)/library/profile': typeof libraryLibraryProfileRoute
   '/(library)/library/saved': typeof libraryLibrarySavedRoute
   '/(library)/library/search': typeof libraryLibrarySearchRoute
+  '/(library)/library/setting': typeof libraryLibrarySettingRoute
+  '/(library)/library/subscription': typeof libraryLibrarySubscriptionRoute
   '/(library)/library/videos': typeof libraryLibraryVideosRoute
   '/(admin)/dashboard/': typeof adminDashboardIndexRoute
   '/(blog)/blog/': typeof blogBlogIndexRoute
@@ -975,6 +994,8 @@ export interface FileRouteTypes {
     | '/library/profile'
     | '/library/saved'
     | '/library/search'
+    | '/library/setting'
+    | '/library/subscription'
     | '/library/videos'
     | '/dashboard/'
     | '/blog'
@@ -1071,6 +1092,8 @@ export interface FileRouteTypes {
     | '/library/profile'
     | '/library/saved'
     | '/library/search'
+    | '/library/setting'
+    | '/library/subscription'
     | '/library/videos'
     | '/dashboard'
     | '/blog'
@@ -1170,6 +1193,8 @@ export interface FileRouteTypes {
     | '/(library)/library/profile'
     | '/(library)/library/saved'
     | '/(library)/library/search'
+    | '/(library)/library/setting'
+    | '/(library)/library/subscription'
     | '/(library)/library/videos'
     | '/(admin)/dashboard/'
     | '/(blog)/blog/'
@@ -1460,6 +1485,20 @@ declare module '@tanstack/react-router' {
       path: '/library/videos'
       fullPath: '/library/videos'
       preLoaderRoute: typeof libraryLibraryVideosRouteImport
+      parentRoute: typeof libraryRouteRoute
+    }
+    '/(library)/library/subscription': {
+      id: '/(library)/library/subscription'
+      path: '/library/subscription'
+      fullPath: '/library/subscription'
+      preLoaderRoute: typeof libraryLibrarySubscriptionRouteImport
+      parentRoute: typeof libraryRouteRoute
+    }
+    '/(library)/library/setting': {
+      id: '/(library)/library/setting'
+      path: '/library/setting'
+      fullPath: '/library/setting'
+      preLoaderRoute: typeof libraryLibrarySettingRouteImport
       parentRoute: typeof libraryRouteRoute
     }
     '/(library)/library/search': {
@@ -1957,6 +1996,8 @@ interface libraryRouteRouteChildren {
   libraryLibraryProfileRoute: typeof libraryLibraryProfileRoute
   libraryLibrarySavedRoute: typeof libraryLibrarySavedRoute
   libraryLibrarySearchRoute: typeof libraryLibrarySearchRoute
+  libraryLibrarySettingRoute: typeof libraryLibrarySettingRoute
+  libraryLibrarySubscriptionRoute: typeof libraryLibrarySubscriptionRoute
   libraryLibraryVideosRoute: typeof libraryLibraryVideosRoute
   libraryLibraryIndexRoute: typeof libraryLibraryIndexRoute
 }
@@ -1970,6 +2011,8 @@ const libraryRouteRouteChildren: libraryRouteRouteChildren = {
   libraryLibraryProfileRoute: libraryLibraryProfileRoute,
   libraryLibrarySavedRoute: libraryLibrarySavedRoute,
   libraryLibrarySearchRoute: libraryLibrarySearchRoute,
+  libraryLibrarySettingRoute: libraryLibrarySettingRoute,
+  libraryLibrarySubscriptionRoute: libraryLibrarySubscriptionRoute,
   libraryLibraryVideosRoute: libraryLibraryVideosRoute,
   libraryLibraryIndexRoute: libraryLibraryIndexRoute,
 }

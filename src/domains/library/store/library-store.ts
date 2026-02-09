@@ -35,10 +35,10 @@ const initialState: AppState = {
 		podcasts: [],
 	},
 	history: {
-		tracks: [],
-		videos: [],
-		blogs: [],
-		podcasts: [],
+		tracks: ["track-1", "track-3", "track-7"],
+		videos: ["1", "4"],
+		podcasts: ["podcast-2", "podcast-5"],
+		blogs: ["blog-3", "blog-8"],
 	},
 	sidebarOpen: true,
 };

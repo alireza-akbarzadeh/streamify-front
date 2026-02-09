@@ -5,6 +5,7 @@ import {
 	ChevronLeft,
 	ChevronRight,
 	Clock,
+	CreditCard,
 	Film,
 	Heart,
 	Home,
@@ -12,10 +13,11 @@ import {
 	Mic2,
 	Music,
 	Search,
+	Settings,
 	Sparkles,
 	User2,
 } from "lucide-react";
-import React from "react";
+import React, { useMemo } from "react";
 import {
 	CommandDialog,
 	CommandEmpty,
@@ -39,6 +41,7 @@ import { cn } from "@/lib/utils";
 import { LibraryMoodSelector } from "../components/library-sidebar/library-mood-selector";
 import { LibrarySidebarNowPlaying } from "../components/library-sidebar/library-sidebar-mow-playing";
 import { SidebarSearchTrigger } from "../components/library-sidebar/sidebar-search-trigger";
+import { mockTracks } from "../library-mock-data";
 
 
 interface Mood {
@@ -55,6 +58,8 @@ const mainNavItems: LibraryNav[] = [
 	{ icon: Home, label: "Home", href: "/" },
 	{ icon: Search, label: "Search", href: "/library/search" },
 	{ icon: Library, label: "Library", href: "/library" },
+	{ icon: Settings, label: "Setting", href: "/library/setting" },
+	{ icon: CreditCard, label: "Subscription", href: "/library/subscription" },
 ];
 
 const mediaNavItems: LibraryNav[] = [
@@ -118,12 +123,16 @@ export const LibraryAppSidebar = () => {
 	const isOpen = useLibraryStore((state) => state.sidebarOpen);
 	const user = useLibraryStore((state) => state.user);
 
-	const likedTracks = useLibraryStore((state) => state.likes.tracks);
-	const historyTracks = useLibraryStore((state) => state.history.tracks);
+	const likedIds = useLibraryStore((state) => state.likes.tracks);
+	const historyIds = useLibraryStore((state) => state.history.tracks);
 
-	const searchableTracks = Array.from(
-		new Map([...likedTracks, ...historyTracks].map(item => [item.id, item])).values()
-	);
+	const searchableTracks = useMemo(() => {
+		const uniqueIds = Array.from(new Set([...likedIds, ...historyIds]));
+
+		return uniqueIds
+			.map(id => mockTracks.find(track => track.id === id))
+			.filter((track): track is Track => !!track);
+	}, [likedIds, historyIds]);
 
 	const [open, setOpen] = React.useState(false);
 
