@@ -9,7 +9,7 @@ interface TableContextValue<TData = any> {
 const TableContext = React.createContext<TableContextValue<any> | null>(null)
 
 export function useTableContext<TData>() {
-    const context = React.useContext(TableContext)
+    const context = React.use(TableContext)
     if (!context) {
         throw new Error("Table components must be wrapped in <Table.Root />")
     }

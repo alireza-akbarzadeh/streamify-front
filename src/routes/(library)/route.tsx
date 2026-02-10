@@ -7,6 +7,7 @@ import { LibraryTopBar } from "@/domains/library/layouts/library-top-bar.tsx";
 import { useLibraryStore } from "@/domains/library/store/library-store.ts";
 import { cn } from "@/lib/utils.ts";
 
+
 export const Route = createFileRoute("/(library)")({
 	component: LibraryLayout,
 });
