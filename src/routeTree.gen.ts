@@ -9,8 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as OrpcTodoRouteImport } from './routes/orpc-todo'
 import { Route as libraryRouteRouteImport } from './routes/(library)/route'
 import { Route as homeIndexRouteImport } from './routes/(home)/index'
+import { Route as ApiSplatRouteImport } from './routes/api.$'
 import { Route as homeTermsRouteImport } from './routes/(home)/terms'
 import { Route as homePrivacyRouteImport } from './routes/(home)/privacy'
 import { Route as homePricingRouteImport } from './routes/(home)/pricing'
@@ -36,6 +38,8 @@ import { Route as homeMusicIndexRouteImport } from './routes/(home)/music/index'
 import { Route as homeMoviesIndexRouteImport } from './routes/(home)/movies/index'
 import { Route as blogBlogIndexRouteImport } from './routes/(blog)/blog/index'
 import { Route as adminDashboardIndexRouteImport } from './routes/(admin)/dashboard/index'
+import { Route as ApiRpcSplatRouteImport } from './routes/api.rpc.$'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as libraryLibraryVideosRouteImport } from './routes/(library)/library/videos'
 import { Route as libraryLibrarySubscriptionRouteImport } from './routes/(library)/library/subscription'
 import { Route as libraryLibrarySettingRouteImport } from './routes/(library)/library/setting'
@@ -109,6 +113,11 @@ import { Route as adminDashboardAnalyticsContentIndexRouteImport } from './route
 import { Route as adminDashboardMusicArtistsArtistIdRouteImport } from './routes/(admin)/dashboard/music/artists/$artistId'
 import { Route as adminDashboardMusicAlbumsAlbumIdRouteImport } from './routes/(admin)/dashboard/music/albums/$albumId'
 
+const OrpcTodoRoute = OrpcTodoRouteImport.update({
+  id: '/orpc-todo',
+  path: '/orpc-todo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const libraryRouteRoute = libraryRouteRouteImport.update({
   id: '/(library)',
   getParentRoute: () => rootRouteImport,
@@ -116,6 +125,11 @@ const libraryRouteRoute = libraryRouteRouteImport.update({
 const homeIndexRoute = homeIndexRouteImport.update({
   id: '/(home)/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSplatRoute = ApiSplatRouteImport.update({
+  id: '/api/$',
+  path: '/api/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 const homeTermsRoute = homeTermsRouteImport.update({
@@ -242,6 +256,16 @@ const adminDashboardIndexRoute = adminDashboardIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => adminDashboardRouteRoute,
+} as any)
+const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
+  id: '/api/rpc/$',
+  path: '/api/rpc/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const libraryLibraryVideosRoute = libraryLibraryVideosRouteImport.update({
   id: '/library/videos',
@@ -656,6 +680,7 @@ const adminDashboardMusicAlbumsAlbumIdRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/orpc-todo': typeof OrpcTodoRoute
   '/dashboard': typeof adminDashboardRouteRouteWithChildren
   '/music': typeof homeMusicRouteRouteWithChildren
   '/forgot-password': typeof authForgotPasswordRoute
@@ -675,6 +700,7 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof homePricingRoute
   '/privacy': typeof homePrivacyRoute
   '/terms': typeof homeTermsRoute
+  '/api/$': typeof ApiSplatRoute
   '/': typeof homeIndexRoute
   '/blog/$blogslug': typeof blogBlogBlogslugRoute
   '/blog/profile': typeof blogBlogProfileRoute
@@ -695,6 +721,8 @@ export interface FileRoutesByFullPath {
   '/library/setting': typeof libraryLibrarySettingRoute
   '/library/subscription': typeof libraryLibrarySubscriptionRoute
   '/library/videos': typeof libraryLibraryVideosRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/rpc/$': typeof ApiRpcSplatRoute
   '/dashboard/': typeof adminDashboardIndexRoute
   '/blog': typeof blogBlogIndexRoute
   '/movies': typeof homeMoviesIndexRoute
@@ -756,6 +784,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/subscriptions/users': typeof adminDashboardSubscriptionsUsersIndexRoute
 }
 export interface FileRoutesByTo {
+  '/orpc-todo': typeof OrpcTodoRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
@@ -773,6 +802,7 @@ export interface FileRoutesByTo {
   '/pricing': typeof homePricingRoute
   '/privacy': typeof homePrivacyRoute
   '/terms': typeof homeTermsRoute
+  '/api/$': typeof ApiSplatRoute
   '/': typeof homeIndexRoute
   '/blog/$blogslug': typeof blogBlogBlogslugRoute
   '/blog/profile': typeof blogBlogProfileRoute
@@ -793,6 +823,8 @@ export interface FileRoutesByTo {
   '/library/setting': typeof libraryLibrarySettingRoute
   '/library/subscription': typeof libraryLibrarySubscriptionRoute
   '/library/videos': typeof libraryLibraryVideosRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/rpc/$': typeof ApiRpcSplatRoute
   '/dashboard': typeof adminDashboardIndexRoute
   '/blog': typeof blogBlogIndexRoute
   '/movies': typeof homeMoviesIndexRoute
@@ -856,6 +888,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(library)': typeof libraryRouteRouteWithChildren
+  '/orpc-todo': typeof OrpcTodoRoute
   '/(admin)/dashboard': typeof adminDashboardRouteRouteWithChildren
   '/(home)/music': typeof homeMusicRouteRouteWithChildren
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
@@ -875,6 +908,7 @@ export interface FileRoutesById {
   '/(home)/pricing': typeof homePricingRoute
   '/(home)/privacy': typeof homePrivacyRoute
   '/(home)/terms': typeof homeTermsRoute
+  '/api/$': typeof ApiSplatRoute
   '/(home)/': typeof homeIndexRoute
   '/(blog)/blog/$blogslug': typeof blogBlogBlogslugRoute
   '/(blog)/blog/profile': typeof blogBlogProfileRoute
@@ -895,6 +929,8 @@ export interface FileRoutesById {
   '/(library)/library/setting': typeof libraryLibrarySettingRoute
   '/(library)/library/subscription': typeof libraryLibrarySubscriptionRoute
   '/(library)/library/videos': typeof libraryLibraryVideosRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/rpc/$': typeof ApiRpcSplatRoute
   '/(admin)/dashboard/': typeof adminDashboardIndexRoute
   '/(blog)/blog/': typeof blogBlogIndexRoute
   '/(home)/movies/': typeof homeMoviesIndexRoute
@@ -958,6 +994,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/orpc-todo'
     | '/dashboard'
     | '/music'
     | '/forgot-password'
@@ -977,6 +1014,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/privacy'
     | '/terms'
+    | '/api/$'
     | '/'
     | '/blog/$blogslug'
     | '/blog/profile'
@@ -997,6 +1035,8 @@ export interface FileRouteTypes {
     | '/library/setting'
     | '/library/subscription'
     | '/library/videos'
+    | '/api/auth/$'
+    | '/api/rpc/$'
     | '/dashboard/'
     | '/blog'
     | '/movies'
@@ -1058,6 +1098,7 @@ export interface FileRouteTypes {
     | '/dashboard/subscriptions/users'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/orpc-todo'
     | '/forgot-password'
     | '/login'
     | '/register'
@@ -1075,6 +1116,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/privacy'
     | '/terms'
+    | '/api/$'
     | '/'
     | '/blog/$blogslug'
     | '/blog/profile'
@@ -1095,6 +1137,8 @@ export interface FileRouteTypes {
     | '/library/setting'
     | '/library/subscription'
     | '/library/videos'
+    | '/api/auth/$'
+    | '/api/rpc/$'
     | '/dashboard'
     | '/blog'
     | '/movies'
@@ -1157,6 +1201,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/(library)'
+    | '/orpc-todo'
     | '/(admin)/dashboard'
     | '/(home)/music'
     | '/(auth)/forgot-password'
@@ -1176,6 +1221,7 @@ export interface FileRouteTypes {
     | '/(home)/pricing'
     | '/(home)/privacy'
     | '/(home)/terms'
+    | '/api/$'
     | '/(home)/'
     | '/(blog)/blog/$blogslug'
     | '/(blog)/blog/profile'
@@ -1196,6 +1242,8 @@ export interface FileRouteTypes {
     | '/(library)/library/setting'
     | '/(library)/library/subscription'
     | '/(library)/library/videos'
+    | '/api/auth/$'
+    | '/api/rpc/$'
     | '/(admin)/dashboard/'
     | '/(blog)/blog/'
     | '/(home)/movies/'
@@ -1259,6 +1307,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   libraryRouteRoute: typeof libraryRouteRouteWithChildren
+  OrpcTodoRoute: typeof OrpcTodoRoute
   adminDashboardRouteRoute: typeof adminDashboardRouteRouteWithChildren
   homeMusicRouteRoute: typeof homeMusicRouteRouteWithChildren
   authForgotPasswordRoute: typeof authForgotPasswordRoute
@@ -1278,12 +1327,15 @@ export interface RootRouteChildren {
   homePricingRoute: typeof homePricingRoute
   homePrivacyRoute: typeof homePrivacyRoute
   homeTermsRoute: typeof homeTermsRoute
+  ApiSplatRoute: typeof ApiSplatRoute
   homeIndexRoute: typeof homeIndexRoute
   blogBlogBlogslugRoute: typeof blogBlogBlogslugRoute
   blogBlogProfileRoute: typeof blogBlogProfileRoute
   homeExploreSectionRoute: typeof homeExploreSectionRoute
   homeMoviesMovieIdRoute: typeof homeMoviesMovieIdRoute
   homePlayPlayIdRoute: typeof homePlayPlayIdRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiRpcSplatRoute: typeof ApiRpcSplatRoute
   blogBlogIndexRoute: typeof blogBlogIndexRoute
   homeMoviesIndexRoute: typeof homeMoviesIndexRoute
   homeReelsIndexRoute: typeof homeReelsIndexRoute
@@ -1291,6 +1343,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/orpc-todo': {
+      id: '/orpc-todo'
+      path: '/orpc-todo'
+      fullPath: '/orpc-todo'
+      preLoaderRoute: typeof OrpcTodoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(library)': {
       id: '/(library)'
       path: ''
@@ -1303,6 +1362,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof homeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/$': {
+      id: '/api/$'
+      path: '/api/$'
+      fullPath: '/api/$'
+      preLoaderRoute: typeof ApiSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(home)/terms': {
@@ -1479,6 +1545,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/'
       preLoaderRoute: typeof adminDashboardIndexRouteImport
       parentRoute: typeof adminDashboardRouteRoute
+    }
+    '/api/rpc/$': {
+      id: '/api/rpc/$'
+      path: '/api/rpc/$'
+      fullPath: '/api/rpc/$'
+      preLoaderRoute: typeof ApiRpcSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/(library)/library/videos': {
       id: '/(library)/library/videos'
@@ -2174,6 +2254,7 @@ const homeMusicRouteRouteWithChildren = homeMusicRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   libraryRouteRoute: libraryRouteRouteWithChildren,
+  OrpcTodoRoute: OrpcTodoRoute,
   adminDashboardRouteRoute: adminDashboardRouteRouteWithChildren,
   homeMusicRouteRoute: homeMusicRouteRouteWithChildren,
   authForgotPasswordRoute: authForgotPasswordRoute,
@@ -2193,12 +2274,15 @@ const rootRouteChildren: RootRouteChildren = {
   homePricingRoute: homePricingRoute,
   homePrivacyRoute: homePrivacyRoute,
   homeTermsRoute: homeTermsRoute,
+  ApiSplatRoute: ApiSplatRoute,
   homeIndexRoute: homeIndexRoute,
   blogBlogBlogslugRoute: blogBlogBlogslugRoute,
   blogBlogProfileRoute: blogBlogProfileRoute,
   homeExploreSectionRoute: homeExploreSectionRoute,
   homeMoviesMovieIdRoute: homeMoviesMovieIdRoute,
   homePlayPlayIdRoute: homePlayPlayIdRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiRpcSplatRoute: ApiRpcSplatRoute,
   blogBlogIndexRoute: blogBlogIndexRoute,
   homeMoviesIndexRoute: homeMoviesIndexRoute,
   homeReelsIndexRoute: homeReelsIndexRoute,

@@ -19,6 +19,9 @@
     "storybook",
     "tanstack-query",
     "compiler",
-    "tanchat"
+    "tanchat",
+    "prisma",
+    "oRPC",
+    "better-auth"
   ]
 }

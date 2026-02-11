@@ -6,10 +6,14 @@ import { LibraryMobileNav } from "@/domains/library/layouts/library-mobile-nav.t
 import { LibraryTopBar } from "@/domains/library/layouts/library-top-bar.tsx";
 import { useLibraryStore } from "@/domains/library/store/library-store.ts";
 import { cn } from "@/lib/utils.ts";
+import { authMiddleware } from "@/middleware/auth";
 
 
 export const Route = createFileRoute("/(library)")({
 	component: LibraryLayout,
+	server: {
+		middleware: [authMiddleware],
+	},
 });
 
 function LibraryLayout() {
