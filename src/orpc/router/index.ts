@@ -1,6 +1,8 @@
-import { addTodo, listTodos } from './todos'
+import { os } from "@orpc/server";
+import { MediaRouter } from "../procedures/media";
 
-export default {
-  listTodos,
-  addTodo,
-}
+const router = os.router({
+	media: MediaRouter,
+});
+
+export default router;

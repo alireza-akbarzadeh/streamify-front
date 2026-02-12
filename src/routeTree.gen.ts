@@ -9,7 +9,9 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UnauthorizedRouteImport } from './routes/unauthorized'
 import { Route as libraryRouteRouteImport } from './routes/(library)/route'
+import { Route as authRouteRouteImport } from './routes/(auth)/route'
 import { Route as homeIndexRouteImport } from './routes/(home)/index'
 import { Route as ApiSplatRouteImport } from './routes/api.$'
 import { Route as homeTermsRouteImport } from './routes/(home)/terms'
@@ -116,8 +118,17 @@ import { Route as adminDashboardAnalyticsContentIndexRouteImport } from './route
 import { Route as adminDashboardMusicArtistsArtistIdRouteImport } from './routes/(admin)/dashboard/music/artists/$artistId'
 import { Route as adminDashboardMusicAlbumsAlbumIdRouteImport } from './routes/(admin)/dashboard/music/albums/$albumId'
 
+const UnauthorizedRoute = UnauthorizedRouteImport.update({
+  id: '/unauthorized',
+  path: '/unauthorized',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const libraryRouteRoute = libraryRouteRouteImport.update({
   id: '/(library)',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authRouteRoute = authRouteRouteImport.update({
+  id: '/(auth)',
   getParentRoute: () => rootRouteImport,
 } as any)
 const homeIndexRoute = homeIndexRouteImport.update({
@@ -201,39 +212,39 @@ const homeAboutRoute = homeAboutRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const authVerifyEmailRoute = authVerifyEmailRouteImport.update({
-  id: '/(auth)/verify-email',
+  id: '/verify-email',
   path: '/verify-email',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => authRouteRoute,
 } as any)
 const authTowFaSetupRoute = authTowFaSetupRouteImport.update({
-  id: '/(auth)/tow-fa-setup',
+  id: '/tow-fa-setup',
   path: '/tow-fa-setup',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => authRouteRoute,
 } as any)
 const authResetPasswordRoute = authResetPasswordRouteImport.update({
-  id: '/(auth)/reset-password',
+  id: '/reset-password',
   path: '/reset-password',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => authRouteRoute,
 } as any)
 const authRegisterRoute = authRegisterRouteImport.update({
-  id: '/(auth)/register',
+  id: '/register',
   path: '/register',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => authRouteRoute,
 } as any)
 const authRecoveryCodeRoute = authRecoveryCodeRouteImport.update({
-  id: '/(auth)/recovery-code',
+  id: '/recovery-code',
   path: '/recovery-code',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => authRouteRoute,
 } as any)
 const authLoginRoute = authLoginRouteImport.update({
-  id: '/(auth)/login',
+  id: '/login',
   path: '/login',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => authRouteRoute,
 } as any)
 const authForgotPasswordRoute = authForgotPasswordRouteImport.update({
-  id: '/(auth)/forgot-password',
+  id: '/forgot-password',
   path: '/forgot-password',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => authRouteRoute,
 } as any)
 const homeMusicRouteRoute = homeMusicRouteRouteImport.update({
   id: '/(home)/music',
@@ -698,6 +709,7 @@ const adminDashboardMusicAlbumsAlbumIdRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/unauthorized': typeof UnauthorizedRoute
   '/dashboard': typeof adminDashboardRouteRouteWithChildren
   '/music': typeof homeMusicRouteRouteWithChildren
   '/forgot-password': typeof authForgotPasswordRoute
@@ -805,6 +817,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/subscriptions/users': typeof adminDashboardSubscriptionsUsersIndexRoute
 }
 export interface FileRoutesByTo {
+  '/unauthorized': typeof UnauthorizedRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/login': typeof authLoginRoute
   '/recovery-code': typeof authRecoveryCodeRoute
@@ -911,7 +924,9 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/(auth)': typeof authRouteRouteWithChildren
   '/(library)': typeof libraryRouteRouteWithChildren
+  '/unauthorized': typeof UnauthorizedRoute
   '/(admin)/dashboard': typeof adminDashboardRouteRouteWithChildren
   '/(home)/music': typeof homeMusicRouteRouteWithChildren
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
@@ -1021,6 +1036,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/unauthorized'
     | '/dashboard'
     | '/music'
     | '/forgot-password'
@@ -1128,6 +1144,7 @@ export interface FileRouteTypes {
     | '/dashboard/subscriptions/users'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/unauthorized'
     | '/forgot-password'
     | '/login'
     | '/recovery-code'
@@ -1233,7 +1250,9 @@ export interface FileRouteTypes {
     | '/dashboard/subscriptions/users'
   id:
     | '__root__'
+    | '/(auth)'
     | '/(library)'
+    | '/unauthorized'
     | '/(admin)/dashboard'
     | '/(home)/music'
     | '/(auth)/forgot-password'
@@ -1342,16 +1361,11 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  authRouteRoute: typeof authRouteRouteWithChildren
   libraryRouteRoute: typeof libraryRouteRouteWithChildren
+  UnauthorizedRoute: typeof UnauthorizedRoute
   adminDashboardRouteRoute: typeof adminDashboardRouteRouteWithChildren
   homeMusicRouteRoute: typeof homeMusicRouteRouteWithChildren
-  authForgotPasswordRoute: typeof authForgotPasswordRoute
-  authLoginRoute: typeof authLoginRoute
-  authRecoveryCodeRoute: typeof authRecoveryCodeRoute
-  authRegisterRoute: typeof authRegisterRoute
-  authResetPasswordRoute: typeof authResetPasswordRoute
-  authTowFaSetupRoute: typeof authTowFaSetupRoute
-  authVerifyEmailRoute: typeof authVerifyEmailRoute
   homeAboutRoute: typeof homeAboutRoute
   homeCareersRoute: typeof homeCareersRoute
   homeCommunityRoute: typeof homeCommunityRoute
@@ -1382,11 +1396,25 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/unauthorized': {
+      id: '/unauthorized'
+      path: '/unauthorized'
+      fullPath: '/unauthorized'
+      preLoaderRoute: typeof UnauthorizedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(library)': {
       id: '/(library)'
       path: ''
       fullPath: ''
       preLoaderRoute: typeof libraryRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)': {
+      id: '/(auth)'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof authRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(home)/': {
@@ -1506,49 +1534,49 @@ declare module '@tanstack/react-router' {
       path: '/verify-email'
       fullPath: '/verify-email'
       preLoaderRoute: typeof authVerifyEmailRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof authRouteRoute
     }
     '/(auth)/tow-fa-setup': {
       id: '/(auth)/tow-fa-setup'
       path: '/tow-fa-setup'
       fullPath: '/tow-fa-setup'
       preLoaderRoute: typeof authTowFaSetupRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof authRouteRoute
     }
     '/(auth)/reset-password': {
       id: '/(auth)/reset-password'
       path: '/reset-password'
       fullPath: '/reset-password'
       preLoaderRoute: typeof authResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof authRouteRoute
     }
     '/(auth)/register': {
       id: '/(auth)/register'
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof authRegisterRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof authRouteRoute
     }
     '/(auth)/recovery-code': {
       id: '/(auth)/recovery-code'
       path: '/recovery-code'
       fullPath: '/recovery-code'
       preLoaderRoute: typeof authRecoveryCodeRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof authRouteRoute
     }
     '/(auth)/login': {
       id: '/(auth)/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof authLoginRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof authRouteRoute
     }
     '/(auth)/forgot-password': {
       id: '/(auth)/forgot-password'
       path: '/forgot-password'
       fullPath: '/forgot-password'
       preLoaderRoute: typeof authForgotPasswordRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof authRouteRoute
     }
     '/(home)/music': {
       id: '/(home)/music'
@@ -2127,6 +2155,30 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface authRouteRouteChildren {
+  authForgotPasswordRoute: typeof authForgotPasswordRoute
+  authLoginRoute: typeof authLoginRoute
+  authRecoveryCodeRoute: typeof authRecoveryCodeRoute
+  authRegisterRoute: typeof authRegisterRoute
+  authResetPasswordRoute: typeof authResetPasswordRoute
+  authTowFaSetupRoute: typeof authTowFaSetupRoute
+  authVerifyEmailRoute: typeof authVerifyEmailRoute
+}
+
+const authRouteRouteChildren: authRouteRouteChildren = {
+  authForgotPasswordRoute: authForgotPasswordRoute,
+  authLoginRoute: authLoginRoute,
+  authRecoveryCodeRoute: authRecoveryCodeRoute,
+  authRegisterRoute: authRegisterRoute,
+  authResetPasswordRoute: authResetPasswordRoute,
+  authTowFaSetupRoute: authTowFaSetupRoute,
+  authVerifyEmailRoute: authVerifyEmailRoute,
+}
+
+const authRouteRouteWithChildren = authRouteRoute._addFileChildren(
+  authRouteRouteChildren,
+)
+
 interface libraryRouteRouteChildren {
   libraryLibraryBlogsRoute: typeof libraryLibraryBlogsRoute
   libraryLibraryHistoryRoute: typeof libraryLibraryHistoryRoute
@@ -2313,16 +2365,11 @@ const homeMusicRouteRouteWithChildren = homeMusicRouteRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
+  authRouteRoute: authRouteRouteWithChildren,
   libraryRouteRoute: libraryRouteRouteWithChildren,
+  UnauthorizedRoute: UnauthorizedRoute,
   adminDashboardRouteRoute: adminDashboardRouteRouteWithChildren,
   homeMusicRouteRoute: homeMusicRouteRouteWithChildren,
-  authForgotPasswordRoute: authForgotPasswordRoute,
-  authLoginRoute: authLoginRoute,
-  authRecoveryCodeRoute: authRecoveryCodeRoute,
-  authRegisterRoute: authRegisterRoute,
-  authResetPasswordRoute: authResetPasswordRoute,
-  authTowFaSetupRoute: authTowFaSetupRoute,
-  authVerifyEmailRoute: authVerifyEmailRoute,
   homeAboutRoute: homeAboutRoute,
   homeCareersRoute: homeCareersRoute,
   homeCommunityRoute: homeCommunityRoute,

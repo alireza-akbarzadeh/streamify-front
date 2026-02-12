@@ -3,14 +3,16 @@ import { AlertCircle, Loader2 } from 'lucide-react'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { AppSidebarLayout } from '@/domains/dashboard/components/app-sidebar-layout'
 import { getSidebarData } from '@/domains/dashboard/server/dashboard.functions'
+import { adminMiddleware } from '@/middleware/auth'
 
 export const Route = createFileRoute('/(admin)/dashboard')({
     component: RouteComponent,
+    server: { middleware: [adminMiddleware] },
     loader: async ({ context }) => {
-        const role = context.auth?.role ?? "customer";
+        const role = context.auth?.user?.role;
         await context.queryClient.ensureQueryData({
             queryKey: ['sidebar', role],
-            queryFn: () => getSidebarData({ data: role }),
+            queryFn: () => getSidebarData({ data: role as string }),
         });
     },
     errorComponent: ({ error, reset }) => (
