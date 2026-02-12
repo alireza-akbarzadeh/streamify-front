@@ -34,7 +34,7 @@ export function LoginDomain() {
 
             if (error) {
                 if (error.code === AUTH_STATUS.EMAIL_NOT_VERIFIED) {
-                    navigate({ to: "/verify-email", search: { email: value.email, type: "verification" } });
+                    navigate({ to: "/verify-email", search: { email: value.email } });
                     return;
                 }
                 toast.error(error.message || "Authentication failed");
@@ -81,13 +81,18 @@ export function LoginDomain() {
                 {/* Password Field */}
                 <form.Field name="password">
                     {(field) => (
-                        <InputPassword
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={(e) => field.handleChange(e.target.value)}
-                            errorMessage={field.state.meta.errors?.[0]?.message}
-                            isInvalid={!!field.state.meta.errors?.length && field.state.meta.isTouched}
-                        />
+                        <form.Subscribe selector={(state) => state?.values?.email}>
+                            {(emailValue) => (
+                                <InputPassword
+                                    email={emailValue}
+                                    value={field.state.value}
+                                    onBlur={field.handleBlur}
+                                    onChange={(e) => field.handleChange(e.target.value)}
+                                    errorMessage={field.state.meta.errors?.[0]?.message}
+                                    isInvalid={!!field.state.meta.errors?.length && field.state.meta.isTouched}
+                                />
+                            )}
+                        </form.Subscribe>
                     )}
                 </form.Field>
 

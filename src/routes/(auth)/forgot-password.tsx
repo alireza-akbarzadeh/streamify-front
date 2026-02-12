@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
 	ArrowLeft,
@@ -25,32 +25,40 @@ const forgotPasswordSchema = z.object({
 
 export const Route = createFileRoute("/(auth)/forgot-password")({
 	component: ForgotPasswordPage,
+	validateSearch: (search: Record<string, unknown>) => ({
+		email: (search.email as string | undefined),
+	}),
 });
 
 function ForgotPasswordPage() {
+
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const emailId = useId();
-
-	// 2. Form Logic
+	const { email } = Route.useSearch();
+	const navigate = useNavigate();
 	const form = useForm(forgotPasswordSchema, {
 		defaultValues: {
-			email: "",
+			email: email,
 		},
 		validators: {
 			onChange: forgotPasswordSchema,
 		},
 		onSubmit: async ({ value }) => {
 			const { error } = await forgetPassword.emailOtp({
-				email: value.email,
+				email: value.email || "",
 			});
 			if (error) {
-				toast.error(error.message || "Something went wrong. Please try again.");
+				toast.error(error.message || "Something went wrong");
 				return;
 			}
-			setIsSubmitted(true);
+			setIsSubmitted(true)
+
+			navigate({
+				to: "/reset-password",
+				search: { email: value.email || "" },
+			});
 		},
 	});
-
 	// 3. Success State View
 	if (isSubmitted) {
 		return (
@@ -119,9 +127,8 @@ function ForgotPasswordPage() {
 										value={field.state.value}
 										onBlur={field.handleBlur}
 										onChange={(e) => field.handleChange(e.target.value)}
-										className={`pl-12 h-12 bg-white/5 border ${
-											isInvalid ? "border-red-500" : "border-white/10"
-										} text-white placeholder:text-gray-500 focus:border-purple-500/50 focus:ring-purple-500/20 rounded-xl transition-all`}
+										className={`pl-12 h-12 bg-white/5 border ${isInvalid ? "border-red-500" : "border-white/10"
+											} text-white placeholder:text-gray-500 focus:border-purple-500/50 focus:ring-purple-500/20 rounded-xl transition-all`}
 									/>
 								</div>
 							</div>

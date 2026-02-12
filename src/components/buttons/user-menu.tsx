@@ -101,19 +101,13 @@ export function UserMenu() {
 						{/* LOGOUT */}
 						<div className="border-t border-white/5 p-2">
 							<motion.button
-								whileHover={{ x: 4 }} // Slides right slightly on hover
-								whileTap={{ scale: 0.95 }} // "Squish" effect on click
+								whileHover={{ x: 4 }}
+								whileTap={{ scale: 0.95 }}
 								disabled={isLoading}
 								onClick={handleLogout}
 								className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 transition cursor-pointer disabled:opacity-50"
 							>
-								<motion.div
-									animate={isLoading ? { rotate: 360 } : { rotate: 0 }}
-									transition={{ repeat: isLoading ? Infinity : 0, duration: 1, ease: "linear" }}
-								>
-									{isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <LogOut className="size-4" />}
-								</motion.div>
-
+								{isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <LogOut className="size-4" />}
 								{isLoading ? (
 									<span>Logging out...</span>
 								) : (

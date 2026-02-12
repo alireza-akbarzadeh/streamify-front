@@ -1,4 +1,3 @@
-// @/lib/auth-client.ts
 import { createAuthClient } from "better-auth/client";
 import {
 	adminClient,
@@ -19,5 +18,12 @@ export const authClient = createAuthClient({
 	],
 });
 
-export const { useSession, signIn, signOut, signUp, forgetPassword } =
-	authClient;
+export const {
+	useSession,
+	signIn,
+	signOut,
+	signUp,
+	forgetPassword,
+	resetPassword,
+	changePassword,
+} = authClient;

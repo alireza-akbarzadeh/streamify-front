@@ -28,6 +28,7 @@ import { Route as homeCareersRouteImport } from './routes/(home)/careers'
 import { Route as homeAboutRouteImport } from './routes/(home)/about'
 import { Route as authVerifyEmailRouteImport } from './routes/(auth)/verify-email'
 import { Route as authTowFaSetupRouteImport } from './routes/(auth)/tow-fa-setup'
+import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
 import { Route as authRegisterRouteImport } from './routes/(auth)/register'
 import { Route as authRecoveryCodeRouteImport } from './routes/(auth)/recovery-code'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
@@ -207,6 +208,11 @@ const authVerifyEmailRoute = authVerifyEmailRouteImport.update({
 const authTowFaSetupRoute = authTowFaSetupRouteImport.update({
   id: '/(auth)/tow-fa-setup',
   path: '/tow-fa-setup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authResetPasswordRoute = authResetPasswordRouteImport.update({
+  id: '/(auth)/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const authRegisterRoute = authRegisterRouteImport.update({
@@ -698,6 +704,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof authLoginRoute
   '/recovery-code': typeof authRecoveryCodeRoute
   '/register': typeof authRegisterRoute
+  '/reset-password': typeof authResetPasswordRoute
   '/tow-fa-setup': typeof authTowFaSetupRoute
   '/verify-email': typeof authVerifyEmailRoute
   '/about': typeof homeAboutRoute
@@ -802,6 +809,7 @@ export interface FileRoutesByTo {
   '/login': typeof authLoginRoute
   '/recovery-code': typeof authRecoveryCodeRoute
   '/register': typeof authRegisterRoute
+  '/reset-password': typeof authResetPasswordRoute
   '/tow-fa-setup': typeof authTowFaSetupRoute
   '/verify-email': typeof authVerifyEmailRoute
   '/about': typeof homeAboutRoute
@@ -910,6 +918,7 @@ export interface FileRoutesById {
   '/(auth)/login': typeof authLoginRoute
   '/(auth)/recovery-code': typeof authRecoveryCodeRoute
   '/(auth)/register': typeof authRegisterRoute
+  '/(auth)/reset-password': typeof authResetPasswordRoute
   '/(auth)/tow-fa-setup': typeof authTowFaSetupRoute
   '/(auth)/verify-email': typeof authVerifyEmailRoute
   '/(home)/about': typeof homeAboutRoute
@@ -1018,6 +1027,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/recovery-code'
     | '/register'
+    | '/reset-password'
     | '/tow-fa-setup'
     | '/verify-email'
     | '/about'
@@ -1122,6 +1132,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/recovery-code'
     | '/register'
+    | '/reset-password'
     | '/tow-fa-setup'
     | '/verify-email'
     | '/about'
@@ -1229,6 +1240,7 @@ export interface FileRouteTypes {
     | '/(auth)/login'
     | '/(auth)/recovery-code'
     | '/(auth)/register'
+    | '/(auth)/reset-password'
     | '/(auth)/tow-fa-setup'
     | '/(auth)/verify-email'
     | '/(home)/about'
@@ -1337,6 +1349,7 @@ export interface RootRouteChildren {
   authLoginRoute: typeof authLoginRoute
   authRecoveryCodeRoute: typeof authRecoveryCodeRoute
   authRegisterRoute: typeof authRegisterRoute
+  authResetPasswordRoute: typeof authResetPasswordRoute
   authTowFaSetupRoute: typeof authTowFaSetupRoute
   authVerifyEmailRoute: typeof authVerifyEmailRoute
   homeAboutRoute: typeof homeAboutRoute
@@ -1500,6 +1513,13 @@ declare module '@tanstack/react-router' {
       path: '/tow-fa-setup'
       fullPath: '/tow-fa-setup'
       preLoaderRoute: typeof authTowFaSetupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/reset-password': {
+      id: '/(auth)/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof authResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(auth)/register': {
@@ -2300,6 +2320,7 @@ const rootRouteChildren: RootRouteChildren = {
   authLoginRoute: authLoginRoute,
   authRecoveryCodeRoute: authRecoveryCodeRoute,
   authRegisterRoute: authRegisterRoute,
+  authResetPasswordRoute: authResetPasswordRoute,
   authTowFaSetupRoute: authTowFaSetupRoute,
   authVerifyEmailRoute: authVerifyEmailRoute,
   homeAboutRoute: homeAboutRoute,

@@ -56,7 +56,7 @@ export function RegisterDomain() {
 					);
 					await navigate({
 						to: "/verify-email",
-						search: { email: value.email, type: "verification" },
+						search: { email: value.email },
 					});
 				},
 			}

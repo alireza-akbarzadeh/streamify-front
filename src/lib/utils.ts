@@ -337,3 +337,32 @@ export const formatPayerTime = (seconds: number) => {
 	const secs = Math.floor(seconds % 60);
 	return `${mins}:${secs.toString().padStart(2, "0")}`;
 };
+
+export const getEmailProviderLink = (email: string, isSpam: boolean) => {
+	const domain = email.split("@")[1]?.toLowerCase();
+
+	if (domain === "gmail.com") {
+		return isSpam
+			? "https://mail.google.com/mail/u/0/#spam"
+			: "https://mail.google.com/mail/u/0/#inbox";
+	}
+
+	if (
+		domain === "outlook.com" ||
+		domain === "hotmail.com" ||
+		domain === "live.com"
+	) {
+		return isSpam
+			? "https://outlook.live.com/mail/0/junkemail"
+			: "https://outlook.live.com/mail/0/inbox";
+	}
+
+	if (domain === "yahoo.com") {
+		return isSpam
+			? "https://mail.yahoo.com/d/folders/2"
+			: "https://mail.yahoo.com";
+	}
+
+	// Default fallback if unknown
+	return "https://mail.google.com";
+};

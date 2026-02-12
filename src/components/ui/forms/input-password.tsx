@@ -13,10 +13,11 @@ export interface InputPasswordProps
 	extends Except<ComponentProps<typeof Input>, "type"> {
 	isInvalid: boolean;
 	errorMessage: string;
+	email?: string
 }
 
 function InputPassword(props: InputPasswordProps) {
-	const { className, isInvalid, errorMessage, ...rest } = props;
+	const { className, email, isInvalid, errorMessage, ...rest } = props;
 
 	const [showPassword, setShowPassword] = useState(false);
 	const passwordId = useId();
@@ -32,6 +33,7 @@ function InputPassword(props: InputPasswordProps) {
 				</Label>
 				<Link
 					to="/forgot-password"
+					search={{ email }}
 					className="text-sm text-purple-400 hover:text-purple-300 transition-colors"
 				>
 					Forgot?
@@ -44,9 +46,8 @@ function InputPassword(props: InputPasswordProps) {
 					id={passwordId}
 					type={showPassword ? "text" : "password"}
 					placeholder="Enter your password"
-					className={`pl-12 h-12 bg-white/5 border ${
-						isInvalid ? "border-red-500" : "border-white/10"
-					} text-white placeholder:text-gray-500 focus:border-purple-500/50 focus:ring-purple-500/20 rounded-xl transition-all`}
+					className={`pl-12 h-12 bg-white/5 border ${isInvalid ? "border-red-500" : "border-white/10"
+						} text-white placeholder:text-gray-500 focus:border-purple-500/50 focus:ring-purple-500/20 rounded-xl transition-all`}
 					{...rest}
 				/>
 				<Button
