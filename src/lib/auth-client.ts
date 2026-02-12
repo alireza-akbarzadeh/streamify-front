@@ -25,5 +25,6 @@ export const {
 	signUp,
 	forgetPassword,
 	resetPassword,
+	requestPasswordReset,
 	changePassword,
 } = authClient;

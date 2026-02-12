@@ -1,25 +1,18 @@
-// routes/(auth)/reset-password/verify.tsx
 /** biome-ignore-all lint/correctness/useUniqueElementIds: <explanation> */
-import { createFileRoute, Link, Navigate, useNavigate } from "@tanstack/react-router";
+
+import { useForm } from "@tanstack/react-form"; // ✅ Import directly from tanstack/react-form
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { CheckCircle2, Loader2, Lock, Mail, RefreshCw } from "lucide-react";
+import { CheckCircle2, Loader2, Mail, RefreshCw } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { useForm } from "@/components/ui/forms/form";
-import { Input } from "@/components/ui/input";
-import {
-    InputOTP,
-    InputOTPGroup,
-    InputOTPSlot,
-} from "@/components/ui/input-otp";
-import { Label } from "@/components/ui/label";
+import { InputPassword } from "@/components/ui/forms/input-password";
 import AuthLayout from "@/domains/auth/auth-layout";
-import { forgetPassword, resetPassword } from "@/lib/auth-client";
+import { requestPasswordReset, resetPassword } from "@/lib/auth-client";
 
 const verifyResetSchema = z.object({
-    otp: z.string().length(6, "Enter the full 6-digit code"),
     password: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string(),
 }).refine((data) => data.password === data.confirmPassword, {
@@ -29,20 +22,20 @@ const verifyResetSchema = z.object({
 
 export const Route = createFileRoute("/(auth)/reset-password")({
     component: ResetPasswordVerifyPage,
-    validateSearch: (search: Record<string, unknown>) => ({
-        email: search.email as string,
+    validateSearch: (search: Record<string, string>) => ({
+        email: search.email,
+        token: search.token,
     }),
 });
 
 function ResetPasswordVerifyPage() {
     const navigate = useNavigate();
-    const { email } = Route.useSearch();
+    const { email, token } = Route.useSearch();
     const [isSuccess, setIsSuccess] = useState(false);
     const [resendTimer, setResendTimer] = useState(60);
 
-    const form = useForm(verifyResetSchema, {
+    const form = useForm({
         defaultValues: {
-            otp: "",
             password: "",
             confirmPassword: "",
         },
@@ -52,6 +45,7 @@ function ResetPasswordVerifyPage() {
         onSubmit: async ({ value }) => {
             const { error } = await resetPassword({
                 newPassword: value.password,
+                token: token || "",
             });
 
             if (error) {
@@ -61,18 +55,21 @@ function ResetPasswordVerifyPage() {
 
             toast.success("Password reset successfully!");
             setIsSuccess(true);
-            navigate({ to: "/login" })
+            setTimeout(() => navigate({ to: "/login" }), 2000);
         },
     });
 
-    // Resend OTP
+    // Resend reset link
     const handleResend = async () => {
-        const { error } = await forgetPassword.emailOtp({ email });
+        const { error } = await requestPasswordReset({
+            email: email || "",
+            redirectTo: "/reset-password",
+        });
         if (error) {
-            toast.error(error.message || "Failed to resend code");
+            toast.error(error.message || "Failed to resend reset link");
             return;
         }
-        toast.success("New code sent!");
+        toast.success("New reset link sent! Check your email.");
         setResendTimer(60);
     };
 
@@ -104,111 +101,64 @@ function ResetPasswordVerifyPage() {
         );
     }
 
-    if (!email) {
-        return <Navigate to="/forgot-password" />;
-    }
-
     return (
         <AuthLayout
             title="Reset your password"
-            subtitle={`We sent a 6-digit code to ${email}`}
+            subtitle={token ? "Enter your new password below" : `We sent a reset link to ${email}`}
         >
-            <form.Root
+            <form
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    form.handleSubmit();
+                }}
                 className="space-y-6"
             >
-                {/* Email display */}
-                <div className="flex items-center gap-3 p-4 rounded-xl bg-purple-500/10 border border-purple-500/20">
-                    <Mail className="w-5 h-5 text-purple-400" />
-                    <span className="text-sm text-white">{email}</span>
-                </div>
+                {/* Email display - only show if we have email */}
+                {email && (
+                    <div className="flex items-center gap-3 p-4 rounded-xl bg-purple-500/10 border border-purple-500/20">
+                        <Mail className="w-5 h-5 text-purple-400" />
+                        <span className="text-sm text-white">{email}</span>
+                    </div>
+                )}
 
-                {/* OTP Input - Using InputOTP component */}
-                <form.Field name="otp">
-                    {(field) => (
-                        <div className="space-y-2">
-                            <Label className="text-gray-300 text-sm">Verification code</Label>
-                            <div className="flex justify-center">
-                                <InputOTP
-                                    maxLength={6}
-                                    value={field.state.value}
-                                    onChange={field.handleChange}
-                                    onBlur={field.handleBlur}
-                                    containerClassName="justify-center"
-                                >
-                                    <InputOTPGroup>
-                                        <InputOTPSlot index={0} className="bg-white/5 border-white/10 text-white" />
-                                        <InputOTPSlot index={1} className="bg-white/5 border-white/10 text-white" />
-                                        <InputOTPSlot index={2} className="bg-white/5 border-white/10 text-white" />
-                                        <InputOTPSlot index={3} className="bg-white/5 border-white/10 text-white" />
-                                        <InputOTPSlot index={4} className="bg-white/5 border-white/10 text-white" />
-                                        <InputOTPSlot index={5} className="bg-white/5 border-white/10 text-white" />
-                                    </InputOTPGroup>
-                                </InputOTP>
-                            </div>
-                            {field.state.meta.errors && field.state.meta.isTouched && (
-                                <p className="text-xs text-red-400 text-center">
-                                    {field.state.meta.errors[0]?.message}
-                                </p>
-                            )}
-                        </div>
-                    )}
-                </form.Field>
-
-                {/* New Password */}
                 <form.Field name="password">
                     {(field) => (
-                        <div className="space-y-2">
-                            <Label htmlFor="password">New Password</Label>
-                            <div className="relative">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                                <Input
-                                    id="password"
-                                    type="password"
-                                    placeholder="••••••••"
-                                    value={field.state.value}
-                                    onBlur={field.handleBlur}
-                                    onChange={(e) => field.handleChange(e.target.value)}
-                                    className="pl-12 h-12 bg-white/5 border-white/10 text-white"
-                                />
-                            </div>
-                            {field.state.meta.errors && field.state.meta.isTouched && (
-                                <p className="text-xs text-red-400">{field.state.meta.errors[0]?.message}</p>
-                            )}
-                        </div>
+                        <InputPassword
+                            id="password"
+                            label="New Password"
+                            placeholder="••••••••"
+                            value={field.state.value}
+                            onBlur={field.handleBlur}
+                            onChange={(e) => field.handleChange(e.target.value)}
+                            errorMessage={field.state.meta.errors?.[0]?.message || ""}
+                            isInvalid={!!field.state.meta.errors?.length && field.state.meta.isTouched}
+                        />
                     )}
                 </form.Field>
 
-                {/* Confirm Password */}
                 <form.Field name="confirmPassword">
                     {(field) => (
-                        <div className="space-y-2">
-                            <Label htmlFor="confirmPassword">Confirm Password</Label>
-                            <div className="relative">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                                <Input
-                                    id="confirmPassword"
-                                    type="password"
-                                    placeholder="••••••••"
-                                    value={field.state.value}
-                                    onBlur={field.handleBlur}
-                                    onChange={(e) => field.handleChange(e.target.value)}
-                                    className="pl-12 h-12 bg-white/5 border-white/10 text-white"
-                                />
-                            </div>
-                            {field.state.meta.errors && field.state.meta.isTouched && (
-                                <p className="text-xs text-red-400">{field.state.meta.errors[0]?.message}</p>
-                            )}
-                        </div>
+                        <InputPassword
+                            id="confirmPassword"
+                            label="Confirm Password"
+                            placeholder="••••••••"
+                            value={field.state.value}
+                            onBlur={field.handleBlur}
+                            onChange={(e) => field.handleChange(e.target.value)}
+                            errorMessage={field.state.meta.errors?.[0]?.message || ""}
+                            isInvalid={!!field.state.meta.errors?.length && field.state.meta.isTouched}
+                        />
                     )}
                 </form.Field>
 
                 {/* Submit */}
-                <form.Subscribe selector={(s) => s.isSubmitting}>
-                    {(isSubmitting) => (
+                <form.Subscribe selector={(state) => [state.isSubmitting, state.isValid]}>
+                    {([isSubmitting, isValid]) => (
                         <Button
                             type="submit"
-                            disabled={isSubmitting}
-                            className="w-full h-12 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500"
+                            disabled={isSubmitting || !isValid}
+                            className="w-full h-12 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {isSubmitting ? (
                                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -219,34 +169,37 @@ function ResetPasswordVerifyPage() {
                     )}
                 </form.Subscribe>
 
-                {/* Resend */}
-                <div className="text-center">
-                    {resendTimer > 0 ? (
-                        <p className="text-sm text-gray-500">
-                            Resend code in <span className="text-purple-400 font-medium">{resendTimer}s</span>
-                        </p>
-                    ) : (
-                        <button
-                            type="button"
-                            onClick={handleResend}
-                            className="text-sm text-purple-400 hover:text-purple-300 font-medium transition-colors flex items-center gap-2 mx-auto"
-                        >
-                            <RefreshCw className="w-4 h-4" />
-                            Resend code
-                        </button>
-                    )}
-                </div>
+                {/* Show resend option only if we have email and no token */}
+                {email && !token && (
+                    <div className="text-center">
+                        {resendTimer > 0 ? (
+                            <p className="text-sm text-gray-500">
+                                Resend link in <span className="text-purple-400 font-medium">{resendTimer}s</span>
+                            </p>
+                        ) : (
+                            <button
+                                type="button"
+                                onClick={handleResend}
+                                className="text-sm text-purple-400 hover:text-purple-300 font-medium transition-colors flex items-center gap-2 mx-auto"
+                            >
+                                <RefreshCw className="w-4 h-4" />
+                                Resend reset link
+                            </button>
+                        )}
+                    </div>
+                )}
 
                 {/* Back to forgot password */}
                 <div className="text-center">
                     <Link
                         to="/forgot-password"
+                        search={{ email }}
                         className="text-sm text-gray-400 hover:text-white transition-colors"
                     >
                         ← Use a different email
                     </Link>
                 </div>
-            </form.Root>
+            </form>
         </AuthLayout>
     );
 }

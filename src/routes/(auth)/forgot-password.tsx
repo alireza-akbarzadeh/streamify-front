@@ -1,4 +1,5 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useLogger } from "@mantine/hooks";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
 	ArrowLeft,
@@ -16,26 +17,27 @@ import { useForm } from "@/components/ui/forms/form.tsx";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import AuthLayout from "@/domains/auth/auth-layout";
-import { forgetPassword } from "@/lib/auth-client.ts";
+import { env } from "@/env";
+import { requestPasswordReset } from "@/lib/auth-client";
 
-// 1. Validation Schema
 const forgotPasswordSchema = z.object({
 	email: z.email("Please enter a valid email address"),
 });
 
 export const Route = createFileRoute("/(auth)/forgot-password")({
 	component: ForgotPasswordPage,
-	validateSearch: (search: Record<string, unknown>) => ({
-		email: (search.email as string | undefined),
+	validateSearch: (search: Record<string, string>) => ({
+		email: search.email,
 	}),
 });
 
 function ForgotPasswordPage() {
 
+
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const emailId = useId();
 	const { email } = Route.useSearch();
-	const navigate = useNavigate();
+
 	const form = useForm(forgotPasswordSchema, {
 		defaultValues: {
 			email: email,
@@ -44,8 +46,9 @@ function ForgotPasswordPage() {
 			onChange: forgotPasswordSchema,
 		},
 		onSubmit: async ({ value }) => {
-			const { error } = await forgetPassword.emailOtp({
+			const { error } = await requestPasswordReset({
 				email: value.email || "",
+				redirectTo: `${env.VITE_APP_URL}/reset-password`,
 			});
 			if (error) {
 				toast.error(error.message || "Something went wrong");
@@ -53,13 +56,9 @@ function ForgotPasswordPage() {
 			}
 			setIsSubmitted(true)
 
-			navigate({
-				to: "/reset-password",
-				search: { email: value.email || "" },
-			});
 		},
 	});
-	// 3. Success State View
+
 	if (isSubmitted) {
 		return (
 			<AuthLayout

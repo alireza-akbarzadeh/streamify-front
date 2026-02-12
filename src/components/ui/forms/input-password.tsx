@@ -14,6 +14,7 @@ export interface InputPasswordProps
 	isInvalid: boolean;
 	errorMessage: string;
 	email?: string
+	label?: string;
 }
 
 function InputPassword(props: InputPasswordProps) {
@@ -29,17 +30,18 @@ function InputPassword(props: InputPasswordProps) {
 					htmlFor={passwordId}
 					className="text-gray-300 text-sm font-medium"
 				>
-					Password
+					{props.label || "Password"}
 				</Label>
-				<Link
-					to="/forgot-password"
-					search={{ email }}
-					className="text-sm text-purple-400 hover:text-purple-300 transition-colors"
-				>
-					Forgot?
-				</Link>
+				{email && (
+					<Link
+						to="/forgot-password"
+						search={{ email }}
+						className="text-sm text-purple-400 hover:text-purple-300 transition-colors"
+					>
+						{props.label || "Forgot?"}
+					</Link>
+				)}
 			</div>
-
 			<div className={cn("relative inline-block w-full", className)}>
 				<Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
 				<Input

@@ -18,8 +18,8 @@ import { getEmailProviderLink } from "@/lib/utils";
 
 export const Route = createFileRoute("/(auth)/verify-email")({
 	component: VerifyPage,
-	validateSearch: (search: Record<string, unknown>) => ({
-		email: (search.email as string) || "",
+	validateSearch: (search: Record<string, string>) => ({
+		email: search.email,
 	}),
 });
 
