@@ -32,6 +32,7 @@ model User {
     watchList   WatchList[]
     favorites   Favorite[]
     auditLogs   AuditLog[]
+    reviews     UserReview[]
 }
 
 model Session {

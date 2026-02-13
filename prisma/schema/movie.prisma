@@ -21,14 +21,18 @@ model Media {
     collectionId String?
     collection   Collection? @relation(fields: [collectionId], references: [id], onDelete: SetNull)
 
-    sortOrder Int?
-    status    MediaStatus @default(DRAFT)
-
-    genres    MediaGenre[]
-    creators  MediaCreator[]
-    history   ViewingHistory[]
-    favorites Favorite[]
-    watchList WatchList[]
+    sortOrder     Int?
+    status        MediaStatus      @default(DRAFT)
+    rating        Float?           @default(0)
+    reviewCount   Int              @default(0)
+    criticalScore Float?           @default(0)
+    viewCount     Int              @default(0)
+    genres        MediaGenre[]
+    creators      MediaCreator[]
+    history       ViewingHistory[]
+    favorites     Favorite[]
+    watchList     WatchList[]
+    reviews       UserReview[]
 }
 
 model Collection {
@@ -90,17 +94,20 @@ model MediaCreator {
 }
 
 model ViewingHistory {
-    id        String   @id @default(cuid())
-    profileId String
-    mediaId   String
-    progress  Int
-    completed Boolean  @default(false)
-    viewedAt  DateTime @default(now())
+    id            String   @id @default(cuid())
+    profileId     String
+    mediaId       String
+    progress      Int
+    completed     Boolean  @default(false)
+    viewedAt      DateTime @default(now())
+    lastWatchedAt DateTime @updatedAt
 
     profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
     media   Media   @relation(fields: [mediaId], references: [id], onDelete: Cascade)
 
+    @@unique([profileId, mediaId])
     @@index([profileId, mediaId])
+    @@index([profileId, lastWatchedAt])
 }
 
 model Favorite {
@@ -144,4 +151,22 @@ enum CreatorRole {
     ARTIST
     ACTOR
     PRODUCER
+}
+
+model UserReview {
+    id        String   @id @default(cuid())
+    userId    String
+    mediaId   String
+    rating    Float
+    review    String?  @db.Text
+    helpful   Int      @default(0)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+    media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, mediaId])
+    @@index([mediaId])
+    @@index([userId])
 }

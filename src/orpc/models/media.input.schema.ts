@@ -21,11 +21,25 @@ export const createMediaInputSchema = z.object({
 	creatorIds: z.array(z.string()).optional(),
 });
 
+// Category filter enum
+export const MediaCategorySchema = z.enum([
+	"ALL",
+	"MOVIES",
+	"SERIES",
+	"ANIMATION",
+	"TRENDING",
+	"RECENT",
+	"MY_LIST",
+]);
+
 export const listMediaInputSchema = z.object({
 	page: z.number().min(1).default(1),
 	limit: z.number().min(1).max(50).default(20),
 
 	search: z.string().min(1).optional(),
+
+	// Quick category filter (overrides other filters when set)
+	category: MediaCategorySchema.optional(),
 
 	type: z.enum(["MOVIE", "EPISODE", "TRACK"]).optional(),
 	collectionId: z.string().optional(),

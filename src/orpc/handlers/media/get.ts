@@ -58,11 +58,12 @@ export const listMedia = publicProcedure
 			}),
 		),
 	)
-	.handler(async ({ input }) => {
+	.handler(async ({ input, context }) => {
 		const {
 			page,
 			limit,
 			search,
+			category,
 			type,
 			collectionId,
 			genreIds,
@@ -76,6 +77,106 @@ export const listMedia = publicProcedure
 		const skip = (page - 1) * limit;
 
 		/* ------------------------------------------------------------------ */
+		/*                          CATEGORY FILTERS                          */
+		/* ------------------------------------------------------------------ */
+
+		const categoryFilters = await (async () => {
+			const where: Prisma.MediaWhereInput = {};
+			let orderBy: Prisma.MediaOrderByWithRelationInput | undefined;
+
+			if (!category) {
+				return { where, orderBy };
+			}
+
+			switch (category) {
+				case "ALL":
+					// No additional filters - show all media
+					break;
+
+				case "MOVIES":
+					where.type = "MOVIE";
+					break;
+
+				case "SERIES":
+					where.collection = {
+						type: "SERIES",
+					};
+					break;
+
+				case "ANIMATION": {
+					// Find Animation genre
+					const animationGenre = await prisma.genre.findFirst({
+						where: { name: { equals: "Animation", mode: "insensitive" } },
+					});
+					if (animationGenre) {
+						where.genres = {
+							some: { genreId: animationGenre.id },
+						};
+					}
+					break;
+				}
+
+				case "TRENDING": {
+					// Trending: Recent (last 30 days) + high engagement
+					const thirtyDaysAgo = new Date();
+					thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+					where.createdAt = { gte: thirtyDaysAgo };
+					// Order by favorites + views count (we'll do this with a subquery later)
+					// For now, order by createdAt desc as proxy for trending
+					orderBy = { createdAt: "desc" };
+					break;
+				}
+
+				case "RECENT":
+					// Recent releases
+					orderBy = { createdAt: "desc" };
+					break;
+
+				case "MY_LIST": {
+					// User's favorites
+					if (!context?.user?.id) {
+						// If not authenticated, return empty list
+						return {
+							where: {},
+							orderBy: undefined,
+							isEmpty: true,
+						};
+					}
+
+					where.favorites = {
+						some: { userId: context.user.id },
+					};
+					orderBy = {
+						favorites: {
+							_count: "desc",
+						},
+					};
+					break;
+				}
+			}
+
+			return { where, orderBy, isEmpty: false };
+		})();
+
+		// Early return for MY_LIST when not authenticated
+		if (categoryFilters.isEmpty) {
+			return {
+				status: 200,
+				message: "Media list retrieved successfully",
+				data: {
+					items: [],
+					pagination: {
+						page,
+						limit,
+						total: 0,
+						totalPages: 0,
+					},
+				},
+			};
+		}
+
+		/* ------------------------------------------------------------------ */
 		/*                               FILTERS                              */
 		/* ------------------------------------------------------------------ */
 
@@ -83,6 +184,7 @@ export const listMedia = publicProcedure
 			status: { in: status },
 			type,
 			collectionId,
+			...categoryFilters.where,
 			AND: [
 				search
 					? {
@@ -127,13 +229,14 @@ export const listMedia = publicProcedure
 		/* ------------------------------------------------------------------ */
 
 		const orderBy: Prisma.MediaOrderByWithRelationInput =
-			sortBy === "NEWEST"
+			categoryFilters.orderBy ||
+			(sortBy === "NEWEST"
 				? { createdAt: "desc" }
 				: sortBy === "OLDEST"
 					? { createdAt: "asc" }
 					: sortBy === "TITLE"
 						? { title: "asc" }
-						: { sortOrder: "asc" };
+						: { sortOrder: "asc" });
 
 		/* ------------------------------------------------------------------ */
 		/*                           QUERY (PARALLEL)                         */

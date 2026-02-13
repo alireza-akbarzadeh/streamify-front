@@ -46,6 +46,7 @@ const DetailedHealthSchema = z.object({
  * Returns 200 if the application is alive
  */
 export const liveness = base
+	.route({ method: "GET" })
 	.input(z.void())
 	.output(HealthStatusSchema)
 	.handler(async () => {
@@ -66,6 +67,7 @@ export const liveness = base
  * Checks database connectivity
  */
 export const readiness = base
+	.route({ method: "GET" })
 	.input(z.void())
 	.output(
 		z.object({
@@ -104,6 +106,7 @@ export const readiness = base
  * Detailed health check with database response time and system metrics
  */
 export const health = base
+	.route({ method: "GET" })
 	.input(z.void())
 	.output(DetailedHealthSchema)
 	.handler(async () => {
