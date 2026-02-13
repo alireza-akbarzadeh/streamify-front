@@ -6,6 +6,8 @@ import { HealthRouter } from "../handlers/health";
 import { MediaRouter } from "../handlers/media";
 import { PermissionRouter } from "../handlers/permission";
 import { ProfileRouter } from "../handlers/profile";
+import { RecommendationRouter } from "../handlers/recommendation";
+import { ReviewRouter } from "../handlers/review";
 import { roleRouter } from "../handlers/role";
 import { TestAuthRouter } from "../handlers/test-auth";
 import { ViewingHistoryRouter } from "../handlers/viewing-history";
@@ -25,4 +27,6 @@ export const router = base.router({
 	favorites: FavoriteRouter,
 	watchlist: WatchListRouter,
 	viewingHistory: ViewingHistoryRouter,
+	reviews: ReviewRouter,
+	recommendations: RecommendationRouter,
 });
