@@ -1,4 +1,5 @@
 import { CollectionRouter } from "../handlers/collection";
+import { ContentRouter } from "../handlers/content";
 import { CreatorRouter } from "../handlers/creator";
 import { FavoriteRouter } from "../handlers/favorite";
 import { GenreRouter } from "../handlers/genre";
@@ -29,4 +30,5 @@ export const router = base.router({
 	viewingHistory: ViewingHistoryRouter,
 	reviews: ReviewRouter,
 	recommendations: RecommendationRouter,
+	content: ContentRouter,
 });

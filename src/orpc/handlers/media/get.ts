@@ -257,6 +257,10 @@ export const listMedia = publicProcedure
 					duration: true,
 					releaseYear: true,
 					createdAt: true,
+					rating: true,
+					reviewCount: true,
+					criticalScore: true,
+					viewCount: true,
 					collection: {
 						select: {
 							id: true,

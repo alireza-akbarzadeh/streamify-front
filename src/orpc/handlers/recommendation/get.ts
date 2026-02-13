@@ -136,28 +136,13 @@ export const getTrending = publicProcedure
 		const dateThreshold = new Date();
 		dateThreshold.setDate(dateThreshold.getDate() - days);
 
-		// Find media with most views in the time period
-		// Since we don't have time-based view tracking, we'll use viewCount + recent reviews
+		// Find media with most views - sorted by viewCount and rating
+		// TODO: Add time-based filtering when we track view timestamps
 		const trending = await prisma.media.findMany({
 			where: {
 				status: "PUBLISHED",
 				...(type && { type }),
-				OR: [
-					{
-						reviews: {
-							some: {
-								createdAt: { gte: dateThreshold },
-							},
-						},
-					},
-					{
-						history: {
-							some: {
-								lastWatchedAt: { gte: dateThreshold },
-							},
-						},
-					},
-				],
+				viewCount: { gt: 0 }, // Has been viewed
 			},
 			include: {
 				genres: {

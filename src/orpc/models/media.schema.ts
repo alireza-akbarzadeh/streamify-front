@@ -72,6 +72,11 @@ export const MediaListItemSchema = z.object({
 	duration: z.number(),
 	releaseYear: z.number(),
 	createdAt: z.date(),
+	// Rating and stats
+	rating: z.number().nullable().optional(),
+	reviewCount: z.number().default(0),
+	criticalScore: z.number().nullable().optional(),
+	viewCount: z.number().default(0),
 	collection: z
 		.object({
 			id: z.string(),
