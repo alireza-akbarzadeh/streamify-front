@@ -1,21 +1,14 @@
 import { z } from "zod";
 import { prisma } from "@/lib/db";
+import { collectionUpdateProcedure } from "@/orpc/context";
 import { ApiResponseSchema } from "@/orpc/helpers/response-schema";
-import { withRequire } from "@/orpc/middleware/middleware";
 import { createCollectionInput } from "@/orpc/models/collection";
-import { base } from "@/orpc/router/base";
 
 const updateCollectionInput = createCollectionInput.extend({
 	id: z.string(),
 });
 
-export const updateCollection = base
-	.use(
-		withRequire({
-			role: "ADMIN",
-			permission: { resource: "collection", action: "update" },
-		}),
-	)
+export const updateCollection = collectionUpdateProcedure
 	.input(updateCollectionInput)
 	.output(
 		ApiResponseSchema(

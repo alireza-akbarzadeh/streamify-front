@@ -1,12 +1,10 @@
 import { z } from "zod";
 import { prisma } from "@/lib/db";
+import { roleProcedure } from "@/orpc/context";
 import { ApiResponseSchema } from "@/orpc/helpers/response-schema";
-import { withRequire } from "@/orpc/middleware/middleware";
 import { RoleSchema } from "@/orpc/models/role";
-import { base } from "@/orpc/router/base";
 
-export const listRoles = base
-	.use(withRequire({ role: "ADMIN" }))
+export const listRoles = roleProcedure
 	.output(ApiResponseSchema(z.array(RoleSchema)))
 	.handler(async () => {
 		const roles = await prisma.role.findMany();

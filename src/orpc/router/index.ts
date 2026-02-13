@@ -1,8 +1,15 @@
 import { CollectionRouter } from "../handlers/collection";
+import { CreatorRouter } from "../handlers/creator";
+import { FavoriteRouter } from "../handlers/favorite";
+import { GenreRouter } from "../handlers/genre";
 import { HealthRouter } from "../handlers/health";
 import { MediaRouter } from "../handlers/media";
+import { PermissionRouter } from "../handlers/permission";
+import { ProfileRouter } from "../handlers/profile";
 import { roleRouter } from "../handlers/role";
 import { TestAuthRouter } from "../handlers/test-auth";
+import { ViewingHistoryRouter } from "../handlers/viewing-history";
+import { WatchListRouter } from "../handlers/watchlist";
 import { base } from "../router/base";
 
 export const router = base.router({
@@ -11,4 +18,11 @@ export const router = base.router({
 	collections: CollectionRouter,
 	roles: roleRouter,
 	testAuth: TestAuthRouter,
+	profiles: ProfileRouter,
+	genres: GenreRouter,
+	creators: CreatorRouter,
+	permissions: PermissionRouter,
+	favorites: FavoriteRouter,
+	watchlist: WatchListRouter,
+	viewingHistory: ViewingHistoryRouter,
 });

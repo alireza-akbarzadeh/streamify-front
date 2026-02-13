@@ -1,13 +1,11 @@
 import { z } from "zod";
 import { prisma } from "@/lib/db";
+import { roleProcedure } from "@/orpc/context";
 import { ApiResponseSchema } from "@/orpc/helpers/response-schema";
-import { withRequire } from "@/orpc/middleware/middleware";
 import { RoleSchema } from "@/orpc/models/role";
-import { base } from "@/orpc/router/base";
 import { auditLog } from "../user/audit";
 
-export const createRole = base
-	.use(withRequire({ role: "ADMIN" }))
+export const createRole = roleProcedure
 	.input(
 		z.object({
 			name: z.string(),

@@ -1,17 +1,10 @@
 // src/orpc/procedures/collection.ts
 import { z } from "zod";
 import { prisma } from "@/lib/db";
+import { collectionDeleteProcedure } from "@/orpc/context";
 import { ApiResponseSchema } from "@/orpc/helpers/response-schema";
-import { withRequire } from "@/orpc/middleware/middleware";
-import { base } from "@/orpc/router/base";
 
-export const deleteCollection = base
-	.use(
-		withRequire({
-			role: "ADMIN",
-			permission: { resource: "collection", action: "delete" },
-		}),
-	)
+export const deleteCollection = collectionDeleteProcedure
 	.input(z.object({ id: z.string() }))
 	.output(ApiResponseSchema(z.object({ id: z.string() })))
 	.handler(async ({ input }) => {

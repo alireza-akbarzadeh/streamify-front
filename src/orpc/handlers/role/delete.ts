@@ -1,13 +1,11 @@
 import { z } from "zod";
 import { prisma } from "@/lib/db";
+import { roleProcedure } from "@/orpc/context";
 import { ApiResponseSchema } from "@/orpc/helpers/response-schema";
-import { withRequire } from "@/orpc/middleware/middleware";
 import { UserRoleSchema } from "@/orpc/models/role";
-import { base } from "@/orpc/router/base";
 import { auditLog } from "../user/audit";
 
-export const removeRoleFromUser = base
-	.use(withRequire({ role: "ADMIN" }))
+export const removeRoleFromUser = roleProcedure
 	.input(
 		z.object({
 			userId: z.string(),
@@ -37,8 +35,7 @@ export const removeRoleFromUser = base
 		};
 	});
 
-export const removeRole = base
-	.use(withRequire({ role: "ADMIN" }))
+export const removeRole = roleProcedure
 	.input(
 		z.object({
 			id: z.string(),

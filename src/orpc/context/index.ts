@@ -3,6 +3,7 @@ import {
 	requireAdmin,
 	requireSubscription,
 	withAuth,
+	withRequire,
 } from "../middleware/middleware";
 import { base } from "../router/base";
 
@@ -42,3 +43,36 @@ export const subscribedProcedure = publicProcedure
 export const premiumProcedure = publicProcedure
 	.use(withAuth)
 	.use(requireSubscription("PRO"));
+
+/* -------------------------------------------------------------------------- */
+/*                      COLLECTION ADMIN PROCEDURES                           */
+/* -------------------------------------------------------------------------- */
+
+export const collectionCreateProcedure = publicProcedure.use(
+	withRequire({
+		role: "ADMIN",
+		permission: { resource: "collection", action: "create" },
+	}),
+);
+
+export const collectionUpdateProcedure = publicProcedure.use(
+	withRequire({
+		role: "ADMIN",
+		permission: { resource: "collection", action: "update" },
+	}),
+);
+
+export const collectionDeleteProcedure = publicProcedure.use(
+	withRequire({
+		role: "ADMIN",
+		permission: { resource: "collection", action: "delete" },
+	}),
+);
+
+/* -------------------------------------------------------------------------- */
+/*                         ROLE MANAGEMENT PROCEDURE                          */
+/* -------------------------------------------------------------------------- */
+
+export const roleProcedure = publicProcedure.use(
+	withRequire({ role: "ADMIN" }),
+);

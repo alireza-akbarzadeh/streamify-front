@@ -1,13 +1,11 @@
 import { z } from "zod";
 import { prisma } from "@/lib/db";
+import { roleProcedure } from "@/orpc/context";
 import { ApiResponseSchema } from "@/orpc/helpers/response-schema";
-import { withRequire } from "@/orpc/middleware/middleware";
 import { RoleSchema, UserRoleSchema } from "@/orpc/models/role";
-import { base } from "@/orpc/router/base";
 import { auditLog } from "../user/audit";
 
-export const updateRole = base
-	.use(withRequire({ role: "ADMIN" }))
+export const updateRole = roleProcedure
 	.input(
 		z.object({
 			id: z.string(),
@@ -36,8 +34,7 @@ export const updateRole = base
 		return { status: 200, message: "Role updated", data: role };
 	});
 
-export const assignRoleToUser = base
-	.use(withRequire({ role: "ADMIN" }))
+export const assignRoleToUser = roleProcedure
 	.input(
 		z.object({
 			userId: z.string(),

@@ -43,10 +43,17 @@ model Collection {
     media Media[]
 }
 
+enum GenreType {
+    MOVIE
+    EPISODE
+    TRACK
+}
+
 model Genre {
-    id          String  @id @default(cuid())
-    name        String  @unique
+    id          String    @id @default(cuid())
+    name        String    @unique
     description String?
+    type        GenreType @default(MOVIE)
 
     media MediaGenre[]
 }

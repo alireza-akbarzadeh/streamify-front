@@ -1,11 +1,11 @@
 import { z } from "zod";
 import type { CollectionWhereInput } from "@/generated/prisma/models";
 import { prisma } from "@/lib/db";
+import { publicProcedure } from "@/orpc/context";
 import * as ResponseSchema from "@/orpc/helpers/response-schema";
 import { collectionOutput } from "@/orpc/models/collection";
-import { base } from "@/orpc/router/base";
 
-export const listCollections = base
+export const listCollections = publicProcedure
 	.input(
 		ResponseSchema.PaginationInputSchema.extend({
 			type: z.enum(["SERIES", "ALBUM", "PLAYLIST"]).optional(),
