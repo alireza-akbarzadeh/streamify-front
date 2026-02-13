@@ -1,80 +1,12 @@
-import { os } from "@orpc/server";
 import { z } from "zod";
-import type { Prisma } from "@/generated/prisma/browser";
 import { prisma } from "@/lib/db";
-import { ApiResponseSchema, PaginatedSchema } from "@/orpc/schema";
-import {
-	getCollectionInputSchema,
-	mediaInputSchema,
-} from "./media.input.schema";
-import {
-	CollectionListItemSchema,
-	getGenreOutput,
-	MediaItemSchema,
-} from "./media.schema";
-
-/* ---------------------------- Browse Media ---------------------------- */
-
-export const browseMedia = os
-	.input(mediaInputSchema)
-	.output(ApiResponseSchema(PaginatedSchema(MediaItemSchema)))
-	.handler(async ({ input }) => {
-		const { page, limit, query, genre, type, collectionId, year, sortBy } =
-			input;
-		const skip = (page - 1) * limit;
-
-		// Build where clause safely
-		const where: Prisma.MediaWhereInput = {
-			...(type && { type }),
-			...(collectionId && { collectionId }),
-			...(year && { releaseYear: year }),
-			...(query?.trim() && {
-				OR: [
-					{ title: { contains: query.trim(), mode: "insensitive" } },
-					{ description: { contains: query.trim(), mode: "insensitive" } },
-				],
-			}),
-			...(genre && {
-				genres: {
-					some: { genre: { name: { equals: genre, mode: "insensitive" } } },
-				},
-			}),
-		};
-
-		const orderBy: Prisma.Enumerable<Prisma.MediaOrderByWithRelationInput> =
-			sortBy === "title" ? [{ title: "asc" }] : [{ createdAt: "desc" }];
-
-		const [items, total] = await Promise.all([
-			prisma.media.findMany({
-				where,
-				skip,
-				take: limit,
-				orderBy,
-				include: {
-					genres: { include: { genre: true } },
-					creators: { include: { creator: true } },
-					collection: true,
-				},
-			}),
-			prisma.media.count({ where }),
-		]);
-
-		// Optional: Zod parse for strict type safety
-		const parsedItems = items.map((i) => MediaItemSchema.parse(i));
-
-		return {
-			status: 200,
-			message: "Media retrieved successfully",
-			data: {
-				items: parsedItems,
-				pagination: { page, limit, total, pages: Math.ceil(total / limit) },
-			},
-		};
-	});
+import { subscribedProcedure } from "@/orpc/context";
+import { ApiResponseSchema } from "@/orpc/schema";
+import { MediaItemSchema } from "./media.schema";
 
 /* ---------------------------- Get Media by ID ---------------------------- */
-
-export const getMedia = os
+// SUBSCRIBED ONLY - Watch page, details
+export const getMedia = subscribedProcedure
 	.input(z.object({ id: z.string() }))
 	.output(ApiResponseSchema(MediaItemSchema))
 	.handler(async ({ input }) => {
@@ -106,54 +38,182 @@ export const getMedia = os
 		};
 	});
 
-/* ---------------------------- Get Genres ---------------------------- */
+export const listMediaInputSchema = z.object({
+	page: z.number().min(1).default(1),
+	limit: z.number().min(1).max(50).default(20),
 
-export const getGenres = os
-	.output(ApiResponseSchema(getGenreOutput))
-	.handler(async () => {
-		const genres = await prisma.genre.findMany({ orderBy: { name: "asc" } });
-		return {
-			status: 200,
-			message: "Genres retrieved successfully",
-			data: genres,
-		};
-	});
+	search: z.string().min(1).optional(),
 
-/* ---------------------------- Get Collections ---------------------------- */
+	type: z.enum(["MOVIE", "EPISODE", "TRACK"]).optional(),
+	collectionId: z.string().optional(),
+	genreIds: z.array(z.string()).optional(),
+	creatorIds: z.array(z.string()).optional(),
 
-export const getCollections = os
-	.input(getCollectionInputSchema)
-	.output(ApiResponseSchema(PaginatedSchema(CollectionListItemSchema)))
+	releaseYearFrom: z.number().optional(),
+	releaseYearTo: z.number().optional(),
+
+	sortBy: z.enum(["NEWEST", "OLDEST", "TITLE", "MANUAL"]).default("NEWEST"),
+});
+
+import { os } from "@orpc/server";
+import type { Prisma } from "@/generated/prisma/client";
+
+/* -------------------------------------------------------------------------- */
+/*                            PUBLIC MEDIA LIST                               */
+/* -------------------------------------------------------------------------- */
+
+export const listMedia = os
+	.input(listMediaInputSchema)
+	.output(
+		ApiResponseSchema(
+			z.object({
+				items: z.array(MediaItemSchema),
+				pagination: z.object({
+					page: z.number(),
+					limit: z.number(),
+					total: z.number(),
+					totalPages: z.number(),
+				}),
+			}),
+		),
+	)
 	.handler(async ({ input }) => {
-		const { type, page, limit } = input;
+		const {
+			page,
+			limit,
+			search,
+			type,
+			collectionId,
+			genreIds,
+			creatorIds,
+			releaseYearFrom,
+			releaseYearTo,
+			sortBy,
+		} = input;
+
 		const skip = (page - 1) * limit;
 
-		const where: Prisma.CollectionWhereInput = type ? { type } : {};
+		/* ------------------------------------------------------------------ */
+		/*                               FILTERS                              */
+		/* ------------------------------------------------------------------ */
+
+		const where: Prisma.MediaWhereInput = {
+			status: "PUBLISHED",
+			type,
+			collectionId,
+			AND: [
+				search
+					? {
+							OR: [
+								{ title: { contains: search, mode: "insensitive" } },
+								{
+									description: {
+										contains: search,
+										mode: "insensitive",
+									},
+								},
+							],
+						}
+					: {},
+				releaseYearFrom || releaseYearTo
+					? {
+							releaseYear: {
+								gte: releaseYearFrom,
+								lte: releaseYearTo,
+							},
+						}
+					: {},
+				genreIds?.length
+					? {
+							genres: {
+								some: { genreId: { in: genreIds } },
+							},
+						}
+					: {},
+				creatorIds?.length
+					? {
+							creators: {
+								some: { creatorId: { in: creatorIds } },
+							},
+						}
+					: {},
+			],
+		};
+
+		/* ------------------------------------------------------------------ */
+		/*                                SORT                                */
+		/* ------------------------------------------------------------------ */
+
+		const orderBy: Prisma.MediaOrderByWithRelationInput =
+			sortBy === "NEWEST"
+				? { createdAt: "desc" }
+				: sortBy === "OLDEST"
+					? { createdAt: "asc" }
+					: sortBy === "TITLE"
+						? { title: "asc" }
+						: { sortOrder: "asc" };
+
+		/* ------------------------------------------------------------------ */
+		/*                           QUERY (PARALLEL)                         */
+		/* ------------------------------------------------------------------ */
 
 		const [items, total] = await Promise.all([
-			prisma.collection.findMany({
+			prisma.media.findMany({
 				where,
+				orderBy,
 				skip,
 				take: limit,
-				orderBy: { createdAt: "desc" },
-				include: {
-					media: {
-						select: { id: true, title: true, thumbnail: true, type: true },
-						take: 5,
+				select: {
+					id: true,
+					title: true,
+					description: true,
+					thumbnail: true,
+					type: true,
+					duration: true,
+					releaseYear: true,
+					createdAt: true,
+					collection: {
+						select: {
+							id: true,
+							title: true,
+							type: true,
+						},
+					},
+					genres: {
+						select: {
+							genre: {
+								select: { id: true, name: true },
+							},
+						},
+					},
+					creators: {
+						select: {
+							role: true,
+							creator: {
+								select: {
+									id: true,
+									name: true,
+									image: true,
+								},
+							},
+						},
 					},
 				},
 			}),
-			prisma.collection.count({ where }),
+			prisma.media.count({ where }),
 		]);
-
-		const parsedItems = items.map((i) => CollectionListItemSchema.parse(i));
 
 		return {
 			status: 200,
-			message: "Collections retrieved successfully",
+			message: "Media list retrieved successfully",
 			data: {
-				items: parsedItems,
-				pagination: { page, limit, total, pages: Math.ceil(total / limit) },
+				items: items.map((m) => MediaItemSchema.parse(m)),
+				pagination: {
+					page,
+					limit,
+					total,
+					totalPages: Math.ceil(total / limit),
+				},
 			},
 		};
 	});

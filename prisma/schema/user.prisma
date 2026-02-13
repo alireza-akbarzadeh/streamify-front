@@ -31,6 +31,7 @@ model User {
     profiles    Profile[]
     watchList   WatchList[]
     favorites   Favorite[]
+    auditLogs   AuditLog[]
 }
 
 model Session {
@@ -187,4 +188,16 @@ model UserPermission {
     permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
 
     @@id([userId, permissionId])
+}
+
+model AuditLog {
+    id         String   @id @default(cuid())
+    userId     String
+    action     String
+    resource   String
+    resourceId String?
+    metadata   Json?
+    createdAt  DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id])
 }

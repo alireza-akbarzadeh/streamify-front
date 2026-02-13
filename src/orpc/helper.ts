@@ -7,7 +7,7 @@ import { getRequestHeaders } from "@tanstack/react-start/server";
 import { auth } from "@/lib/better-auth";
 import { prisma } from "@/lib/db";
 import { unauthorized } from "./error";
-import { AuthContext } from "./middleware";
+import type { AuthContext } from "./middleware";
 
 /* -------------------------------------------------------------------------- */
 /*                           Internal Helper Logic                            */

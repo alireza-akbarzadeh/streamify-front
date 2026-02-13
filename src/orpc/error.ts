@@ -134,3 +134,15 @@ export function handleError(error: unknown): OrpcError {
 
 	return internalError(process.env.NODE_ENV === "development");
 }
+
+// orpc/errors.ts
+import { onError } from "@orpc/server";
+
+export const errorInterceptor = onError((error) => {
+	console.error("[API Error]:", error);
+
+	// Log to error tracking service
+	if (process.env.NODE_ENV === "production") {
+		// Send to Sentry, etc.
+	}
+});

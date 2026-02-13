@@ -1,8 +1,8 @@
-// lib/orpc/middleware/auth.ts
-
 import { os } from "@orpc/server";
 import { getRequestHeaders } from "@tanstack/react-start/server";
+import type { SubscriptionStatus } from "@/generated/prisma/enums";
 import { auth } from "@/lib/better-auth";
+import type { Role, Tier } from "./constants";
 import { forbidden, subscriptionRequired, unauthorized } from "./error";
 import { userHasPermission } from "./helper";
 
@@ -13,17 +13,12 @@ export interface AuthContext {
 	session: SessionType["session"];
 }
 
-type BaseContext = { auth?: AuthContext };
-
-export type Role = "ADMIN" | "USER" | "MODERATOR" | "GUEST" | "CUSTOMER";
-export type Tier = "FREE" | "PRO" | "PREMIUM" | "CANCELLED";
-
 /* -------------------------------------------------------------------------- */
-/*                              Base Auth Loader                              */
+/*                              AUTH MIDDLEWARE                               */
 /* -------------------------------------------------------------------------- */
 
 export const withAuth = os
-	.$context<{ auth?: AuthContext }>()
+	.$context<Partial<AuthContext>>()
 	.middleware(async ({ next }) => {
 		const headers = getRequestHeaders();
 		const session = await auth.api.getSession({ headers });
@@ -34,44 +29,22 @@ export const withAuth = os
 
 		return next({
 			context: {
-				auth: {
-					user: session.user,
-					session: session.session,
-				},
+				user: session.user,
+				session: session.session,
 			},
 		});
 	});
 
 /* -------------------------------------------------------------------------- */
-/*                               Role Middleware                              */
-/* -------------------------------------------------------------------------- */
-
-export const requireRole = (roles: Role | Role[]) =>
-	os.$context<{ auth: AuthContext }>().middleware(({ next, context }) => {
-		const allowed = Array.isArray(roles) ? roles : [roles];
-		const userRole = context.auth.user.role as Role;
-
-		if (!allowed.includes(userRole)) {
-			throw forbidden("You don't have permission");
-		}
-
-		return next({ context });
-	});
-
-/* -------------------------------------------------------------------------- */
-/*                           Subscription Middleware                          */
+/*                        SUBSCRIPTION MIDDLEWARE                             */
 /* -------------------------------------------------------------------------- */
 
 export const requireSubscription = (tiers: Tier | Tier[]) =>
-	os.$context<{ auth: AuthContext }>().middleware(({ next, context }) => {
+	os.$context<AuthContext>().middleware(({ next, context }) => {
 		const allowed = Array.isArray(tiers) ? tiers : [tiers];
-		const tier = context.auth.user.subscriptionStatus as Tier;
+		const status = context.user.subscriptionStatus as SubscriptionStatus;
 
-		if (tier === "FREE" || tier === "CANCELLED") {
-			throw subscriptionRequired(allowed[0].toLowerCase());
-		}
-
-		if (!allowed.includes(tier)) {
+		if (!allowed.includes(status as Tier)) {
 			throw subscriptionRequired(allowed[0].toLowerCase());
 		}
 
@@ -79,13 +52,32 @@ export const requireSubscription = (tiers: Tier | Tier[]) =>
 	});
 
 /* -------------------------------------------------------------------------- */
-/*                           Permission Middleware                            */
+/*                               ADMIN MIDDLEWARE                             */
+/* -------------------------------------------------------------------------- */
+
+export const requireAdmin = (roles?: Role | Role[]) =>
+	os.$context<AuthContext>().middleware(({ next, context }) => {
+		const allowed = roles
+			? Array.isArray(roles)
+				? roles
+				: [roles]
+			: ["admin"];
+
+		if (!allowed.includes(context.user.role as Role)) {
+			throw forbidden("Admin access required");
+		}
+
+		return next({ context });
+	});
+
+/* -------------------------------------------------------------------------- */
+/*                         PERMISSION MIDDLEWARE                              */
 /* -------------------------------------------------------------------------- */
 
 export const requirePermission = (resource: string, action: string) =>
-	os.$context<{ auth: AuthContext }>().middleware(async ({ next, context }) => {
+	os.$context<AuthContext>().middleware(async ({ next, context }) => {
 		const hasPermission = await userHasPermission(
-			context.auth.user.id,
+			context.user.id,
 			resource,
 			action,
 		);
@@ -97,16 +89,16 @@ export const requirePermission = (resource: string, action: string) =>
 		return next({ context });
 	});
 
-/* -------------------------------------------------------------------------- */
-/*                           Combined Builder                                 */
-/* -------------------------------------------------------------------------- */
-
-export const withRequire = <T extends BaseContext>(options: {
+type RequireOptions = {
 	role?: Role | Role[];
-	subscription?: Tier | Tier[];
-	permission?: { resource: string; action: string };
-}) =>
-	os.$context<T>().middleware(async ({ next, context }) => {
+	permission?: {
+		resource: string;
+		action: string;
+	};
+};
+
+export const withRequire = (options: RequireOptions) =>
+	os.$context<Partial<AuthContext>>().middleware(async ({ next }) => {
 		const headers = getRequestHeaders();
 		const session = await auth.api.getSession({ headers });
 
@@ -115,58 +107,36 @@ export const withRequire = <T extends BaseContext>(options: {
 		}
 
 		const user = session.user;
-		const userRole = user.role as Role;
-		const userTier = user.subscriptionStatus as Tier;
 
-		/* ------------------------------- Role -------------------------------- */
-
+		/* ---------------------------------------------------------------------- */
+		/*                                ROLE CHECK                               */
+		/* ---------------------------------------------------------------------- */
 		if (options.role) {
-			const allowed = Array.isArray(options.role)
+			const allowedRoles = Array.isArray(options.role)
 				? options.role
 				: [options.role];
 
-			if (!allowed.includes(userRole)) {
-				throw forbidden("You don't have permission");
+			if (allowedRoles.includes(user.role as Role)) {
+				return next({
+					context: { user, session: session.session },
+				});
 			}
 		}
 
-		/* --------------------------- Subscription ----------------------------- */
-
-		if (options.subscription) {
-			const allowed = Array.isArray(options.subscription)
-				? options.subscription
-				: [options.subscription];
-
-			if (userTier === "FREE" || userTier === "CANCELLED") {
-				throw subscriptionRequired(allowed[0].toLowerCase());
-			}
-
-			if (!allowed.includes(userTier)) {
-				throw subscriptionRequired(allowed[0].toLowerCase());
-			}
-		}
-
-		/* ----------------------------- Permission ----------------------------- */
-
+		/* ---------------------------------------------------------------------- */
+		/*                             PERMISSION CHECK                            */
+		/* ---------------------------------------------------------------------- */
 		if (options.permission) {
 			const { resource, action } = options.permission;
 
 			const hasPermission = await userHasPermission(user.id, resource, action);
 
-			if (!hasPermission) {
-				throw forbidden(`Permission denied: ${resource}:${action}`);
+			if (hasPermission) {
+				return next({
+					context: { user, session: session.session },
+				});
 			}
 		}
 
-		/* ------------------------------ Context -------------------------------- */
-
-		return next({
-			context: {
-				...context,
-				auth: {
-					user: session.user,
-					session: session.session,
-				},
-			} as T & { auth: AuthContext },
-		});
+		throw forbidden("You don't have permission to perform this action");
 	});
