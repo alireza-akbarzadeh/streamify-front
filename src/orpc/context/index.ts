@@ -1,10 +1,10 @@
-import { base } from "../errors/error";
 import type { AuthContext } from "../middleware/middleware";
 import {
 	requireAdmin,
 	requireSubscription,
 	withAuth,
 } from "../middleware/middleware";
+import { base } from "../router/base";
 
 /* -------------------------------------------------------------------------- */
 /*                              BASE CONTEXT                                  */

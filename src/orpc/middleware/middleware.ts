@@ -1,9 +1,9 @@
 import { getRequestHeaders } from "@tanstack/react-start/server";
 import type { SubscriptionStatus } from "@/generated/prisma/enums";
 import { auth } from "@/lib/better-auth";
-import { base } from "../errors/error";
 import type { Role, Tier } from "../helpers/constants";
 import { userHasPermission } from "../helpers/helper";
+import { base } from "../router/base";
 
 type SessionType = NonNullable<Awaited<ReturnType<typeof auth.api.getSession>>>;
 

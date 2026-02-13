@@ -1,12 +1,10 @@
-import { os } from "@orpc/server";
-import {
-	createCollection,
-	deleteCollection,
-	listCollections,
-	updateCollection,
-} from "./protected";
+import { base } from "@/orpc/router/base";
+import { createCollection } from "./create";
+import { deleteCollection } from "./delete";
+import { listCollections } from "./get";
+import { updateCollection } from "./update";
 
-export const CollectionRouter = os.router({
+export const CollectionRouter = base.router({
 	list: listCollections,
 	create: createCollection,
 	update: updateCollection,

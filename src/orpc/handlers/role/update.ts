@@ -1,12 +1,12 @@
-import { os } from "@orpc/server";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { ApiResponseSchema } from "@/orpc/helpers/response-schema";
 import { withRequire } from "@/orpc/middleware/middleware";
 import { RoleSchema, UserRoleSchema } from "@/orpc/models/role";
+import { base } from "@/orpc/router/base";
 import { auditLog } from "../user/audit";
 
-export const updateRole = os
+export const updateRole = base
 	.use(withRequire({ role: "ADMIN" }))
 	.input(
 		z.object({
@@ -36,7 +36,7 @@ export const updateRole = os
 		return { status: 200, message: "Role updated", data: role };
 	});
 
-export const assignRoleToUser = os
+export const assignRoleToUser = base
 	.use(withRequire({ role: "ADMIN" }))
 	.input(
 		z.object({

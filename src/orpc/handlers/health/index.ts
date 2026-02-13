@@ -1,7 +1,6 @@
 import { z } from "zod";
-import { prisma } from "../../../lib/db";
-
-import { base } from "../../errors/error";
+import { prisma } from "@/lib/db";
+import { base } from "@/orpc/router/base";
 
 /* -------------------------------------------------------------------------- */
 /*                              HEALTH CHECK SCHEMAS                           */

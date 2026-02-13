@@ -1,11 +1,11 @@
-import { os } from "@orpc/server";
 import { z } from "zod";
 import { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/db";
 import { ApiResponseSchema } from "@/orpc/helpers/response-schema";
 import { withRequire } from "@/orpc/middleware/middleware";
+import { base } from "@/orpc/router/base";
 
-export const deleteMedia = os
+export const deleteMedia = base
 	.use(
 		withRequire({
 			role: "ADMIN",

@@ -1,10 +1,11 @@
-import { os } from "@orpc/server";
 import { z } from "zod";
 import type { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/db";
 import { subscribedProcedure } from "@/orpc/context";
 import { ApiResponseSchema } from "@/orpc/helpers/response-schema";
-import { MediaItemSchema } from "../../models/media.schema";
+import { listMediaInputSchema } from "@/orpc/models/media.input.schema";
+import { MediaItemSchema } from "@/orpc/models/media.schema";
+import { base } from "@/orpc/router/base";
 
 /* ---------------------------- Get Media by ID ---------------------------- */
 // SUBSCRIBED ONLY - Watch page, details
@@ -40,28 +41,7 @@ export const getMedia = subscribedProcedure
 		};
 	});
 
-export const listMediaInputSchema = z.object({
-	page: z.number().min(1).default(1),
-	limit: z.number().min(1).max(50).default(20),
-
-	search: z.string().min(1).optional(),
-
-	type: z.enum(["MOVIE", "EPISODE", "TRACK"]).optional(),
-	collectionId: z.string().optional(),
-	genreIds: z.array(z.string()).optional(),
-	creatorIds: z.array(z.string()).optional(),
-
-	releaseYearFrom: z.number().optional(),
-	releaseYearTo: z.number().optional(),
-
-	sortBy: z.enum(["NEWEST", "OLDEST", "TITLE", "MANUAL"]).default("NEWEST"),
-});
-
-/* -------------------------------------------------------------------------- */
-/*                            PUBLIC MEDIA LIST                               */
-/* -------------------------------------------------------------------------- */
-
-export const listMedia = os
+export const listMedia = base
 	.input(listMediaInputSchema)
 	.output(
 		ApiResponseSchema(

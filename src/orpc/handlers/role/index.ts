@@ -1,11 +1,10 @@
-import { os } from "@orpc/server";
-
+import { base } from "@/orpc/router/base";
 import { createRole } from "./create";
 import { removeRole, removeRoleFromUser } from "./delete";
 import { listRoles } from "./get";
 import { assignRoleToUser, updateRole } from "./update";
 
-export const roleRouter = os.router({
+export const roleRouter = base.router({
 	list: listRoles,
 	create: createRole,
 	update: updateRole,

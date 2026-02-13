@@ -1,16 +1,16 @@
-import { os } from "@orpc/server";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { ApiResponseSchema } from "@/orpc/helpers/response-schema";
 import { withRequire } from "@/orpc/middleware/middleware";
-import { createMediaInputSchema } from "../../models/media.input.schema";
-import { MediaItemSchema } from "../../models/media.schema";
+import { createMediaInputSchema } from "@/orpc/models/media.input.schema";
+import { MediaItemSchema } from "@/orpc/models/media.schema";
+import { base } from "@/orpc/router/base";
 
 /* -------------------------------------------------------------------------- */
 /*                                CREATE MEDIA                                 */
 /* -------------------------------------------------------------------------- */
 
-export const createMedia = os
+export const createMedia = base
 	.use(
 		withRequire({
 			role: "ADMIN",
@@ -85,7 +85,7 @@ export const createMedia = os
 /*                                UPDATE MEDIA                                 */
 /* -------------------------------------------------------------------------- */
 
-export const updateMedia = os
+export const updateMedia = base
 	.use(
 		withRequire({
 			role: "ADMIN",
