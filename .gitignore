@@ -11,6 +11,7 @@ count.txt
 .output
 .vinxi
 todos.json
+ngrok.yml
 # /src/services/models
 # /src/services/endpoints
 

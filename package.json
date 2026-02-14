@@ -3,7 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite dev --port 3000 | pino-pretty",
+    "dev": "concurrently \"npm:dev:vite\" \"npm:dev:ngrok\" \"npm:db:studio\"",
+    "dev:vite": "vite dev --port 3000 | pino-pretty",
+    "dev:ngrok": "ngrok start vibe --config ngrok.yml",
     "dev:raw": "vite dev --port 3000",
     "build": "vite build",
     "preview": "vite preview",
@@ -108,6 +110,7 @@
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.0.4",
     "babel-plugin-react-compiler": "^1.0.0",
+    "concurrently": "^9.2.1",
     "dotenv-cli": "^10.0.0",
     "jsdom": "^27.0.0",
     "typescript": "^5.7.2",

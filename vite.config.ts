@@ -19,6 +19,14 @@ const config = defineConfig({
       },
     }),
   ],
+  server: {
+    host: true,
+    allowedHosts: [
+      'localhost',
+      '.ngrok-free.app',
+      'harmless-doe-monthly.ngrok-free.app',
+    ],
+  },
 })
 
 export default config

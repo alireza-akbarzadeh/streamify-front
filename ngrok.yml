@@ -1,0 +1,7 @@
+version: "2"
+authtoken: 2bs3WIJKfO3P9PoUBKACo04gLU0_7sFmfDAVTZV2Ys1wSAqUf
+tunnels:
+  vibe:
+    proto: http
+    addr: 3000
+    domain: harmless-doe-monthly.ngrok-free.app
