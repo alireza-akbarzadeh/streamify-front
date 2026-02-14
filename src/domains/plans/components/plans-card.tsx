@@ -35,7 +35,7 @@ export function PlanCard({
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1, duration: 0.6 }}
-      className={`relative cursor-pointer ${disabled && !isActive ? "opacity-50 pointer-events-none" : ""}`}
+      className={`relative cursor-pointer transition duration-200 ${disabled && !isActive ? "opacity-60 blur-[1px] pointer-events-none select-none" : ""}`}
       onClick={() => {
         if (disabled) return;
         onPlanChange({ productId: plan.productId, slug: plan.slug });
@@ -101,11 +101,7 @@ export function PlanCard({
             >
               <span className="inline-flex items-center">
                 {plan.cta}
-                {isLoading ? (
-                  <Loader2 className="w-5 h-5 ml-2 animate-spin" />
-                ) : (
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                )}
+                <ArrowRight className="w-5 h-5 ml-2" />
               </span>
             </Button>
           </motion.div>
@@ -130,6 +126,9 @@ export function PlanCard({
             ))}
           </div>
         </div>
+        {disabled && !isActive && (
+          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
+        )}
         {isActive && isLoading && (
           <div className="absolute inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center">
             <Loader2 className="w-6 h-6 text-white animate-spin" />

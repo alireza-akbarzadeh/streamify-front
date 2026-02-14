@@ -147,7 +147,7 @@ export function Plans(props: PlansProps) {
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
 					{data.map((plan, index) => (
 						<PlanCard
-							key={plan.name}
+							key={plan.productId}
 							plan={plan}
 							onPlanChange={async (data) => {
 								if (isLoading) return;

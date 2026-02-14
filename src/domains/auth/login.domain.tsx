@@ -1,7 +1,3 @@
-import { Link, useNavigate, useRouter } from "@tanstack/react-router";
-import { ArrowRight, Loader2, Mail, Sparkles } from "lucide-react";
-import { toast } from "sonner";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { useForm } from "@/components/ui/forms/form";
 import { InputPassword } from "@/components/ui/forms/input-password";
@@ -10,13 +6,21 @@ import { socialProviders } from "@/config/socials";
 import { AUTH_STATUS } from "@/constants/constants";
 import AuthLayout from "@/domains/auth/auth-layout";
 import { authClient } from "@/lib/auth-client";
+import { Link, useNavigate, useRouter } from "@tanstack/react-router";
+import { ArrowRight, Loader2, Mail, Sparkles } from "lucide-react";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const loginFormSchema = z.object({
     email: z.email("Invalid email address"),
     password: z.string().min(1, "Password is required"),
 });
 
-export function LoginDomain() {
+interface LoginDomainProps {
+    redirectUrl?: string
+}
+export function LoginDomain(props: LoginDomainProps) {
+    const { redirectUrl } = props
     const navigate = useNavigate();
     const router = useRouter();
 
@@ -43,7 +47,7 @@ export function LoginDomain() {
 
             toast.success(`Welcome back, ${data?.user.name}!`);
             await router.invalidate();
-            await navigate({ to: "/" });
+            await navigate({ to: redirectUrl || "/" });
         },
     });
 

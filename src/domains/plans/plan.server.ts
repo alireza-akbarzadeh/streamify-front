@@ -140,6 +140,6 @@ export const getPlans = createServerFn({ method: "GET" }).handler(async () => {
 			productId: env.POLAR_FAMILY_YEARLY_PRODUCT_ID,
 		},
 	];
-
+	console.log(plans);
 	return { plans };
 });

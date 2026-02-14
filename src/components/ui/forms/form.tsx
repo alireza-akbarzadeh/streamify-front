@@ -49,13 +49,28 @@ export function useForm<
 		"validatorAdapter"
 	>,
 ) {
-	const form = useTanStackForm({
+	const typedOptions =
+		options as FormOptions<
+			TFormData,
+			any,
+			any,
+			any,
+			any,
+			any,
+			any,
+			any,
+			any,
+			any,
+			any,
+			any
+		>;
+	const form = useTanStackForm<TFormData>({
 		validatorAdapter: zodValidator(schema),
 		validators: {
 			onChange: schema,
 		},
-		...options,
-	} as any);
+		...typedOptions,
+	});
 
 	const FormRoot = ({ className, ...props }: ComponentProps<"form">) => (
 		<form
