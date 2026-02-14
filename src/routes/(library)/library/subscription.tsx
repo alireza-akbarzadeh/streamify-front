@@ -1,8 +1,13 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { Check, Zap, Shield, Globe, CreditCard, ArrowUpRight, History } from 'lucide-react'
+import { createFileRoute, Link } from "@tanstack/react-router"
+import { AlertCircle, ArrowRight, Check, CheckCircle2, CreditCard, Crown, ExternalLink, type LucideIcon, Sparkles, XCircle, Zap } from 'lucide-react'
+import { CancelSubscriptionButton } from "@/components/cancel-subscription-button"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { Typography } from "@/components/ui/typography"
+import { Skeleton } from "@/components/ui/skeleton"
+import { PLANS, type PlanSlug } from "@/domains/plans/plans.constants"
+import { useSubscription } from "@/hooks/useSubscription"
 import { cn } from "@/lib/utils"
 
 export const Route = createFileRoute('/(library)/library/subscription')({
@@ -10,103 +15,218 @@ export const Route = createFileRoute('/(library)/library/subscription')({
 })
 
 function SubscriptionPage() {
+    const { subscription, isLoading, isActive, isPending, isFree } = useSubscription();
+
+    if (isLoading) {
+        return <SubscriptionPageSkeleton />;
+    }
+
+    // Get plan details
+    const planDetails = getPlanDetails(subscription?.currentPlan || "Free");
+
     return (
-        <div className="min-h-screen bg-black text-white selection:bg-primary selection:text-black">
-            <div className="max-w-[1200px] mx-auto px-6 py-12 md:px-16 md:py-24">
+        <div className="min-h-screen bg-linear-to-br from-zinc-950 via-black to-zinc-950 text-white">
+            <div className="max-w-6xl mx-auto px-6 py-12 md:px-8 md:py-16">
 
                 {/* Header */}
-                <header className="mb-20">
-                    <Typography.H1 className="text-7xl md:text-9xl font-black tracking-tighter uppercase italic leading-none">
-                        Billing<span className="text-zinc-800">.</span>
-                    </Typography.H1>
-                    <div className="mt-6 flex items-center gap-4">
-                        <div className="h-[2px] w-12 bg-primary" />
-                        <Typography.P className="text-zinc-500 tracking-[0.4em] text-[10px] uppercase font-black">
-                            Membership & Resource Allocation
-                        </Typography.P>
-                    </div>
+                <header className="mb-12">
+                    <h1 className="text-5xl md:text-6xl font-bold mb-3 bg-linear-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent">
+                        Subscription
+                    </h1>
+                    <p className="text-gray-400 text-lg">
+                        Manage your plan, billing, and subscription settings
+                    </p>
                 </header>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                    {/* Left Column: Current Plan & Usage */}
-                    <div className="lg:col-span-7 space-y-12">
+                    {/* Main Content - Left */}
+                    <div className="lg:col-span-2 space-y-6">
 
-                        <section className="bg-zinc-950 border border-white/5 rounded-[2.5rem] p-10 relative overflow-hidden group">
-                            <div className="relative z-10">
-                                <div className="flex justify-between items-start mb-12">
+                        {/* Current Plan Card */}
+                        <Card className="bg-white/5 backdrop-blur-xl border-white/10 p-8">
+                            <div className="flex items-start justify-between mb-6">
+                                <div className="flex items-center gap-4">
+                                    <div className={cn(
+                                        "p-3 rounded-2xl",
+                                        planDetails.gradient
+                                    )}>
+                                        <planDetails.icon className="w-8 h-8 text-white" />
+                                    </div>
                                     <div>
-                                        <Typography.S className="text-primary font-black uppercase tracking-[0.3em] text-[10px]">Active Protocol</Typography.S>
-                                        <Typography.H2 className="text-6xl font-black uppercase tracking-tighter mt-2 border-none">Enterprise</Typography.H2>
+                                        <h2 className="text-2xl font-bold text-white">
+                                            {planDetails.name}
+                                        </h2>
+                                        <p className="text-sm text-gray-400">
+                                            {subscription?.currentPlan || "Free Plan"}
+                                        </p>
                                     </div>
-                                    <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 text-center">
-                                        <Typography.S className="block text-[10px] font-black uppercase text-zinc-500">Monthly</Typography.S>
-                                        <Typography.S className="block text-xl font-black">$149</Typography.S>
+                                </div>
+
+                                {/* Status Badge */}
+                                <StatusBadge
+                                    isActive={isActive}
+                                    isPending={isPending}
+                                    isFree={isFree}
+                                    status={subscription?.status || "FREE"}
+                                />
+                            </div>
+
+                            {/* Plan Description */}
+                            <p className="text-gray-300 mb-6">
+                                {planDetails.description}
+                            </p>
+
+                            <Separator className="bg-white/10 mb-6" />
+
+                            {/* Features */}
+                            <div className="mb-6">
+                                <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-4">
+                                    Included Features
+                                </h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    {planDetails.features.map((feature: string, idx: number) => (
+                                        <div key={idx + feature} className="flex items-start gap-2">
+                                            <div className={cn(
+                                                "p-1 rounded-full mt-0.5",
+                                                planDetails.gradient
+                                            )}>
+                                                <Check className="w-3 h-3 text-white" />
+                                            </div>
+                                            <span className="text-sm text-gray-300">{feature}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="flex flex-wrap gap-3">
+                                {!isFree && (
+                                    <>
+                                        <Button
+                                            asChild
+                                            variant="outline"
+                                            className="border-white/20 hover:bg-white/5"
+                                        >
+                                            <a href="/api/portal" target="_blank" rel="noopener noreferrer">
+                                                <CreditCard className="w-4 h-4 mr-2" />
+                                                Manage Billing
+                                                <ExternalLink className="w-3 h-3 ml-2" />
+                                            </a>
+                                        </Button>
+                                        {isActive && <CancelSubscriptionButton />}
+                                    </>
+                                )}
+
+                                <Button
+                                    asChild
+                                    className={cn(
+                                        isFree
+                                            ? "bg-linear-to-r from-purple-600 to-pink-600 hover:opacity-90"
+                                            : "bg-white/10 hover:bg-white/15"
+                                    )}
+                                >
+                                    <Link to="/pricing">
+                                        {isFree ? "Upgrade Plan" : "Change Plan"}
+                                        <ArrowRight className="w-4 h-4 ml-2" />
+                                    </Link>
+                                </Button>
+                            </div>
+                        </Card>
+
+                        {/* Cancellation Notice */}
+                        {isPending && (
+                            <Card className="bg-amber-500/10 border-amber-500/30 backdrop-blur-xl p-6">
+                                <div className="flex items-start gap-4">
+                                    <AlertCircle className="w-6 h-6 text-amber-400 shrink-0 mt-0.5" />
+                                    <div>
+                                        <h3 className="font-semibold text-amber-300 mb-2">
+                                            Subscription Cancellation Scheduled
+                                        </h3>
+                                        <p className="text-sm text-amber-200/80">
+                                            Your subscription will remain active until the end of your current billing period.
+                                            You'll continue to have access to all premium features until then.
+                                        </p>
                                     </div>
                                 </div>
-
-                                {/* Usage Meters */}
-                                <div className="space-y-8">
-                                    <UsageMeter label="API Requests" current={84000} total={100000} />
-                                    <UsageMeter label="Storage Capacity" current={1.2} total={5} unit="TB" />
-                                    <UsageMeter label="Catalog Seats" current={8} total={10} />
-                                </div>
-
-                                <div className="mt-12 flex gap-4">
-                                    <Button className="h-14 px-10 rounded-full font-black uppercase tracking-widest text-[10px] bg-white text-black hover:bg-primary transition-all">
-                                        Upgrade Tier
-                                    </Button>
-                                    <Button variant="outline" className="h-14 px-10 rounded-full font-black uppercase tracking-widest text-[10px] border-white/10">
-                                        Update Payment
-                                    </Button>
-                                </div>
-                            </div>
-
-                            {/* Abstract decorative element */}
-                            <div className="absolute -right-20 -top-20 size-80 bg-primary/5 rounded-full blur-[100px] group-hover:bg-primary/10 transition-all duration-1000" />
-                        </section>
-
-                        {/* Billing History */}
-                        <section className="space-y-6">
-                            <div className="flex items-center gap-4">
-                                <History size={16} className="text-zinc-500" />
-                                <Typography.H3 className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500">Transaction Registry</Typography.H3>
-                            </div>
-                            <div className="border border-white/5 rounded-3xl overflow-hidden bg-zinc-900/20">
-                                <HistoryItem date="Feb 01, 2026" amount="$149.00" status="Cleared" />
-                                <HistoryItem date="Jan 01, 2026" amount="$149.00" status="Cleared" />
-                                <HistoryItem date="Dec 01, 2025" amount="$149.00" status="Cleared" />
-                            </div>
-                        </section>
+                            </Card>
+                        )}
                     </div>
 
-                    {/* Right Column: Perks & Support */}
-                    <div className="lg:col-span-5 space-y-8">
-                        <aside className="bg-zinc-900/30 border border-white/5 rounded-[2rem] p-8 space-y-8">
-                            <Typography.H3 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Included Features</Typography.H3>
-                            <ul className="space-y-6">
-                                <PerkItem icon={<Zap />} title="Real-time Telemetry" desc="Sub-millisecond data synchronization." />
-                                <PerkItem icon={<Shield />} title="Advanced Encryption" desc="AES-256 hardware-level security." />
-                                <PerkItem icon={<Globe />} title="Global Edge" desc="Priority routing on 40+ nodes." />
-                            </ul>
-                            <Separator className="bg-white/5" />
-                            <div className="pt-4">
-                                <Typography.P className="text-[10px] text-zinc-500 uppercase font-black tracking-widest leading-relaxed">
-                                    Need a custom arrangement? <br />
-                                    <span className="text-white cursor-pointer hover:text-primary transition-colors">Contact Engineering Support</span>
-                                </Typography.P>
-                            </div>
-                        </aside>
+                    {/* Sidebar - Right */}
+                    <div className="space-y-6">
 
-                        <div className="p-8 border border-red-500/10 rounded-[2rem] bg-red-500/5 group hover:bg-red-500/10 transition-all cursor-pointer">
-                            <Typography.S className="block font-black uppercase tracking-widest text-[10px] text-red-500">Danger Zone</Typography.S>
-                            <div className="flex items-center justify-between mt-2">
-                                <Typography.P className="text-zinc-500 text-[10px] font-black uppercase tracking-widest">Terminate Membership</Typography.P>
-                                <ArrowUpRight size={16} className="text-zinc-500 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                        {/* Quick Stats */}
+                        <Card className="bg-linear-to-br from-purple-900/20 via-transparent to-pink-900/20 border-purple-500/20 backdrop-blur-xl p-6">
+                            <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wide mb-4">
+                                Plan Benefits
+                            </h3>
+                            <div className="space-y-4">
+                                <BenefitItem
+                                    label="Video Quality"
+                                    value={isFree ? "SD" : "HD/4K"}
+                                    active={!isFree}
+                                />
+                                <BenefitItem
+                                    label="Ads"
+                                    value={isFree ? "Yes" : "None"}
+                                    active={!isFree}
+                                />
+                                <BenefitItem
+                                    label="Downloads"
+                                    value={isFree ? "Limited" : "Unlimited"}
+                                    active={!isFree}
+                                />
+                                <BenefitItem
+                                    label="Devices"
+                                    value={isFree ? "1" : subscription?.currentPlan?.includes("Family") ? "6" : "3"}
+                                    active={!isFree}
+                                />
                             </div>
-                        </div>
+                        </Card>
+
+                        {/* Upgrade CTA (for free users) */}
+                        {isFree && (
+                            <Card className="bg-linear-to-br from-purple-600/20 to-pink-600/20 border-purple-500/30 backdrop-blur-xl p-6">
+                                <Crown className="w-10 h-10 text-purple-400 mb-4" />
+                                <h3 className="font-bold text-white text-lg mb-2">
+                                    Upgrade to Premium
+                                </h3>
+                                <p className="text-sm text-gray-300 mb-4">
+                                    Get unlimited access, ad-free streaming, and HD quality content.
+                                </p>
+                                <Button
+                                    asChild
+                                    className="w-full bg-linear-to-r from-purple-600 to-pink-600 hover:opacity-90"
+                                >
+                                    <Link to="/pricing">
+                                        See Plans
+                                        <ArrowRight className="w-4 h-4 ml-2" />
+                                    </Link>
+                                </Button>
+                            </Card>
+                        )}
+
+                        {/* Help Card */}
+                        <Card className="bg-white/5 border-white/10 backdrop-blur-xl p-6">
+                            <h3 className="font-semibold text-white mb-3">
+                                Need Help?
+                            </h3>
+                            <p className="text-sm text-gray-400 mb-4">
+                                Check our FAQ or contact support for assistance with your subscription.
+                            </p>
+                            <Button
+                                variant="outline"
+                                className="w-full border-white/20 hover:bg-white/5"
+                                asChild
+                            >
+                                <Link to="/help-center">
+                                    Visit Help Center
+                                    <ExternalLink className="w-3 h-3 ml-2" />
+                                </Link>
+                            </Button>
+                        </Card>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -114,58 +234,114 @@ function SubscriptionPage() {
 }
 
 /**
- * UI SUB-COMPONENTS
+ * Helper Components
  */
 
-function UsageMeter({ label, current, total, unit = "" }: { label: string, current: number, total: number, unit?: string }) {
-    const percentage = (current / total) * 100
+function StatusBadge({
+    isActive,
+    isPending,
+    isFree,
+    status
+}: {
+    isActive: boolean;
+    isPending: boolean;
+    isFree: boolean;
+    status: string;
+}) {
+    if (isFree) {
+        return (
+            <Badge className="bg-slate-500/20 text-slate-300 border-slate-500/30">
+                <Sparkles className="w-3 h-3 mr-1" />
+                Free
+            </Badge>
+        );
+    }
+
+    if (isPending) {
+        return (
+            <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30">
+                <AlertCircle className="w-3 h-3 mr-1" />
+                Cancelling
+            </Badge>
+        );
+    }
+
+    if (isActive) {
+        return (
+            <Badge className="bg-green-500/20 text-green-300 border-green-500/30">
+                <CheckCircle2 className="w-3 h-3 mr-1" />
+                Active
+            </Badge>
+        );
+    }
+
     return (
-        <div className="space-y-3">
-            <div className="flex justify-between items-end">
-                <Typography.S className="text-[10px] font-black uppercase tracking-widest text-zinc-400">{label}</Typography.S>
-                <Typography.S className="text-[10px] font-black uppercase tracking-widest">
-                    {current}{unit} <span className="text-zinc-600">/ {total}{unit}</span>
-                </Typography.S>
-            </div>
-            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                <div
-                    className="h-full bg-primary transition-all duration-1000 ease-out"
-                    style={{ width: `${percentage}%` }}
-                />
-            </div>
-        </div>
-    )
+        <Badge className="bg-red-500/20 text-red-300 border-red-500/30">
+            <XCircle className="w-3 h-3 mr-1" />
+            {status}
+        </Badge>
+    );
 }
 
-function HistoryItem({ date, amount, status }: { date: string, amount: string, status: string }) {
+function BenefitItem({ label, value, active }: { label: string; value: string; active: boolean }) {
     return (
-        <div className="flex items-center justify-between p-6 border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors">
-            <Typography.S className="text-[11px] font-black uppercase tracking-widest">{date}</Typography.S>
-            <div className="flex items-center gap-8">
-                <Typography.S className="text-[11px] font-black tracking-widest">{amount}</Typography.S>
-                <div className="flex items-center gap-2">
-                    <div className="size-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(var(--primary),0.6)]" />
-                    <Typography.S className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-500">{status}</Typography.S>
+        <div className="flex items-center justify-between">
+            <span className="text-sm text-gray-400">{label}</span>
+            <span className={cn(
+                "text-sm font-semibold",
+                active ? "text-purple-300" : "text-gray-500"
+            )}>
+                {value}
+            </span>
+        </div>
+    );
+}
+
+function SubscriptionPageSkeleton() {
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-black to-zinc-950 text-white">
+            <div className="max-w-6xl mx-auto px-6 py-12 md:px-8 md:py-16">
+                <div className="mb-12">
+                    <Skeleton className="h-12 w-64 mb-3" />
+                    <Skeleton className="h-6 w-96" />
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div className="lg:col-span-2">
+                        <Skeleton className="h-96 w-full" />
+                    </div>
+                    <div className="space-y-6">
+                        <Skeleton className="h-64 w-full" />
+                        <Skeleton className="h-48 w-full" />
+                    </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-function PerkItem({ icon, title, desc }: { icon: React.ReactNode, title: string, desc: string }) {
-    return (
-        <li className="flex gap-5">
-            <div className="size-10 shrink-0 bg-white/5 rounded-xl flex items-center justify-center text-primary border border-white/5">
-                {icon}
-            </div>
-            <div className="space-y-1">
-                <Typography.S className="block text-xs font-black uppercase tracking-widest text-white">{title}</Typography.S>
-                <Typography.P className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold leading-tight">{desc}</Typography.P>
-            </div>
-        </li>
-    )
-}
+/**
+ * Helper Functions
+ */
 
-function Span({ children, className }: { children: React.ReactNode, className?: string }) {
-    return <span className={className}>{children}</span>
+// Icon mapping from string to component
+const iconMap: Record<string, LucideIcon> = {
+    Sparkles,
+    Zap,
+    Crown,
+};
+
+function getPlanDetails(planSlug: string | null) {
+    const slug = (planSlug || "Free") as PlanSlug;
+    const plan = PLANS.find(p => p.slug === slug) || PLANS[0]; // Default to Free plan
+
+    const IconComponent = iconMap[plan.icon] || Sparkles;
+
+    return {
+        name: plan.name,
+        icon: IconComponent,
+        gradient: `bg-linear-to-br ${plan.gradient}`,
+        description: plan.description,
+        features: plan.features,
+    };
 }

@@ -47,6 +47,8 @@ import { Route as homeMoviesIndexRouteImport } from './routes/(home)/movies/inde
 import { Route as blogBlogIndexRouteImport } from './routes/(blog)/blog/index'
 import { Route as adminDashboardIndexRouteImport } from './routes/(admin)/dashboard/index'
 import { Route as ApiWebhookPolarRouteImport } from './routes/api/webhook/polar'
+import { Route as ApiSubscriptionStatusRouteImport } from './routes/api/subscription/status'
+import { Route as ApiSubscriptionCancelRouteImport } from './routes/api/subscription/cancel'
 import { Route as ApiRpcSplatRouteImport } from './routes/api.rpc.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as libraryLibraryVideosRouteImport } from './routes/(library)/library/videos'
@@ -308,6 +310,16 @@ const adminDashboardIndexRoute = adminDashboardIndexRouteImport.update({
 const ApiWebhookPolarRoute = ApiWebhookPolarRouteImport.update({
   id: '/api/webhook/polar',
   path: '/api/webhook/polar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSubscriptionStatusRoute = ApiSubscriptionStatusRouteImport.update({
+  id: '/api/subscription/status',
+  path: '/api/subscription/status',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSubscriptionCancelRoute = ApiSubscriptionCancelRouteImport.update({
+  id: '/api/subscription/cancel',
+  path: '/api/subscription/cancel',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
@@ -783,6 +795,8 @@ export interface FileRoutesByFullPath {
   '/library/videos': typeof libraryLibraryVideosRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/api/subscription/cancel': typeof ApiSubscriptionCancelRoute
+  '/api/subscription/status': typeof ApiSubscriptionStatusRoute
   '/api/webhook/polar': typeof ApiWebhookPolarRoute
   '/dashboard/': typeof adminDashboardIndexRoute
   '/blog/': typeof blogBlogIndexRoute
@@ -893,6 +907,8 @@ export interface FileRoutesByTo {
   '/library/videos': typeof libraryLibraryVideosRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/api/subscription/cancel': typeof ApiSubscriptionCancelRoute
+  '/api/subscription/status': typeof ApiSubscriptionStatusRoute
   '/api/webhook/polar': typeof ApiWebhookPolarRoute
   '/dashboard': typeof adminDashboardIndexRoute
   '/blog': typeof blogBlogIndexRoute
@@ -1008,6 +1024,8 @@ export interface FileRoutesById {
   '/(library)/library/videos': typeof libraryLibraryVideosRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/api/subscription/cancel': typeof ApiSubscriptionCancelRoute
+  '/api/subscription/status': typeof ApiSubscriptionStatusRoute
   '/api/webhook/polar': typeof ApiWebhookPolarRoute
   '/(admin)/dashboard/': typeof adminDashboardIndexRoute
   '/(blog)/blog/': typeof blogBlogIndexRoute
@@ -1122,6 +1140,8 @@ export interface FileRouteTypes {
     | '/library/videos'
     | '/api/auth/$'
     | '/api/rpc/$'
+    | '/api/subscription/cancel'
+    | '/api/subscription/status'
     | '/api/webhook/polar'
     | '/dashboard/'
     | '/blog/'
@@ -1232,6 +1252,8 @@ export interface FileRouteTypes {
     | '/library/videos'
     | '/api/auth/$'
     | '/api/rpc/$'
+    | '/api/subscription/cancel'
+    | '/api/subscription/status'
     | '/api/webhook/polar'
     | '/dashboard'
     | '/blog'
@@ -1346,6 +1368,8 @@ export interface FileRouteTypes {
     | '/(library)/library/videos'
     | '/api/auth/$'
     | '/api/rpc/$'
+    | '/api/subscription/cancel'
+    | '/api/subscription/status'
     | '/api/webhook/polar'
     | '/(admin)/dashboard/'
     | '/(blog)/blog/'
@@ -1440,6 +1464,8 @@ export interface RootRouteChildren {
   homePlayPlayIdRoute: typeof homePlayPlayIdRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiRpcSplatRoute: typeof ApiRpcSplatRoute
+  ApiSubscriptionCancelRoute: typeof ApiSubscriptionCancelRoute
+  ApiSubscriptionStatusRoute: typeof ApiSubscriptionStatusRoute
   ApiWebhookPolarRoute: typeof ApiWebhookPolarRoute
   blogBlogIndexRoute: typeof blogBlogIndexRoute
   homeMoviesIndexRoute: typeof homeMoviesIndexRoute
@@ -1712,6 +1738,20 @@ declare module '@tanstack/react-router' {
       path: '/api/webhook/polar'
       fullPath: '/api/webhook/polar'
       preLoaderRoute: typeof ApiWebhookPolarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/subscription/status': {
+      id: '/api/subscription/status'
+      path: '/api/subscription/status'
+      fullPath: '/api/subscription/status'
+      preLoaderRoute: typeof ApiSubscriptionStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/subscription/cancel': {
+      id: '/api/subscription/cancel'
+      path: '/api/subscription/cancel'
+      fullPath: '/api/subscription/cancel'
+      preLoaderRoute: typeof ApiSubscriptionCancelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/rpc/$': {
@@ -2476,6 +2516,8 @@ const rootRouteChildren: RootRouteChildren = {
   homePlayPlayIdRoute: homePlayPlayIdRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiRpcSplatRoute: ApiRpcSplatRoute,
+  ApiSubscriptionCancelRoute: ApiSubscriptionCancelRoute,
+  ApiSubscriptionStatusRoute: ApiSubscriptionStatusRoute,
   ApiWebhookPolarRoute: ApiWebhookPolarRoute,
   blogBlogIndexRoute: blogBlogIndexRoute,
   homeMoviesIndexRoute: homeMoviesIndexRoute,

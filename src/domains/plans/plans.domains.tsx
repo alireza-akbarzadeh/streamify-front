@@ -10,6 +10,10 @@ import type { PlanType } from "./plans.constants";
 interface PlansProps {
 	onCheckout: (plan: CheckoutInputScheme) => void;
 	plans: PlanType[];
+	userSubscription?: {
+		status: string;
+		currentPlan: string | null;
+	};
 }
 
 export const iconMap = {
@@ -22,7 +26,7 @@ type PlanWithIcon = Omit<PlanType, "icon"> & {
 };
 
 export function Plans(props: PlansProps) {
-	const { onCheckout, plans } = props
+	const { onCheckout, plans, userSubscription } = props
 	const [isAnnual, setIsAnnual] = useState(false);
 	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 	const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -56,6 +60,22 @@ export function Plans(props: PlansProps) {
 			})) ?? [],
 		[plans]
 	);
+
+	// Filter plans based on billing interval (monthly/annual)
+	const filteredPlans = useMemo(() => {
+		return data.filter((plan) => {
+			// Always show Free plan
+			if (plan.slug === "Free") return true;
+			
+			// Show monthly plans when isAnnual is false
+			if (!isAnnual && plan.price.interval === "month") return true;
+			
+			// Show annual plans when isAnnual is true
+			if (isAnnual && plan.price.interval === "year") return true;
+			
+			return false;
+		});
+	}, [data, isAnnual]);
 
 
 	return (
@@ -155,7 +175,7 @@ export function Plans(props: PlansProps) {
 				</motion.div>
 				{/* Pricing Cards */}
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-					{data.map((plan, index) => (
+					{filteredPlans.map((plan, index) => (
 						<PlanCard
 							key={plan.slug}
 							plan={plan}
@@ -174,6 +194,7 @@ export function Plans(props: PlansProps) {
 							isActive={activeIndex === index}
 							isLoading={isLoading && activeIndex === index}
 							disabled={isLoading && activeIndex !== index}
+							userSubscription={userSubscription}
 						/>
 					))}
 				</div>

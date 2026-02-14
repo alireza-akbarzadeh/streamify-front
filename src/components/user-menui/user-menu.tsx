@@ -9,7 +9,8 @@ import {
 	Loader2,
 	LogOut,
 	Settings,
-	Sparkles
+	Sparkles,
+	Zap
 } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
@@ -73,15 +74,27 @@ export function UserMenu() {
 
 					{/* Status indicator */}
 					{user.subscriptionStatus !== "FREE" && (
-						<div className="absolute -bottom-0.5 -right-0.5 size-3.5 rounded-full bg-emerald-500 border-2 border-[#0b0b0c]">
-							<div className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-75" />
+						<div className={cn(
+							"absolute -bottom-0.5 -right-0.5 size-3.5 rounded-full border-2 border-[#0b0b0c]",
+							user.currentPlan?.includes("Family") 
+								? "bg-amber-500" 
+								: "bg-purple-500"
+						)}>
+							<div className={cn(
+								"absolute inset-0 rounded-full animate-ping opacity-75",
+								user.currentPlan?.includes("Family") 
+									? "bg-amber-400" 
+									: "bg-purple-400"
+							)} />
 						</div>
 					)}
 				</div>
 
 				{/* Quick status badge on hover */}
-				{user.subscriptionStatus === "PREMIUM" && (
-					<Crown className="size-4 text-yellow-400 absolute -top-1 -right-1 drop-shadow-lg" />
+				{user.currentPlan?.includes("Family") ? (
+					<Crown className="size-4 text-amber-400 absolute -top-1 -right-1 drop-shadow-lg" />
+				) : user.subscriptionStatus === "PREMIUM" && (
+					<Zap className="size-4 text-purple-400 absolute -top-1 -right-1 drop-shadow-lg" />
 				)}
 			</button>
 
@@ -124,7 +137,10 @@ export function UserMenu() {
 									{/* Badges */}
 									<div className="flex flex-wrap gap-1.5 mt-1">
 										<RoleBadge role={user.role as string} />
-										<SubscriptionBadge status={user.subscriptionStatus} />
+									<SubscriptionBadge 
+										status={user.subscriptionStatus} 
+										currentPlan={user.currentPlan} 
+									/>
 									</div>
 								</div>
 							</div>

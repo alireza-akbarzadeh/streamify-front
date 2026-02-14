@@ -102,6 +102,7 @@ export const auth = betterAuth({
 			avatar: { type: "string", required: false },
 			subscriptionStatus: { type: "string", defaultValue: "FREE" },
 			customerId: { type: "string", required: false },
+			currentPlan: { type: "string", required: false },
 			agreeToTerms: {
 				type: "boolean",
 				required: true,

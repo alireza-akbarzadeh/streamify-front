@@ -1,5 +1,5 @@
-import { LoginDomain } from "@/domains/auth/login.domain";
 import { createFileRoute } from "@tanstack/react-router";
+import { LoginDomain } from "@/domains/auth/login.domain";
 
 interface LoginSearchParams {
 	redirectUrl?: string;

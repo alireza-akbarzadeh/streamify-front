@@ -137,8 +137,8 @@ function RouteComponent() {
                 </Button>
               ) : (
                 <Button asChild size="lg" className="rounded-xl">
-                  <Link to="/library">
-                    Go to Library
+                  <Link to="/library/subscription">
+                    View Subscription
                     <ArrowRight className="ml-2 w-4 h-4" />
                   </Link>
                 </Button>

@@ -5,6 +5,7 @@ import Footer from "@/domains/home/footer";
 import { PLANS } from "@/domains/plans/plans.constants";
 import { Plans } from "@/domains/plans/plans.domains";
 import { logger } from "@/lib/logger";
+import { Route as RootRoute } from "@/routes/__root";
 import type { CheckoutInputScheme } from "@/types/subscription";
 
 interface PricingSearch {
@@ -29,6 +30,18 @@ export const Route = createFileRoute("/(home)/pricing")({
 
 function RouteComponent() {
   const { redirectUrl } = Route.useSearch();
+  const { auth } = RootRoute.useRouteContext();
+  const user = auth?.user;
+
+  // Debug logging (can remove later)
+  if (import.meta.env.DEV) {
+    console.log('[Pricing Page] User Data:', {
+      userId: user?.id,
+      email: user?.email,
+      subscriptionStatus: user?.subscriptionStatus,
+      currentPlan: user?.currentPlan,
+    });
+  }
 
   const handleCheckout = async (plan: CheckoutInputScheme) => {
     try {
@@ -76,7 +89,14 @@ function RouteComponent() {
   return (
     <>
       <RootHeader />
-      <Plans plans={PLANS} onCheckout={handleCheckout} />
+      <Plans
+        plans={PLANS}
+        onCheckout={handleCheckout}
+        userSubscription={{
+          status: user?.subscriptionStatus || "FREE",
+          currentPlan: user?.currentPlan || null,
+        }}
+      />
       <Footer />
     </>
   );

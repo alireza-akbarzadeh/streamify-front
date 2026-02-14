@@ -4,34 +4,101 @@ import {
     Crown,
     Shield,
     ShieldCheck,
+    Sparkles,
     User,
     Zap
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+interface SubscriptionBadgeProps {
+    status: string;
+    currentPlan?: string | null;
+}
 
-export const SubscriptionBadge = ({ status }: { status: string }) => {
-    const badges = {
+export const SubscriptionBadge = ({ status, currentPlan }: SubscriptionBadgeProps) => {
+    // Plan-based badges (when we have currentPlan)
+    const planBadges: Record<string, {
+        icon: any;
+        label: string;
+        color: string;
+        bg: string;
+        border: string;
+        glow: boolean;
+    }> = {
+        "Free": {
+            icon: Sparkles,
+            label: "Free",
+            color: "text-slate-400",
+            bg: "bg-slate-500/10",
+            border: "border-slate-500/20",
+            glow: false,
+        },
+        "Premium-Monthly": {
+            icon: Zap,
+            label: "Premium",
+            color: "text-purple-400",
+            bg: "bg-gradient-to-r from-purple-500/20 to-pink-500/20",
+            border: "border-purple-500/40",
+            glow: true,
+        },
+        "Premium-Yearly": {
+            icon: Zap,
+            label: "Premium Annual",
+            color: "text-purple-300",
+            bg: "bg-gradient-to-r from-purple-500/20 to-pink-500/20",
+            border: "border-purple-400/50",
+            glow: true,
+        },
+        "Family-Monthly": {
+            icon: Crown,
+            label: "Family",
+            color: "text-amber-400",
+            bg: "bg-gradient-to-r from-amber-500/20 to-orange-500/20",
+            border: "border-amber-500/40",
+            glow: true,
+        },
+        "Family-Yearly": {
+            icon: Crown,
+            label: "Family Annual",
+            color: "text-amber-300",
+            bg: "bg-gradient-to-r from-amber-500/20 to-orange-500/20",
+            border: "border-amber-400/50",
+            glow: true,
+        },
+    };
+
+    // Status-based badges (fallback when no currentPlan)
+    const statusBadges: Record<string, {
+        icon: any;
+        label: string;
+        color: string;
+        bg: string;
+        border: string;
+        glow: boolean;
+    }> = {
         FREE: {
             icon: CircleDot,
             label: "Free",
             color: "text-slate-400",
             bg: "bg-slate-500/10",
             border: "border-slate-500/20",
-        },
-        PRO: {
-            icon: Zap,
-            label: "Pro",
-            color: "text-blue-400",
-            bg: "bg-blue-500/10",
-            border: "border-blue-500/20",
+            glow: false,
         },
         PREMIUM: {
-            icon: Crown,
+            icon: Zap,
             label: "Premium",
-            color: "text-yellow-400",
-            bg: "bg-yellow-500/10",
-            border: "border-yellow-500/20",
+            color: "text-purple-400",
+            bg: "bg-gradient-to-r from-purple-500/20 to-pink-500/20",
+            border: "border-purple-500/40",
+            glow: true,
+        },
+        FAMILY: {
+            icon: Crown,
+            label: "Family",
+            color: "text-amber-400",
+            bg: "bg-gradient-to-r from-amber-500/20 to-orange-500/20",
+            border: "border-amber-500/40",
+            glow: true,
         },
         CANCELLED: {
             icon: Circle,
@@ -39,20 +106,30 @@ export const SubscriptionBadge = ({ status }: { status: string }) => {
             color: "text-red-400",
             bg: "bg-red-500/10",
             border: "border-red-500/20",
+            glow: false,
         },
     };
 
-    const badge = badges[status as keyof typeof badges] || badges.FREE;
+    // Use currentPlan if available, otherwise fall back to status
+    const badge = currentPlan && planBadges[currentPlan]
+        ? planBadges[currentPlan]
+        : statusBadges[status as keyof typeof statusBadges] || statusBadges.FREE;
+
     const Icon = badge.icon;
+
     return (
         <div className={cn(
-            "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-medium",
+            "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-medium relative",
             badge.bg,
             badge.border,
-            badge.color
+            badge.color,
+            badge.glow && "shadow-lg"
         )}>
-            <Icon className="size-3.5" />
-            <span>{badge.label}</span>
+            {badge.glow && (
+                <div className="absolute inset-0 rounded-full bg-linear-to-r from-purple-600/20 to-pink-600/20 blur-sm" />
+            )}
+            <Icon className="size-3.5 relative z-10" />
+            <span className="relative z-10">{badge.label}</span>
         </div>
     );
 };
