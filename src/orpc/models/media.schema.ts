@@ -89,6 +89,8 @@ export const MediaListItemSchema = z.object({
 	creators: z.array(MediaCreatorSchema),
 });
 
+export type MediaList = z.infer<typeof MediaListItemSchema>;
+
 /* -------------------------------------------------------------------------- */
 /*                              Collection Schema                              */
 /* -------------------------------------------------------------------------- */
@@ -109,3 +111,6 @@ export const getGenreOutput = z.array(
 		description: z.string().nullable(),
 	}),
 );
+
+export type Collections = z.infer<typeof CollectionListItemSchema>;
+export type Genre = z.infer<typeof getGenreOutput>;

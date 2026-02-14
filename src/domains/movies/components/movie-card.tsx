@@ -4,13 +4,13 @@ import { Play, Star } from "lucide-react";
 import { useState } from "react";
 import { AddButton } from "@/components/buttons/add-button";
 import { Button } from "@/components/ui/button";
+import type { MediaList } from "@/orpc/models/media.schema";
 import { generateSlug } from "@/lib/utils";
-import type { ContinueWatching } from "@/types/app";
 import type { MovieVariantCard } from "./movie-carousel";
 import { MovieInfoDialog } from "./movie-info-dialog";
 
 interface MovieCardProps {
-	movie: ContinueWatching;
+	movie: MediaList;
 	index: number;
 	showProgress: boolean;
 	variant: MovieVariantCard;
@@ -59,7 +59,7 @@ export function MovieCard({
 			>
 				{/* Movie poster */}
 				<img
-					src={movie.poster_path}
+					src={movie.thumbnail}
 					alt={movie.title}
 					className="w-full h-full object-cover"
 				/>
@@ -67,12 +67,12 @@ export function MovieCard({
 				{/* Gradient overlay */}
 				<div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent" />
 
-				{/* Continue watching progress */}
-				{showProgress && movie.progress && (
+				{/* Continue watching progress (optional; not on MediaList schema) */}
+				{showProgress && "progress" in movie && typeof (movie as { progress?: number }).progress === "number" && (
 					<div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
 						<motion.div
 							initial={{ width: 0 }}
-							animate={{ width: `${movie.progress}%` }}
+							animate={{ width: `${(movie as { progress: number }).progress}%` }}
 							transition={{ duration: 1, delay: 0.3 }}
 							className="h-full bg-linear-to-r from-purple-600 to-pink-600"
 						/>
@@ -87,7 +87,7 @@ export function MovieCard({
 					className="absolute top-4 right-4 flex items-center gap-1 px-2 py-1 rounded-lg bg-black/60 backdrop-blur-sm border border-white/20"
 				>
 					<Star className="w-3 h-3 fill-yellow-500 text-yellow-500" />
-					<span className="text-white text-sm font-bold">{movie.rating}</span>
+					<span className="text-white text-sm font-bold">{movie.rating ?? 0}</span>
 				</motion.div>
 
 				{/* Content */}
@@ -105,12 +105,12 @@ export function MovieCard({
 
 					{/* Metadata */}
 					<div className="flex items-center gap-2 mb-3">
-						<span className="text-sm text-gray-300">{movie.year}</span>
+						<span className="text-sm text-gray-300">{movie.releaseYear}</span>
 						<span className="text-gray-500">•</span>
 						<div className="flex gap-1">
-							{movie.genres.slice(0, 2).map((genre) => (
-								<span key={genre} className="text-xs text-gray-400">
-									{genre}
+							{movie.genres.slice(0, 2).map((g) => (
+								<span key={g.genre.id} className="text-xs text-gray-400">
+									{g.genre.name}
 								</span>
 							))}
 						</div>
@@ -127,11 +127,11 @@ export function MovieCard({
 						className="space-y-3"
 					>
 						{/* Description */}
-						{movie.description && (
+						{movie.description ? (
 							<p className="text-sm text-gray-300 line-clamp-3">
 								{movie.description}
 							</p>
-						)}
+						) : null}
 
 						{/* Action buttons */}
 						<div className="flex gap-2">

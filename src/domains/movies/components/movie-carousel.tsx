@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { generateSlug } from "@/lib/utils";
-import type { ContinueWatching } from "@/types/app";
+import type { MediaList } from "@/orpc/models/media.schema";
 import { MovieCard } from "./movie-card";
 
 export type MovieVariantCard =
@@ -18,7 +18,7 @@ interface MovieCarouselProps {
 	subtitle?: string;
 	showProgress?: boolean;
 	variant: MovieVariantCard;
-	movies: ContinueWatching[];
+	movies: MediaList[];
 }
 export function MovieCarousel({
 	title,

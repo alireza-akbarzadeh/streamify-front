@@ -306,3 +306,75 @@ export const listMedia = publicProcedure
 			},
 		};
 	});
+
+/* ---------------------------- Trending search terms ---------------------------- */
+const trendingSearchesInputSchema = z.object({
+	limit: z.number().min(1).max(20).default(8),
+});
+
+export const getTrendingSearches = publicProcedure
+	.input(trendingSearchesInputSchema)
+	.output(
+		ApiResponseSchema(
+			z.object({
+				items: z.array(MediaListItemSchema),
+			}),
+		),
+	)
+	.handler(async ({ input }) => {
+		const items = await prisma.media.findMany({
+			where: { status: "PUBLISHED" },
+			orderBy: [{ viewCount: "desc" }, { rating: "desc" }, { createdAt: "desc" }],
+			take: input.limit,
+			select: {
+				id: true,
+				title: true,
+				description: true,
+				thumbnail: true,
+				type: true,
+				duration: true,
+				releaseYear: true,
+				createdAt: true,
+				rating: true,
+				reviewCount: true,
+				criticalScore: true,
+				viewCount: true,
+				collection: {
+					select: {
+						id: true,
+						title: true,
+						type: true,
+					},
+				},
+				genres: {
+					select: {
+						genre: {
+							select: { id: true, name: true, description: true },
+						},
+					},
+				},
+				creators: {
+					select: {
+						role: true,
+						creator: {
+							select: {
+								id: true,
+								name: true,
+								bio: true,
+								image: true,
+								birthDate: true,
+							},
+						},
+					},
+				},
+			},
+		});
+
+		return {
+			status: 200,
+			message: "Trending searches retrieved successfully",
+			data: {
+				items: items.map((m) => MediaListItemSchema.parse(m)),
+			},
+		};
+	});

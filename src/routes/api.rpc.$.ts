@@ -22,6 +22,16 @@ const handler = new RPCHandler(router, {
 
 async function handle({ request }: { request: Request }) {
 	try {
+		const url = new URL(request.url);
+		if (request.method === "GET" && (url.pathname === "/api/rpc" || url.pathname === "/api/rpc/")) {
+			return new Response(
+				JSON.stringify({
+					message: "oRPC endpoint. Use POST for procedure calls. OpenAPI dashboard: /api",
+				}),
+				{ status: 200, headers: { "Content-Type": "application/json" } },
+			);
+		}
+
 		const session = await auth.api.getSession({
 			headers: request.headers,
 		});
@@ -38,22 +48,26 @@ async function handle({ request }: { request: Request }) {
 
 		return response ?? new Response("Not Found", { status: 404 });
 	} catch (error) {
-		// Pino handles error logging automatically
+		const message =
+			error instanceof Error ? error.message : String(error ?? "Unknown error");
+		const stack = error instanceof Error ? error.stack : undefined;
 		rpcLogger.error(
 			{
 				url: request.url,
 				method: request.method,
-				error: error instanceof Error ? error.message : String(error),
+				error: message,
+				...(stack && { stack }),
 			},
 			"RPC request failed",
 		);
+		const isDev = process.env.NODE_ENV !== "production";
 		return new Response(
 			JSON.stringify({
 				defined: false,
 				code: "INTERNAL_SERVER_ERROR",
 				status: 500,
-				message:
-					error instanceof Error ? error.message : "Internal server error",
+				message: isDev ? message : "Internal server error",
+				...(isDev && stack && { stack }),
 			}),
 			{ status: 500, headers: { "Content-Type": "application/json" } },
 		);
