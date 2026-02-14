@@ -2,7 +2,6 @@
 
 import { Http } from "@/orpc/helpers/http";
 import { redirect } from "@tanstack/react-router";
-import { setResponseStatus } from "@tanstack/react-start/server";
 import { toast } from "sonner";
 export type ErrorCode =
 	| "UNAUTHORIZED"
@@ -87,7 +86,7 @@ export const Errors = {
 	unauthorized: (message?: string, originalError?: unknown): AppError => {
 		const msg =
 			message || "You need an account to proceed. Please sign up or log in.";
-		setResponseStatus(Http.UNAUTHORIZED, msg);
+
 		return new AppError({
 			code: "UNAUTHORIZED",
 			message: msg,
@@ -98,8 +97,6 @@ export const Errors = {
 
 	forbidden: (message?: string, originalError?: unknown): AppError => {
 		const msg = message || "Access denied.";
-		setResponseStatus(Http.FORBIDDEN, msg);
-
 		return new AppError({
 			code: "FORBIDDEN",
 			message: message || "Access denied.",
@@ -110,7 +107,6 @@ export const Errors = {
 
 	notFound: (resource?: string, originalError?: unknown): AppError => {
 		const msg = resource ? `${resource} not found.` : "Resource not found.";
-		setResponseStatus(Http.NOT_FOUND, msg);
 
 		return new AppError({
 			code: "NOT_FOUND",
@@ -125,9 +121,6 @@ export const Errors = {
 		data?: any,
 		originalError?: unknown,
 	): AppError => {
-		const msg = message || "Bad Request.";
-		setResponseStatus(Http.BAD_REQUEST, msg);
-
 		return new AppError({
 			code: "VALIDATION_ERROR",
 			message,
@@ -139,8 +132,6 @@ export const Errors = {
 
 	checkoutFailed: (message?: string, originalError?: unknown): AppError => {
 		const msg = message || "Checkout creation failed.";
-		setResponseStatus(Http.INTERNAL_SERVER_ERROR, msg);
-
 		return new AppError({
 			code: "CHECKOUT_FAILED",
 			message: message || "Checkout creation failed.",
@@ -151,7 +142,6 @@ export const Errors = {
 
 	paymentFailed: (message?: string, originalError?: unknown): AppError => {
 		const msg = message || "Payment processing failed.";
-		setResponseStatus(Http.PAYMENT_REQUIRED, msg);
 
 		return new AppError({
 			code: "PAYMENT_FAILED",
@@ -162,8 +152,6 @@ export const Errors = {
 	},
 	networkError: (originalError?: unknown): AppError => {
 		const msg = "Network connection error.";
-		setResponseStatus(Http.SERVICE_UNAVAILABLE, msg);
-
 		return new AppError({
 			code: "NETWORK_ERROR",
 			message: msg,
@@ -174,7 +162,6 @@ export const Errors = {
 
 	rateLimited: (message?: string, originalError?: unknown): AppError => {
 		const msg = message || "Too many requests. Please try again later.";
-		setResponseStatus(Http.TOO_MANY_REQUESTS, msg);
 
 		return new AppError({
 			code: "RATE_LIMITED",
@@ -186,7 +173,6 @@ export const Errors = {
 
 	internal: (message?: string, originalError?: unknown): AppError => {
 		const msg = message || "An internal error occurred.";
-		setResponseStatus(Http.INTERNAL_SERVER_ERROR, msg);
 
 		return new AppError({
 			code: "INTERNAL_ERROR",

@@ -7,11 +7,11 @@ type Price = {
 };
 
 export type PlanSlug =
-	| "free"
-	| "premium-monthly"
-	| "premium-yearly"
-	| "family-monthly"
-	| "family-yearly";
+	| "Free"
+	| "Premium-Monthly"
+	| "Premium-Yearly"
+	| "Family-Monthly"
+	| "Family-Yearly";
 
 export interface PlanType {
 	name: "Free" | "Premium" | "Family";
@@ -34,7 +34,7 @@ export const getPlans = createServerFn({ method: "GET" }).handler(async () => {
 		// -----------------------
 		{
 			name: "Free",
-			slug: "free",
+			slug: "Free",
 			icon: "Sparkles",
 			price: { amount: 0, interval: "month" },
 			description: "Perfect for casual listeners",
@@ -57,7 +57,7 @@ export const getPlans = createServerFn({ method: "GET" }).handler(async () => {
 		// -----------------------
 		{
 			name: "Premium",
-			slug: "premium-monthly",
+			slug: "Premium-Monthly",
 			icon: "Zap",
 			price: { amount: 9.99, interval: "month" },
 			description: "Best for individuals",
@@ -81,7 +81,7 @@ export const getPlans = createServerFn({ method: "GET" }).handler(async () => {
 		// -----------------------
 		{
 			name: "Premium",
-			slug: "premium-yearly",
+			slug: "Premium-Yearly",
 			icon: "Zap",
 			price: { amount: 99, interval: "year" },
 			description: "Best value for individuals",
@@ -102,7 +102,7 @@ export const getPlans = createServerFn({ method: "GET" }).handler(async () => {
 		// -----------------------
 		{
 			name: "Family",
-			slug: "family-monthly",
+			slug: "Family-Monthly",
 			icon: "Crown",
 			price: { amount: 14.99, interval: "month" },
 			description: "Perfect for the whole family",
@@ -124,7 +124,7 @@ export const getPlans = createServerFn({ method: "GET" }).handler(async () => {
 		// -----------------------
 		{
 			name: "Family",
-			slug: "family-yearly",
+			slug: "Family-Yearly",
 			icon: "Crown",
 			price: { amount: 149, interval: "year" },
 			description: "Best value for families",

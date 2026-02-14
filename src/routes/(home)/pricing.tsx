@@ -26,9 +26,10 @@ function RouteComponent() {
   const { handleError } = useErrorHandler();
 
   const handleCheckout = async (plan: CheckoutInputScheme) => {
+    console.log(plan)
     try {
       const result = await checkoutFn({ data: plan });
-
+      console.log(result)
       if (result?.url) {
         toast.success("Redirecting to checkout...");
         window.location.href = result.url;
@@ -36,7 +37,6 @@ function RouteComponent() {
         toast.error("Unable to start checkout. Please try again.");
       }
     } catch (err: unknown) {
-      console.log(err)
       handleError(err, {
         showToast: true,
         redirectOnUnauthorized: true,

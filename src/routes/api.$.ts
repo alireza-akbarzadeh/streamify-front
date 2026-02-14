@@ -1,6 +1,7 @@
 import "@/polyfill";
 
 import { auth } from "@/lib/better-auth";
+import { logger } from "@/lib/logger";
 import type { ORPCContext } from "@/orpc/context";
 import { Http } from "@/orpc/helpers/http";
 import { router } from "@/orpc/router";
@@ -111,6 +112,7 @@ async function handle({ request }: { request: Request }) {
 			error instanceof Error ? error.message : String(error ?? "Unknown error");
 		const stack = error instanceof Error ? error.stack : undefined;
 		const isDev = import.meta.env.DEV;
+		logger.error("failed apis route");
 		return new Response(
 			JSON.stringify({
 				defined: false,

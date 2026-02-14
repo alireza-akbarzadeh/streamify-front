@@ -200,8 +200,8 @@ export const checkoutSubscription = createServerFn({
 				String(err).includes("invalid_token") ||
 				String(err).includes("401")
 			) {
-				throw Errors.unauthorized(
-					"Authentication failed with payment provider",
+				throw Errors.internal(
+					"Payment provider authentication failed. Verify POLAR_ACCESS_TOKEN and environment.",
 					err,
 				);
 			}
