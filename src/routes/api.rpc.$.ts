@@ -1,4 +1,3 @@
-// app/routes/api/rpc/$.ts
 import "@/polyfill";
 
 import { LoggingHandlerPlugin } from "@orpc/experimental-pino";

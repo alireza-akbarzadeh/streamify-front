@@ -4,13 +4,13 @@ import { MoviesSearchInput } from "./movies-search-input";
 
 interface SearchHeaderProps {
 	searchQuery: string;
-	onSearchChange: (query: string) => void;
+    onSearchChange: (query: string) => void
 	title?: string;
 }
 
 export function SearchHeader({
 	searchQuery,
-	onSearchChange,
+                                 onSearchChange,
 	title,
 }: SearchHeaderProps) {
 	return (

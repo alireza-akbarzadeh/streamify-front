@@ -1,126 +1,43 @@
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { motion, useScroll, useTransform } from "framer-motion";
-import {
-	Clock,
-	Film,
-	Heart,
-	type LucideIcon,
-	Search,
-	Sparkles,
-	TrendingUp,
-	Tv,
-} from "lucide-react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
+import { orpc } from "@/orpc/client";
+import type { MediaList } from "@/orpc/models/media.schema";
+import type { MovieSearchQuery } from "@/routes/(home)/movies";
 import {
 	CategoryNav,
 	HeroBanner,
 	MovieCarousel,
 	SearchHeader,
 } from "./components";
-import { MovieCard } from "./components/movie-card";
+import { SearchResultsEmpty } from "./components/movie-search/search-results-empty";
+import { SearchResultsList } from "./components/movie-search/search-results-list";
+import { SearchResultsSkeleton } from "./components/movie-search/search-results-skeleton";
 import { mediaListQueryOptions } from "./movies.queries";
-import type { MediaList } from "@/orpc/models/media.schema";
-import { orpc } from "@/orpc/client";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 
-export type Categories =
-	| "all"
-	| "series"
-	| "trending"
-	| "recent"
-	| "favorites"
-	| "movies"
-	| "animation"
-	| "comedy"
-	| "romantic";
 
-export type CategoriesType = {
-	id: Categories;
-	label: string;
-	icon: LucideIcon;
-};
 
 /** Min height for search results area to avoid layout shift and support LCP */
-const SEARCH_RESULTS_MIN_HEIGHT = 420;
+export const SEARCH_RESULTS_MIN_HEIGHT = 420;
 
-function SearchResultsSkeleton() {
-	return (
-		<div
-			className="relative z-10 max-w-450 mx-auto px-6 py-8"
-			style={{ minHeight: SEARCH_RESULTS_MIN_HEIGHT }}
-			aria-busy="true"
-			aria-label="Loading search results"
-		>
-			<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-				{Array.from({ length: 10 }).map((_, i) => (
-					<div
-						key={i}
-						className="rounded-2xl overflow-hidden bg-white/5 animate-pulse"
-						style={{ aspectRatio: "280/420" }}
-					/>
-				))}
-			</div>
-		</div>
-	);
-}
-
-function SearchResultsEmpty({ query }: { query: string }) {
-	return (
-		<div
-			className="relative z-10 max-w-450 mx-auto px-6 py-12 flex flex-col items-center justify-center text-center"
-			style={{ minHeight: SEARCH_RESULTS_MIN_HEIGHT }}
-		>
-			<Search className="w-16 h-16 text-gray-500 mb-4" />
-			<h2 className="text-xl font-semibold text-white mb-2">No results found</h2>
-			<p className="text-gray-400 max-w-sm">
-				We couldn't find anything for "{query}". Try a different search term.
-			</p>
-		</div>
-	);
-}
-
-function SearchResultsList({ movies }: { movies: MediaList[] }) {
-	return (
-		<div
-			className="relative z-10 max-w-450 mx-auto px-6 py-8"
-			style={{ minHeight: SEARCH_RESULTS_MIN_HEIGHT }}
-		>
-			<h2 className="text-2xl font-bold text-white mb-6">Search results</h2>
-			<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-				{movies.map((movie, index) => (
-					<MovieCard
-						key={movie.id}
-						movie={movie}
-						index={index}
-						showProgress={false}
-						variant="standard"
-					/>
-				))}
-			</div>
-		</div>
-	);
-}
 
 export interface MovieDiscoveryProps {
-	/** Search query from URL (sync with route search params) */
-	searchQuery?: string;
-	/** Called when user changes search; parent should navigate to update URL */
-	onSearchChange?: (query: string) => void;
+	query?: MovieSearchQuery
+	onSearchChange?: (query: MovieSearchQuery) => void;
 }
 
-export default function MovieDiscovery({
-	searchQuery: searchQueryProp,
-	onSearchChange,
-}: MovieDiscoveryProps = {}) {
-	const [activeCategory, setActiveCategory] = useState<Categories>("all");
+export default function MovieDiscovery(props: MovieDiscoveryProps = {}) {
+	const { query: searchQueryProp, onSearchChange } = props
+
 	const containerRef = useRef(null);
 	const { scrollYProgress } = useScroll();
 
-	const searchQuery = searchQueryProp ?? "";
-	const setSearchQuery = onSearchChange ?? (() => {});
+	const searchQuery = searchQueryProp?.query ?? "";
+	const activeCategory = searchQueryProp?.activeCategory ?? "all";
+	const setSearchQuery = onSearchChange ?? (() => { });
 
 	const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
-	// Search results (client-only when search is present; no suspense to allow skeleton)
 	const searchQueryOptions = mediaListQueryOptions({
 		search: searchQuery || undefined,
 		limit: 20,
@@ -134,7 +51,6 @@ export default function MovieDiscovery({
 		enabled: searchQuery.length > 0,
 	});
 
-	// Carousel data (suspense + loader for LCP)
 	const { data: latestData } = useSuspenseQuery(
 		orpc.content.latestReleases.queryOptions({
 			input: { type: "MOVIE", limit: 10 },
@@ -170,15 +86,6 @@ export default function MovieDiscovery({
 		.sort(() => Math.random() - 0.5)
 		.slice(0, 6);
 
-	const categories: CategoriesType[] = [
-		{ id: "all", label: "All", icon: Sparkles },
-		{ id: "movies", label: "Movies", icon: Film },
-		{ id: "series", label: "Series", icon: Tv },
-		{ id: "animation", label: "Animation", icon: Heart },
-		{ id: "trending", label: "Trending", icon: TrendingUp },
-		{ id: "recent", label: "Recent", icon: Clock },
-		{ id: "favorites", label: "My List", icon: Heart },
-	];
 
 	const showSearchResults = searchQuery.length > 0;
 	const searchItems: MediaList[] = searchResponse?.data?.items ?? [];
@@ -189,7 +96,6 @@ export default function MovieDiscovery({
 			ref={containerRef}
 			className="min-h-screen bg-[#0a0a0a] relative overflow-hidden"
 		>
-			{/* Animated background layers */}
 			<motion.div
 				style={{ y: backgroundY }}
 				className="fixed inset-0 pointer-events-none"
@@ -222,28 +128,27 @@ export default function MovieDiscovery({
 				/>
 			</motion.div>
 
-			<SearchHeader searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+			<SearchHeader
+                searchQuery={searchQuery}
+				onSearchChange={(query) => setSearchQuery({ activeCategory, query })} />
 
 			<HeroBanner />
 
 			<div className="relative z-10 max-w-450 mx-auto px-6 mt-20">
 				<CategoryNav
-					categories={categories}
 					activeCategory={activeCategory}
-					onCategoryChange={setActiveCategory}
+					onCategoryChange={(value) => setSearchQuery({ activeCategory: value, query: searchQuery })}
 				/>
 			</div>
 
 			{showSearchResults ? (
-				<>
-					{searchLoading ? (
-						<SearchResultsSkeleton />
-					) : searchItems.length === 0 ? (
-						<SearchResultsEmpty query={searchQuery} />
-					) : (
-						<SearchResultsList movies={searchItems} />
-					)}
-				</>
+				searchLoading ? (
+					<SearchResultsSkeleton />
+				) : searchItems.length === 0 ? (
+					<SearchResultsEmpty query={searchQuery} />
+				) : (
+					<SearchResultsList movies={searchItems} />
+				)
 			) : (
 				<div className="relative z-10 space-y-12 pb-10 mt-5">
 					{latestMovies.length > 0 && (

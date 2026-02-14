@@ -1,3 +1,5 @@
+import { useDebouncedValue } from "@mantine/hooks";
+import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader2, Search, TrendingUp, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -7,9 +9,7 @@ import {
 	searchSuggestionsQueryOptions,
 	trendingSearchesQueryOptions,
 } from "@/domains/movies/movies.queries";
-import { useDebouncedValue } from "@mantine/hooks";
 import type { MediaList } from "@/orpc/models/media.schema";
-import { useQuery } from "@tanstack/react-query";
 import { SuggestionItem } from "./suggestion-item";
 
 const SEARCH_DEBOUNCE_MS = 450;
@@ -17,11 +17,8 @@ const MIN_QUERY_LENGTH = 2;
 
 export interface MoviesSearchInputProps {
 	searchQuery: string;
-	onSearchChange: (query: string) => void;
+    onSearchChange: (query: string) => void
 }
-
-
-
 
 export function MoviesSearchInput({
 	searchQuery,

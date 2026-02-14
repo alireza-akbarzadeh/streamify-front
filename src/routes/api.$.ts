@@ -1,4 +1,3 @@
-// app/routes/api/$.ts
 import "@/polyfill";
 
 import { SmartCoercionPlugin } from "@orpc/json-schema";

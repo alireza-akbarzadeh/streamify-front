@@ -26,13 +26,25 @@ model User {
     passkeys   Passkey[]
 
     // App Relations
-    roles       UserRole[]
-    permissions UserPermission[]
-    profiles    Profile[]
-    watchList   WatchList[]
-    favorites   Favorite[]
-    auditLogs   AuditLog[]
-    reviews     UserReview[]
+    roles         UserRole[]
+    permissions   UserPermission[]
+    profiles      Profile[]
+    watchList     WatchList[]
+    favorites     Favorite[]
+    auditLogs     AuditLog[]
+    reviews       UserReview[]
+    subscriptions Subscription[]
+}
+
+model Subscription {
+    id          String             @id @default(cuid())
+    userId      String
+    productId   String
+    referenceId String?
+    status      SubscriptionStatus
+    startedAt   DateTime           @default(now())
+    canceledAt  DateTime?
+    user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Session {
@@ -97,8 +109,8 @@ model Profile {
 
 enum SubscriptionStatus {
     FREE
-    PRO
     PREMIUM
+    FAMILY
     CANCELLED
 }
 

@@ -2,53 +2,55 @@ import { createEnv } from "@t3-oss/env-core";
 import { z } from "zod";
 
 export const env = createEnv({
-	server: {
-		SERVER_URL: z.string().url().optional(),
-		DATABASE_URL: z.string().url(),
-		BETTER_AUTH_URL: z.string().url(),
-		BETTER_AUTH_SECRET: z.string().min(32),
+  server: {
+    SERVER_URL: z.string().url().optional(),
+    DATABASE_URL: z.string().url(),
+    BETTER_AUTH_URL: z.string().url(),
+    BETTER_AUTH_SECRET: z.string().min(32),
 
-		GOOGLE_CLIENT_ID: z.string().min(1).optional(),
-		GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
+    GOOGLE_CLIENT_ID: z.string().min(1).optional(),
+    GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
 
-		GITHUB_CLIENT_ID: z.string().min(1).optional(),
-		GITHUB_CLIENT_SECRET: z.string().min(1).optional(),
-	},
+    GITHUB_CLIENT_ID: z.string().min(1).optional(),
+    GITHUB_CLIENT_SECRET: z.string().min(1).optional(),
 
-	/**
-	 * The prefix that client-side variables must have. This is enforced both at
-	 * a type-level and at runtime.
-	 */
-	clientPrefix: "VITE_",
+    // -----------------------------
+    // 🔐 POLAR (Server Only)
+    // -----------------------------
+    POLAR_WEBHOOK_SECRET: z.string().min(1),
+    POLAR_ACCESS_TOKEN: z.string().min(1),
 
-	client: {
-		VITE_APP_TITLE: z.string().min(1).optional(),
-		VITE_API_BASE_URL: z.string().min(1).optional(),
-		VITE_CDN_ADDRESS: z.string().min(1).optional(),
-		VITE_APP_URL: z.string().min(1).optional(),
-	},
+    POLAR_SUCCESS_URL: z
+      .string()
+      .url()
+      .refine(
+        (url) => url.includes("{CHECKOUT_ID}"),
+        "POLAR_SUCCESS_URL must include {CHECKOUT_ID}"
+      ),
 
-	/**
-	 * What object holds the environment variables at runtime. This is usually
-	 * `process.env` or `import.meta.env`.
-	 */
-	runtimeEnv: {
-		...process.env, // ✅ server vars
-		...import.meta.env, // ✅ client vars
-	},
+    POLAR_FREE_PRODUCT_ID: z.string().uuid(),
+    POLAR_FAMILY_MONTHLY_PRODUCT_ID: z.string().uuid(),
+    POLAR_FAMILY_YEARLY_PRODUCT_ID: z.string().uuid(),
+    POLAR_PREMIUM_YEARLY_PRODUCT_ID: z.string().uuid(),
+    POLAR_PREMIUM_MONTHLY_PRODUCT_ID: z.string().uuid(),
+  },
 
-	/**
-	 * By default, this library will feed the environment variables directly to
-	 * the Zod validator.
-	 *
-	 * This means that if you have an empty string for a value that is supposed
-	 * to be a number (e.g. `PORT=` in a ".env" file), Zod will incorrectly flag
-	 * it as a type mismatch violation. Additionally, if you have an empty string
-	 * for a value that is supposed to be a string with a default value (e.g.
-	 * `DOMAIN=` in an ".env" file), the default value will never be applied.
-	 *
-	 * In order to solve these issues, we recommend that all new projects
-	 * explicitly specify this option as true.
-	 */
-	emptyStringAsUndefined: true,
+  /**
+   * Client-side env (Vite only)
+   */
+  clientPrefix: "VITE_",
+
+  client: {
+    VITE_APP_TITLE: z.string().min(1).optional(),
+    VITE_API_BASE_URL: z.string().url().optional(),
+    VITE_CDN_ADDRESS: z.string().url().optional(),
+    VITE_APP_URL: z.string().url().optional(),
+  },
+
+  runtimeEnv: {
+    ...process.env,
+    ...import.meta.env,
+  },
+
+  emptyStringAsUndefined: true,
 });

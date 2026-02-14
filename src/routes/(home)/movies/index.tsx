@@ -1,12 +1,14 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import type { CategoryVariant } from "@/domains/movies/components/category-nav";
 import MovieDiscovery from "@/domains/movies/movies";
 import { defaultMediaListQueryOptions } from "@/domains/movies/movies.queries";
 import { orpc } from "@/orpc/client";
 
 export const Route = createFileRoute("/(home)/movies/")({
-	validateSearch: (search: Record<string, unknown>) => ({
-		search: typeof search.search === "string" ? search.search : undefined,
-	}),
+    validateSearch: (search): MovieSearchQuery => ({
+        query: typeof search.query === "string" ? search.query : undefined,
+        activeCategory :search.activeCategory ||"all",
+    }),
 	loader: async ({ context }) => {
 		await Promise.all([
 			context.queryClient.ensureQueryData(defaultMediaListQueryOptions),
@@ -40,21 +42,30 @@ export const Route = createFileRoute("/(home)/movies/")({
 	component: RouteComponent,
 });
 
+export type MovieSearchQuery = { query?: string , activeCategory?: CategoryVariant  }
+
 function RouteComponent() {
-	const { search } = Route.useSearch();
+	const search = Route.useSearch();
 	const navigate = useNavigate();
 
-	const handleSearchChange = (query: string) => {
-		navigate({
-			to: "/movies",
-			search: { search: query.trim() || undefined },
-			replace: true,
-		});
-	};
+    const handleSearchChange =async (next: {
+        query?: string;
+        activeCategory?: CategoryVariant;
+    }) => {
+        await  navigate({
+            search: prev => ({
+                ...prev,
+                query: next.query?.trim() || undefined,
+                activeCategory: next.activeCategory ?? "all",
+            }),
+            replace: true,
+            resetScroll:false,
+        });
+    };
 
 	return (
 		<MovieDiscovery
-			searchQuery={search}
+			query={search}
 			onSearchChange={handleSearchChange}
 		/>
 	);

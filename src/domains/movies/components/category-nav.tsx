@@ -1,15 +1,47 @@
 import { motion } from "framer-motion";
-import type { Categories, CategoriesType } from "../movies";
+import {
+	Clock,
+	Film,
+	Heart,
+	type LucideIcon,
+	Sparkles,
+	TrendingUp,
+	Tv,
+} from "lucide-react";
 
 interface CategoryNavProps {
-	activeCategory: Categories;
-	onCategoryChange: (category: Categories) => void;
-	categories: CategoriesType[];
+	activeCategory: CategoryVariant;
+	onCategoryChange: (value: CategoryVariant) => void
 }
 
-export function CategoryNav(props: CategoryNavProps) {
-	const { activeCategory, categories, onCategoryChange } = props;
+export type CategoryVariant =
+	| "all"
+	| "series"
+	| "trending"
+	| "recent"
+	| "favorites"
+	| "movies"
+	| "animation"
+	| "comedy"
+	| "romantic";
 
+export type CategoriesType = {
+	id: CategoryVariant;
+	label: string;
+	icon: LucideIcon;
+};
+export function CategoryNav(props: CategoryNavProps) {
+	const { activeCategory, onCategoryChange } = props;
+
+	const categories: CategoriesType[] = [
+		{ id: "all", label: "All", icon: Sparkles },
+		{ id: "movies", label: "Movies", icon: Film },
+		{ id: "series", label: "Series", icon: Tv },
+		{ id: "animation", label: "Animation", icon: Heart },
+		{ id: "trending", label: "Trending", icon: TrendingUp },
+		{ id: "recent", label: "Recent", icon: Clock },
+		{ id: "favorites", label: "My List", icon: Heart },
+	];
 	return (
 		<motion.div
 			initial={{ opacity: 0, y: 20 }}
@@ -25,11 +57,10 @@ export function CategoryNav(props: CategoryNavProps) {
 						animate={{ opacity: 1, scale: 1 }}
 						transition={{ delay: 0.4 + index * 0.05 }}
 						onClick={() => onCategoryChange(category.id)}
-						className={`relative flex items-center gap-2 px-6 py-3 rounded-xl font-semibold whitespace-nowrap transition-all ${
-							activeCategory === category.id
-								? "text-white"
-								: "text-gray-400 hover:text-white"
-						}`}
+						className={`relative flex items-center gap-2 px-6 py-3 rounded-xl font-semibold whitespace-nowrap transition-all ${activeCategory === category.id
+							? "text-white"
+							: "text-gray-400 hover:text-white"
+							}`}
 					>
 						{/* Active background */}
 						{activeCategory === category.id && (

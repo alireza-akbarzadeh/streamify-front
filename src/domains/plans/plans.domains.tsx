@@ -5,9 +5,14 @@ import { Badge } from "@/components/ui/badge";
 
 import { FaqSection } from "./components/faq-section";
 import { PlanCard } from "./components/plans-card";
-import { plans } from "./data";
+import { PlanType, plans } from "./data";
 
-export function Plans() {
+interface PlansProps {
+  onCheckout: (plan: PlanType) => void;
+}
+
+export function Plans(props:PlansProps) {
+	const {onCheckout} = props
 	const [isAnnual, setIsAnnual] = useState(false);
 	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
@@ -125,6 +130,7 @@ export function Plans() {
 						<PlanCard
 							key={plan.name}
 							plan={plan}
+							          onPlanChange={() => onCheckout(plan)}
 							index={index}
 							isAnnual={isAnnual}
 						/>

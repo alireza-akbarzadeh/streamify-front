@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UnauthorizedRouteImport } from './routes/unauthorized'
+import { Route as SuccessPaymentRouteImport } from './routes/success-payment'
 import { Route as libraryRouteRouteImport } from './routes/(library)/route'
 import { Route as authRouteRouteImport } from './routes/(auth)/route'
 import { Route as homeIndexRouteImport } from './routes/(home)/index'
@@ -121,6 +122,11 @@ import { Route as adminDashboardMusicAlbumsAlbumIdRouteImport } from './routes/(
 const UnauthorizedRoute = UnauthorizedRouteImport.update({
   id: '/unauthorized',
   path: '/unauthorized',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuccessPaymentRoute = SuccessPaymentRouteImport.update({
+  id: '/success-payment',
+  path: '/success-payment',
   getParentRoute: () => rootRouteImport,
 } as any)
 const libraryRouteRoute = libraryRouteRouteImport.update({
@@ -709,6 +715,7 @@ const adminDashboardMusicAlbumsAlbumIdRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/success-payment': typeof SuccessPaymentRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/dashboard': typeof adminDashboardRouteRouteWithChildren
   '/music': typeof homeMusicRouteRouteWithChildren
@@ -817,6 +824,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/subscriptions/users': typeof adminDashboardSubscriptionsUsersIndexRoute
 }
 export interface FileRoutesByTo {
+  '/success-payment': typeof SuccessPaymentRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/login': typeof authLoginRoute
@@ -926,6 +934,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(auth)': typeof authRouteRouteWithChildren
   '/(library)': typeof libraryRouteRouteWithChildren
+  '/success-payment': typeof SuccessPaymentRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/(admin)/dashboard': typeof adminDashboardRouteRouteWithChildren
   '/(home)/music': typeof homeMusicRouteRouteWithChildren
@@ -1036,6 +1045,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/success-payment'
     | '/unauthorized'
     | '/dashboard'
     | '/music'
@@ -1144,6 +1154,7 @@ export interface FileRouteTypes {
     | '/dashboard/subscriptions/users'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/success-payment'
     | '/unauthorized'
     | '/forgot-password'
     | '/login'
@@ -1252,6 +1263,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/(auth)'
     | '/(library)'
+    | '/success-payment'
     | '/unauthorized'
     | '/(admin)/dashboard'
     | '/(home)/music'
@@ -1363,6 +1375,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   authRouteRoute: typeof authRouteRouteWithChildren
   libraryRouteRoute: typeof libraryRouteRouteWithChildren
+  SuccessPaymentRoute: typeof SuccessPaymentRoute
   UnauthorizedRoute: typeof UnauthorizedRoute
   adminDashboardRouteRoute: typeof adminDashboardRouteRouteWithChildren
   homeMusicRouteRoute: typeof homeMusicRouteRouteWithChildren
@@ -1401,6 +1414,13 @@ declare module '@tanstack/react-router' {
       path: '/unauthorized'
       fullPath: '/unauthorized'
       preLoaderRoute: typeof UnauthorizedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/success-payment': {
+      id: '/success-payment'
+      path: '/success-payment'
+      fullPath: '/success-payment'
+      preLoaderRoute: typeof SuccessPaymentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(library)': {
@@ -2367,6 +2387,7 @@ const homeMusicRouteRouteWithChildren = homeMusicRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   authRouteRoute: authRouteRouteWithChildren,
   libraryRouteRoute: libraryRouteRouteWithChildren,
+  SuccessPaymentRoute: SuccessPaymentRoute,
   UnauthorizedRoute: UnauthorizedRoute,
   adminDashboardRouteRoute: adminDashboardRouteRouteWithChildren,
   homeMusicRouteRoute: homeMusicRouteRouteWithChildren,
