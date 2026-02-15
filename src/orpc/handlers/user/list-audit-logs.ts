@@ -17,7 +17,7 @@ const AuditLogResponseSchema = z.object({
 	resource: z.string(),
 	resourceId: z.string().nullable(),
 	metadata: z.any(),
-	createdAt: z.date(),
+	createdAt: z.string().datetime(),
 });
 
 export const listAuditLogs = authedProcedure

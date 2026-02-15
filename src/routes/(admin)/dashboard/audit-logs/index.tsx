@@ -22,7 +22,7 @@ export const Route = createFileRoute('/(admin)/dashboard/audit-logs/')(
 
 function RouteComponent() {
     const { data, isLoading } = useQuery({
-        ...orpc.user.listAuditLogs.queryOptions({
+        ...orpc.users.listAuditLogs.queryOptions({
             input: {
                 page: 1,
                 limit: 100,

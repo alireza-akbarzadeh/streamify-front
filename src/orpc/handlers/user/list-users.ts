@@ -22,8 +22,8 @@ const UserResponseSchema = z.object({
 	twoFactorEnabled: z.boolean(),
 	subscriptionStatus: z.string(),
 	currentPlan: z.string().nullable(),
-	createdAt: z.date(),
-	updatedAt: z.date(),
+	createdAt: z.string().datetime(),
+	updatedAt: z.string().datetime(),
 	banned: z.boolean(),
 	agreeToTerms: z.boolean(),
 });

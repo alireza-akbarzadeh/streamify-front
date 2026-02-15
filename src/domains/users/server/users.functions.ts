@@ -66,7 +66,7 @@ export interface UserAccount {
  */
 export async function getUsers(): Promise<UserAccount[]> {
 	try {
-		const response = await client.user.listUsers({
+		const response = await client.users.listUsers({
 			page: 1,
 			limit: 100,
 		});

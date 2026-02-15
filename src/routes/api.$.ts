@@ -1,16 +1,16 @@
 import "@/polyfill";
 
-import { auth } from "@/lib/auth/better-auth";
-import { logger } from "@/lib/logger";
-import type { ORPCContext } from "@/orpc/context";
-import { Http } from "@/orpc/helpers/http";
-import { router } from "@/orpc/router";
 import { SmartCoercionPlugin } from "@orpc/json-schema";
 import { OpenAPIHandler } from "@orpc/openapi/fetch";
 import { OpenAPIReferencePlugin } from "@orpc/openapi/plugins";
 import { ZodToJsonSchemaConverter } from "@orpc/zod/zod4";
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
+import { auth } from "@/lib/auth/better-auth";
+import { logger } from "@/lib/logger";
+import type { ORPCContext } from "@/orpc/context";
+import { Http } from "@/orpc/helpers/http";
+import { router } from "@/orpc/router";
 
 const handler = new OpenAPIHandler(router, {
 	plugins: [
@@ -74,13 +74,20 @@ async function handle({ request }: { request: Request }) {
 			headers: request.headers,
 		});
 
-		// Admin-only access to /api docs
 		const url = new URL(request.url);
-		if (url.pathname === "/api") {
-			if (
-				!session?.user ||
-				(session.user.role !== "admin" && session.user.role !== "ADMIN")
-			) {
+
+		// Log the incoming request for debugging
+		console.log("🔍 API Request:", {
+			pathname: url.pathname,
+			method: request.method,
+			userRole: session?.user?.role,
+		});
+
+		// Admin-only access to /api docs (root page only)
+		if (url.pathname === "/api" || url.pathname === "/api/") {
+			const userRole = session?.user?.role?.toUpperCase();
+			if (!session?.user || userRole !== "ADMIN") {
+				console.log("❌ Forbidden: User role is", userRole);
 				return new Response(
 					JSON.stringify({
 						defined: true,
@@ -101,18 +108,79 @@ async function handle({ request }: { request: Request }) {
 			session: session?.session ?? undefined,
 		};
 
-		const { response } = await handler.handle(request, {
+		console.log("✅ Calling handler.handle with:", {
+			url: url.toString(),
+			pathname: url.pathname,
 			prefix: "/api",
-			context,
+			hasContext: !!context,
 		});
+
+		// Try to catch errors from the handler more explicitly
+		let response: Response | undefined;
+		try {
+			// Create a new request to ensure clean state
+			const handlerRequest = new Request(request.url, {
+				method: request.method,
+				headers: request.headers,
+				body: request.body,
+				duplex:
+					request.method !== "GET" && request.method !== "HEAD"
+						? "half"
+						: undefined,
+			} as RequestInit);
+
+			const result = await handler.handle(handlerRequest, {
+				prefix: "/api",
+				context,
+			});
+			response = result.response;
+		} catch (handlerError) {
+			console.error("❌ ERROR INSIDE handler.handle():", handlerError);
+			console.error("Handler error details:", {
+				message: handlerError instanceof Error ? handlerError.message : String(handlerError),
+				stack: handlerError instanceof Error ? handlerError.stack : undefined,
+			});
+			throw handlerError; // Re-throw to be caught by outer try-catch
+		}
+
+		console.log("✅ Handler response received:", {
+			hasResponse: !!response,
+			status: response?.status,
+		});
+
+		// If the response is a 500 error, log the body to see what went wrong
+		if (response && response.status === 500) {
+			const clonedResponse = response.clone();
+			const errorBody = await clonedResponse.text();
+			console.error(
+				"❌ OpenAPIHandler returned 500 error. Response body:",
+				errorBody,
+			);
+			try {
+				const errorJson = JSON.parse(errorBody);
+				console.error("❌ Parsed error:", errorJson);
+			} catch {
+				console.error("❌ Could not parse error as JSON");
+			}
+		}
 
 		return response ?? new Response("Not Found", { status: 404 });
 	} catch (error) {
+		// CRITICAL: Log the actual error to console so you can see what's failing
+		console.error("❌ ORPC HANDLER ERROR:", error);
+		console.error("Full error details:", {
+			message: error instanceof Error ? error.message : String(error),
+			stack: error instanceof Error ? error.stack : undefined,
+			name: error instanceof Error ? error.name : undefined,
+		});
+
 		const message =
 			error instanceof Error ? error.message : String(error ?? "Unknown error");
 		const stack = error instanceof Error ? error.stack : undefined;
 		const isDev = import.meta.env.DEV;
-		logger.error("failed apis route");
+
+		logger.error("Failed API route:", { error: message, stack });
+
 		return new Response(
 			JSON.stringify({
 				defined: false,
