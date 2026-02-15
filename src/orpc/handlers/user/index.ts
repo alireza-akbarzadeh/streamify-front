@@ -1,4 +1,5 @@
 import { base } from "@/orpc/router/base";
+import { getUserStats } from "./get-stats";
 import { getUserAccess } from "./get-user-access";
 import { listUsersWithAccess } from "./get-users-with-access";
 import { listAuditLogs } from "./list-audit-logs";
@@ -12,4 +13,5 @@ export const userRouter = base.router({
 	listUsersWithAccess,
 	assignUserPermission,
 	removeUserPermission,
+	getStats: getUserStats,
 });

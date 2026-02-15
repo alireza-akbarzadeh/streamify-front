@@ -4,7 +4,7 @@ import { Info, Play, Star, Volume2, VolumeX } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AddButton } from "@/components/buttons/add-button";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { MediaList } from "@/orpc/models/media.schema";
+import type { MediaList } from "@/orpc/models/media.schema";
 
 
 type HeroBannerProps = {
@@ -21,7 +21,7 @@ export function HeroBanner({ latestData }: HeroBannerProps) {
 			setCurrentIndex((prev) => (prev + 1) % latestData.length);
 		}, 8000);
 		return () => clearInterval(timer);
-	}, []);
+	}, [latestData.length]);
 
 	const current = latestData[currentIndex];
 
@@ -173,7 +173,7 @@ export function HeroBanner({ latestData }: HeroBannerProps) {
 						onClick={() => setCurrentIndex(index)}
 						className="relative group"
 					>
-						<div className="w-16 h-1 bg-white/20 rounded-full overflow-hidden">
+						<div className="w-10 h-1 bg-white/20 rounded-full overflow-hidden">
 							<motion.div
 								initial={{ width: "0%" }}
 								animate={{

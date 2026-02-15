@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { getStaffWithAccess } from "../server/roles.functions";
 import { UpdateStaffRole } from "./update-role";
 
 const ROLES = [
@@ -56,42 +57,6 @@ export type StaffMember = {
 	};
 };
 
-const INITIAL_STAFF: StaffMember[] = [
-	{
-		id: "1",
-		name: "Alex Rivera",
-		email: "a.rivera@axiom.sys",
-		phone: "+1 (555) 012-3456",
-		role: "Administrator",
-		status: "online",
-		lastActive: "Just now",
-		ipAddress: "192.168.1.104",
-		activePerms: { r1: "write", r2: "read" },
-	},
-	{
-		id: "2",
-		name: "Sarah Chen",
-		email: "s.chen@axiom.sys",
-		phone: "+65 8821 0092",
-		role: "Operator",
-		status: "offline",
-		lastActive: "4h ago",
-		ipAddress: "10.0.4.82",
-		activePerms: { r2: "read" },
-	},
-	{
-		id: "3",
-		name: "Marcus Thorne",
-		email: "m.thorne@axiom.sys",
-		phone: "+44 20 7946 0958",
-		role: "Security Officer",
-		status: "flagged",
-		lastActive: "12m ago",
-		ipAddress: "172.16.254.1",
-		activePerms: { r4: "write" },
-	},
-];
-
 // Global Filter Logic (defined outside to prevent re-renders)
 const globalFilterFn = (row: Row<StaffMember>, columnId: string, filterValue: string) => {
 	const searchTerm = filterValue.toLowerCase();
@@ -104,7 +69,8 @@ const globalFilterFn = (row: Row<StaffMember>, columnId: string, filterValue: st
 };
 
 export default function StaffAccessPage() {
-	const [staff, setStaff] = React.useState(INITIAL_STAFF);
+	const [staff, setStaff] = React.useState<StaffMember[]>([]);
+	const [isLoading, setIsLoading] = React.useState(true);
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
 	const [globalFilter, setGlobalFilter] = React.useState("");
 	const [selectedId, setSelectedId] = React.useState<string | null>(null);
@@ -112,6 +78,23 @@ export default function StaffAccessPage() {
 	const [isMobileSearchOpen, setIsMobileSearchOpen] = React.useState(false);
 
 	const activeStaff = staff.find((s) => s.id === selectedId);
+
+	// Fetch staff data from API
+	React.useEffect(() => {
+		const fetchStaff = async () => {
+			try {
+				setIsLoading(true);
+				const data = await getStaffWithAccess();
+				setStaff(data);
+			} catch (error) {
+				toast.error("Failed to load staff members");
+				console.error(error);
+			} finally {
+				setIsLoading(false);
+			}
+		};
+		fetchStaff();
+	}, []);
 
 	const handleExport = () => {
 		const blob = new Blob([JSON.stringify(staff, null, 2)], { type: "application/json" });
@@ -346,10 +329,14 @@ export default function StaffAccessPage() {
 					</div>
 
 					<div className="flex-1 p-4 md:p-6 overflow-hidden">
-						<Table.Body
-							columnsCount={4}
-							onRowDoubleClick={(row: Row<StaffMember>) => setSelectedId(row.original.id)}
-						/>
+						{isLoading ? (
+							<Table.Loading columnsCount={4} rowsCount={5} />
+						) : (
+							<Table.Body
+								columnsCount={4}
+								onRowDoubleClick={(row: Row<StaffMember>) => setSelectedId(row.original.id)}
+							/>
+						)}
 					</div>
 
 					<div className="px-4 md:px-8 py-4 border-t border-white/5 bg-black/20 flex flex-col md:flex-row items-center justify-between gap-4">

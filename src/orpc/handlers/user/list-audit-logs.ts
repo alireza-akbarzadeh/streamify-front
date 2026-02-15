@@ -64,7 +64,10 @@ export const listAuditLogs = authedProcedure
 		const totalPages = Math.ceil(total / limit);
 
 		return {
-			logs,
+			logs: logs.map((log) => ({
+				...log,
+				createdAt: log.createdAt.toISOString(),
+			})),
 			total,
 			page,
 			limit,

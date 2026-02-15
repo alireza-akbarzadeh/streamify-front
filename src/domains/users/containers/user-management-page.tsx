@@ -5,12 +5,32 @@ import { toast } from "sonner";
 import { AppDialog } from "@/components/app-dialog";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { client } from "@/orpc/client";
 import { InviteUserForm } from "../components/invite-user-form";
 import { UserStatCard } from "../components/user-status-card";
 import { UserManagementTable } from "./user-table";
 
 export default function UserManagementPage() {
 	const [isInviteOpen, setIsInviteOpen] = React.useState(false);
+	const [stats, setStats] = React.useState({
+		totalUsers: 0,
+		activeNow: 0,
+		churnRate: 0,
+		flaggedUsers: 0,
+	});
+
+	// Fetch user stats
+	React.useEffect(() => {
+		const fetchStats = async () => {
+			try {
+				const data = await client.users.getStats({});
+				setStats(data);
+			} catch (error) {
+				console.error("Failed to load user stats:", error);
+			}
+		};
+		fetchStats();
+	}, []);
 
 	const handleExport = () => {
 		toast.promise(new Promise((res) => setTimeout(res, 1500)), {
@@ -85,14 +105,26 @@ export default function UserManagementPage() {
 
 			{/* 2. Quick Summary Cards */}
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-				<UserStatCard label="Total Users" value="12,842" change="+12%" />
-				<UserStatCard label="Active Now" value="1,203" pulse />
+				<UserStatCard
+					label="Total Users"
+					value={stats.totalUsers.toLocaleString()}
+					change="+12%"
+				/>
+				<UserStatCard
+					label="Active Now"
+					value={stats.activeNow.toLocaleString()}
+					pulse
+				/>
 				<UserStatCard
 					label="Churn Rate"
-					value="0.8%"
+					value={`${stats.churnRate}%`}
 					color="text-emerald-500"
 				/>
-				<UserStatCard label="Flagged" value="14" color="text-destructive" />
+				<UserStatCard
+					label="Flagged"
+					value={stats.flaggedUsers.toString()}
+					color="text-destructive"
+				/>
 			</div>
 
 			{/* 3. The Main Table Area */}

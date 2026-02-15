@@ -22,7 +22,14 @@ export interface UserAccount {
 	avatar: string;
 	role: "Admin" | "Moderator" | "User" | "ADMIN" | "MODERATOR" | "USER";
 	status: UserStatus;
-	plan: "Free" | "Standard" | "Premium" | "FREE" | "PRO" | "PREMIUM" | "CANCELLED";
+	plan:
+		| "Free"
+		| "Standard"
+		| "Premium"
+		| "FREE"
+		| "PRO"
+		| "PREMIUM"
+		| "CANCELLED";
 	joinedDate: string;
 	createdAt?: string;
 	updatedAt?: string;
@@ -92,13 +99,15 @@ export async function getUsers(): Promise<UserAccount[]> {
 				id: user.id,
 				name: user.name || "Unknown User",
 				email: user.email,
-				avatar: user.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email}`,
+				avatar:
+					user.image ||
+					`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email}`,
 				role: user.role as "ADMIN" | "MODERATOR" | "USER",
 				status,
 				plan: planMap[user.subscriptionStatus] || "Free",
-				joinedDate: user.createdAt.toISOString(),
-				createdAt: user.createdAt.toISOString(),
-				updatedAt: user.updatedAt.toISOString(),
+				joinedDate: user.createdAt,
+				createdAt: user.createdAt,
+				updatedAt: user.updatedAt,
 				emailVerified: user.emailVerified,
 				twoFactorEnabled: user.twoFactorEnabled,
 				banned: user.banned,
@@ -110,4 +119,3 @@ export async function getUsers(): Promise<UserAccount[]> {
 		throw new Error("Failed to fetch users from database");
 	}
 }
-

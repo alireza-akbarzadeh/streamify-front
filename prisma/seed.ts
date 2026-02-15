@@ -1,6 +1,6 @@
-import 'dotenv/config';
-import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@/generated/prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
+import 'dotenv/config';
 import { GenreType, MediaStatus, MediaType } from '../src/generated/prisma/enums';
 
 /**
@@ -14,29 +14,56 @@ const prisma = new PrismaClient({ adapter })
 
 const TMDB_BEARER_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YTQ5Y2I0ODRiYTE4ZjUzYmY5MTBiNTg2ZTFlODU4OSIsIm5iZiI6MTYyMjQwNzYwMi4wMjcsInN1YiI6IjYwYjNmOWIyYWJmOGUyMDAyYmRhMWRmZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ixH4tVwZjRV6EX0p3bI3ZtNL15mxomUknidiiaueMwY';
 const BASE_URL = 'https://api.themoviedb.org/3';
-const query="action"
 
+const query="love"
+
+
+import dns from 'node:dns';
+
+// CRITICAL: Force Node.js to prefer IPv4.
+// This fixes 90% of "fetch failed" errors in local Node environments.
+dns.setDefaultResultOrder('ipv4first');
 
 async function fetchTMDB(endpoint: string, retries = 3): Promise<any> {
+  const url = `${BASE_URL}${endpoint}`;
+
   for (let i = 0; i < retries; i++) {
     try {
-      console.log(`Fetching: ${endpoint} (attempt ${i + 1}/${retries})`);
-      const response = await fetch(`${BASE_URL}${endpoint}`, {
+      console.log(`[TMDB] Fetching: ${url} (Attempt ${i + 1}/${retries})`);
+
+      const response = await fetch(url, {
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${TMDB_BEARER_TOKEN}`,
-          accept: 'application/json',
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
         },
-        signal: AbortSignal.timeout(30000), // 30 second timeout
+        // Using a standard timeout signal
+        signal: AbortSignal.timeout(15000),
       });
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorBody = await response.text();
+        throw new Error(`HTTP ${response.status}: ${errorBody}`);
       }
+
       return await response.json();
-    } catch (error) {
-      console.error(`Attempt ${i + 1} failed:`, error instanceof Error ? error.message : error);
+    } catch (error: any) {
+      console.error(`--- [TMDB ERROR] Attempt ${i + 1} Failed ---`);
+
+      // Log the specific internal error code (e.g., ECONNREFUSED, ENOTFOUND)
+      if (error.cause) {
+        console.error('Cause:', error.cause.code || error.cause);
+      } else {
+        console.error('Message:', error.message);
+      }
+
       if (i === retries - 1) throw error;
-      // Wait before retrying (exponential backoff)
-      await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
+
+      // Exponential backoff
+      const waitTime = 2000 * (i + 1);
+      console.log(`Retrying in ${waitTime}ms...`);
+      await new Promise(resolve => setTimeout(resolve, waitTime));
     }
   }
 }
