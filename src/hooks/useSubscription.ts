@@ -1,10 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { orpcClient } from "@/lib/orpc-client";
 
 interface SubscriptionStatus {
 	status: "FREE" | "PREMIUM" | "FAMILY" | "CANCELLED" | "NONE";
 	currentPlan: string | null;
 	customerId: string | null;
+	subscriptionId?: string | null;
+	amount?: number;
+	currency?: string;
+	interval?: string | null;
+	currentPeriodEnd?: string | null;
 }
 
 interface CancelResponse {
@@ -18,7 +24,7 @@ interface CancelResponse {
 export function useSubscription() {
 	const queryClient = useQueryClient();
 
-	// Get subscription status
+	// Get subscription status from Polar
 	const {
 		data: subscription,
 		isLoading,
@@ -26,36 +32,79 @@ export function useSubscription() {
 	} = useQuery<SubscriptionStatus>({
 		queryKey: ["subscription", "status"],
 		queryFn: async () => {
-			const response = await fetch("/api/subscription/status");
-			if (!response.ok) {
-				throw new Error("Failed to fetch subscription status");
+			try {
+				// Get user's subscriptions from Polar
+				const result = await orpcClient.polar.listSubscriptions.query({
+					limit: 1,
+					page: 1,
+				});
+
+				if (!result.subscriptions || result.subscriptions.length === 0) {
+					return {
+						status: "FREE" as const,
+						currentPlan: null,
+						customerId: null,
+					};
+				}
+
+				const sub = result.subscriptions[0];
+				
+				// Map status to our system
+				let status: "FREE" | "PREMIUM" | "FAMILY" | "CANCELLED" | "NONE" = "NONE";
+				if (sub.status === "active") {
+					status = sub.productName.toLowerCase().includes("family") 
+						? "FAMILY" 
+						: "PREMIUM";
+				} else if (sub.status === "canceled" || sub.cancelAtPeriodEnd) {
+					status = "CANCELLED";
+				} else if (sub.status === "trialing") {
+					status = "PREMIUM";
+				}
+
+				return {
+					status,
+					currentPlan: sub.productName,
+					customerId: null,
+					subscriptionId: sub.id,
+					amount: sub.amount,
+					currency: sub.currency,
+					interval: sub.interval,
+					currentPeriodEnd: sub.currentPeriodEnd,
+				};
+			} catch (error) {
+				// If no subscription found or error, return free status
+				return {
+					status: "FREE" as const,
+					currentPlan: null,
+					customerId: null,
+				};
 			}
-			return response.json();
 		},
 		staleTime: 1000 * 60 * 5, // 5 minutes
 	});
 
-	// Cancel subscription mutation
+	// Cancel subscription mutation using Polar
 	const cancelMutation = useMutation({
 		mutationFn: async () => {
-			const response = await fetch("/api/subscription/cancel", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
-
-			const data: CancelResponse = await response.json();
-
-			if (!response.ok) {
-				throw new Error(data.error || "Failed to cancel subscription");
+			if (!subscription?.subscriptionId) {
+				throw new Error("No active subscription found");
 			}
 
-			return data;
+			const result = await orpcClient.polar.cancelSubscription.mutate({
+				subscriptionId: subscription.subscriptionId,
+				immediatelys: false,
+			});
+
+			return {
+				success: result.success,
+				message: result.message,
+				pendingCancellation: true,
+			};
 		},
 		onSuccess: (data) => {
 			// Invalidate and refetch subscription status
 			queryClient.invalidateQueries({ queryKey: ["subscription", "status"] });
+			queryClient.invalidateQueries({ queryKey: ["polar", "subscriptions"] });
 
 			// Show success message
 			if (data.alreadyCancelled) {

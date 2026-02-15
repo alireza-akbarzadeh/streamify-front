@@ -22,6 +22,27 @@ export const updatePermissionInput = z.object({
 export const permissionIdInput = z.object({
 	id: z.string(),
 });
+export const permissionBulkOutput = z.object({
+	created: z.array(
+		z.object({
+			id: z.string(),
+			name: z.string(),
+			resource: z.string(),
+			action: z.string(),
+		}),
+	),
+	skipped: z.array(
+		z.object({
+			resource: z.string(),
+			action: z.string(),
+			reason: z.literal("ALREADY_EXISTS"),
+		}),
+	),
+});
+export const createPermissionBulkInput = z.object({
+	permissions: z.array(createPermissionInput).min(1),
+});
+
 
 /* -------------------------------------------------------------------------- */
 /*                              OUTPUT SCHEMAS                                */

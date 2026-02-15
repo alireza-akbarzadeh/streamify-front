@@ -4,6 +4,7 @@ import { RootHeader } from "@/components/root-header";
 import Footer from "@/domains/home/footer";
 import { PLANS } from "@/domains/plans/plans.constants";
 import { Plans } from "@/domains/plans/plans.domains";
+import { useCreateCheckout } from "@/hooks/usePolar";
 import { logger } from "@/lib/logger";
 import { Route as RootRoute } from "@/routes/__root";
 import type { CheckoutInputScheme } from "@/types/subscription";
@@ -11,15 +12,6 @@ import type { CheckoutInputScheme } from "@/types/subscription";
 interface PricingSearch {
   redirectUrl?: string;
 }
-
-// Map plan slugs to Polar product IDs (client-safe env vars)
-const PLAN_TO_PRODUCT_ID: Record<string, string> = {
-  Free: import.meta.env.VITE_POLAR_FREE_PRODUCT_ID,
-  "Premium-Monthly": import.meta.env.VITE_POLAR_PREMIUM_MONTHLY_PRODUCT_ID,
-  "Premium-Yearly": import.meta.env.VITE_POLAR_PREMIUM_YEARLY_PRODUCT_ID,
-  "Family-Monthly": import.meta.env.VITE_POLAR_FAMILY_MONTHLY_PRODUCT_ID,
-  "Family-Yearly": import.meta.env.VITE_POLAR_FAMILY_YEARLY_PRODUCT_ID,
-};
 
 export const Route = createFileRoute("/(home)/pricing")({
   validateSearch: (search: Record<string, unknown>): PricingSearch => ({
@@ -32,6 +24,7 @@ function RouteComponent() {
   const { redirectUrl } = Route.useSearch();
   const { auth } = RootRoute.useRouteContext();
   const user = auth?.user;
+  const createCheckout = useCreateCheckout();
 
   // Debug logging (can remove later)
   if (import.meta.env.DEV) {
@@ -45,43 +38,37 @@ function RouteComponent() {
 
   const handleCheckout = async (plan: CheckoutInputScheme) => {
     try {
-      // Ensure plan has a slug
-      if (!plan.slug) {
+      // Skip checkout for free plan
+      if (plan.slug === "Free") {
+        toast.info("You're already on the free plan");
+        return;
+      }
+
+      // Ensure plan has priceId
+      if (!plan.priceId) {
         toast.error("Invalid plan", {
-          description: "Plan is missing a slug identifier"
+          description: "Plan is missing pricing information"
         });
         return;
       }
 
-      const productId = PLAN_TO_PRODUCT_ID[plan.slug];
-
-      if (!productId) {
-        toast.error("Invalid plan", {
-          description: "Please select a valid plan"
-        });
-        return;
-      }
-
-      // Build checkout URL with product ID and metadata
-      const params = new URLSearchParams({
-        products: productId,
+      // Create Polar checkout session
+      const result = await createCheckout.mutateAsync({
+        productPriceId: plan.priceId,
+        successUrl: redirectUrl || `${window.location.origin}/library/subscription`,
       });
 
-      // Add metadata if we have a redirectUrl
-      if (redirectUrl) {
-        const metadata = JSON.stringify({ redirectUrl });
-        params.append("metadata", metadata);
+      // Redirect to Polar checkout
+      if (result.url) {
+        toast.success("Redirecting to checkout...");
+        window.location.href = result.url;
+      } else {
+        throw new Error("No checkout URL received");
       }
-
-      const checkoutUrl = `/api/checkout?${params.toString()}`;
-
-      // Redirect to checkout
-      toast.success("Redirecting to checkout...");
-      window.location.href = checkoutUrl;
     } catch (err: unknown) {
       logger.error('Checkout error:', err);
       toast.error("Error", {
-        description: "An unexpected error occurred"
+        description: "Failed to create checkout session"
       });
     }
   }

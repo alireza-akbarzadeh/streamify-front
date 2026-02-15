@@ -59,10 +59,6 @@ export const auth = betterAuth({
 			clientSecret: env.GOOGLE_CLIENT_SECRET,
 			clientId: env.GOOGLE_CLIENT_ID,
 		},
-		github: {
-			clientId: env.GITHUB_CLIENT_ID,
-			clientSecret: env.GITHUB_CLIENT_SECRET,
-		},
 	},
 	plugins: [
 		tanstackStartCookies(),
@@ -99,7 +95,6 @@ export const auth = betterAuth({
 			},
 		},
 		additionalFields: {
-			avatar: { type: "string", required: false },
 			subscriptionStatus: { type: "string", defaultValue: "FREE" },
 			customerId: { type: "string", required: false },
 			currentPlan: { type: "string", required: false },

@@ -10,6 +10,7 @@ import { socialProviders } from "@/config/socials";
 import { AUTH_STATUS } from "@/constants/constants";
 import AuthLayout from "@/domains/auth/auth-layout";
 import { authClient } from "@/lib/auth/auth-client";
+import { useState } from "react";
 
 const loginFormSchema = z.object({
     email: z.email("Invalid email address"),
@@ -21,6 +22,7 @@ interface LoginDomainProps {
 }
 export function LoginDomain(props: LoginDomainProps) {
     const { redirectUrl } = props
+    const [socialLoading, setSocialLoading] = useState<boolean>(false)
     const navigate = useNavigate();
     const router = useRouter();
 
@@ -52,9 +54,16 @@ export function LoginDomain(props: LoginDomainProps) {
     });
 
     const handleSocialSignIn = async (providerId: "google" | "github") => {
+        setSocialLoading(true)
         await authClient.signIn.social({
             provider: providerId,
             callbackURL: redirectUrl || "/",
+        }, {
+            onSuccess: () => {
+                setSocialLoading(false)
+            }, onError: () => {
+                setSocialLoading(false)
+            }
         });
     };
 
@@ -141,8 +150,12 @@ export function LoginDomain(props: LoginDomainProps) {
                             onClick={() => handleSocialSignIn(social.id as "google" | "github")}
                             className="h-11 bg-white/5 border-white/10 text-white hover:bg-white/10 rounded-xl"
                         >
-                            <img src={social.icon} className="w-5 h-5" alt={social.name} />
-                            {social.name}
+                            {socialLoading ? (
+                                <Loader2 className="w-5 h-5 animate-spin" />
+                            ) : (
+                                <>
+                                    <img src={social.icon} className="w-5 h-5" alt={social.name} />
+                                </>)}
                         </Button>
                     ))}
                 </div>

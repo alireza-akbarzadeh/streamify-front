@@ -20,13 +20,4 @@ export const socialProviders: SocialProvider[] = [
 		textColor: "#000",
 		backgroundColor: "#fff",
 	},
-	{
-		id: "apple",
-		name: "Apple",
-		icon: IMAGES.SOCIALS.APPLE_50,
-		size: 20,
-		logoColor: "#fff",
-		textColor: "#fff",
-		backgroundColor: "#000",
-	},
 ];

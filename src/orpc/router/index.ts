@@ -6,6 +6,8 @@ import { GenreRouter } from "../handlers/genre";
 import { HealthRouter } from "../handlers/health";
 import { MediaRouter } from "../handlers/media";
 import { PermissionRouter } from "../handlers/permission";
+import { PolarRouter } from "../handlers/polar";
+import { PolarAdminRouter } from "../handlers/polar/admin";
 import { ProfileRouter } from "../handlers/profile";
 import { RecommendationRouter } from "../handlers/recommendation";
 import { ReviewRouter } from "../handlers/review";
@@ -31,4 +33,6 @@ export const router = base.router({
 	reviews: ReviewRouter,
 	recommendations: RecommendationRouter,
 	content: ContentRouter,
+	polar: PolarRouter,
+	polarAdmin: PolarAdminRouter,
 });
