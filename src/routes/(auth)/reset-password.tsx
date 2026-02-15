@@ -10,7 +10,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { InputPassword } from "@/components/ui/forms/input-password";
 import AuthLayout from "@/domains/auth/auth-layout";
-import { requestPasswordReset, resetPassword } from "@/lib/auth-client";
+import { requestPasswordReset, resetPassword } from "@/lib/auth/auth-client";
 
 const verifyResetSchema = z.object({
     password: z.string().min(8, "Password must be at least 8 characters"),

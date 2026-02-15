@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
 import AuthLayout from "@/domains/auth/auth-layout";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth/auth-client";
 import { getEmailProviderLink } from "@/lib/utils";
 
 

@@ -16,7 +16,7 @@ import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { Image } from "@/components/ui/image.tsx";
 import { ADMIN_ACCESS } from "@/constants/constants";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth/auth-client";
 import { cn } from "@/lib/utils";
 import type { Role } from "@/orpc/helpers/constants";
 import { Route } from "@/routes/__root";
@@ -76,14 +76,14 @@ export function UserMenu() {
 					{user.subscriptionStatus !== "FREE" && (
 						<div className={cn(
 							"absolute -bottom-0.5 -right-0.5 size-3.5 rounded-full border-2 border-[#0b0b0c]",
-							user.currentPlan?.includes("Family") 
-								? "bg-amber-500" 
+							user.currentPlan?.includes("Family")
+								? "bg-amber-500"
 								: "bg-purple-500"
 						)}>
 							<div className={cn(
 								"absolute inset-0 rounded-full animate-ping opacity-75",
-								user.currentPlan?.includes("Family") 
-									? "bg-amber-400" 
+								user.currentPlan?.includes("Family")
+									? "bg-amber-400"
 									: "bg-purple-400"
 							)} />
 						</div>
@@ -137,10 +137,10 @@ export function UserMenu() {
 									{/* Badges */}
 									<div className="flex flex-wrap gap-1.5 mt-1">
 										<RoleBadge role={user.role as string} />
-									<SubscriptionBadge 
-										status={user.subscriptionStatus} 
-										currentPlan={user.currentPlan} 
-									/>
+										<SubscriptionBadge
+											status={user.subscriptionStatus}
+											currentPlan={user.currentPlan}
+										/>
 									</div>
 								</div>
 							</div>

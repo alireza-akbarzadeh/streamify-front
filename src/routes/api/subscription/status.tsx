@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { getSession } from "@/lib/auth-server";
+import { getSession } from "@/lib/auth/auth-server";
 import { prisma } from "@/lib/db";
 
 export const Route = createFileRoute("/api/subscription/status")({

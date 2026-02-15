@@ -14,7 +14,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Typography } from "@/components/ui/typography";
-import { getSession } from "@/lib/auth-server";
+import { getSession } from "@/lib/auth/auth-server";
 import { createMetadata } from "@/lib/utils";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import AiDevtools from "../lib/ai-devtools";

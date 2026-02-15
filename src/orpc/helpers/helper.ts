@@ -4,7 +4,7 @@
 
 import { ORPCError, os } from "@orpc/server";
 import { getRequestHeaders } from "@tanstack/react-start/server";
-import { auth } from "@/lib/better-auth";
+import { auth } from "@/lib/auth/better-auth";
 import { prisma } from "@/lib/db";
 import type { AuthContext } from "../middleware/middleware";
 import { Http } from "./http";

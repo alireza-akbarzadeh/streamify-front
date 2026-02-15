@@ -3,7 +3,7 @@ import "@/polyfill";
 import { LoggingHandlerPlugin } from "@orpc/experimental-pino";
 import { RPCHandler } from "@orpc/server/fetch";
 import { createFileRoute } from "@tanstack/react-router";
-import { auth } from "@/lib/better-auth";
+import { auth } from "@/lib/auth/better-auth";
 import { rpcLogger } from "@/lib/rpc-logger";
 import type { ORPCContext } from "@/orpc/context";
 import { router } from "@/orpc/router";

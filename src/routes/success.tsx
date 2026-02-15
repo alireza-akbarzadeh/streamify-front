@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { auth } from "@/lib/better-auth";
+import { auth } from "@/lib/auth/better-auth";
 import { prisma } from "@/lib/db";
 
 const getRedirectUrl = createServerFn({ method: "GET" }).handler(async () => {

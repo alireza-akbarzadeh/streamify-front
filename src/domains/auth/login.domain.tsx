@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { socialProviders } from "@/config/socials";
 import { AUTH_STATUS } from "@/constants/constants";
 import AuthLayout from "@/domains/auth/auth-layout";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth/auth-client";
 
 const loginFormSchema = z.object({
     email: z.email("Invalid email address"),

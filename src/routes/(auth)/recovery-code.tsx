@@ -16,7 +16,7 @@ import { useForm } from "@/components/ui/forms/form.tsx";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import AuthLayout from "@/domains/auth/auth-layout";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth/auth-client";
 
 const recoveryCodeSchema = z.object({
 	recoveryCode: z

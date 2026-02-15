@@ -14,7 +14,7 @@ import { AUTH_STATUS } from "@/constants/constants";
 import AuthLayout from "@/domains/auth/auth-layout";
 import { PrivacyPolicyDialog } from "@/domains/auth/privacy-dialog";
 import { TermsOfServiceDialog } from "@/domains/auth/terms-dialog";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth/auth-client";
 import { registerFormSchema } from "./auth-schema";
 
 const benefits = [

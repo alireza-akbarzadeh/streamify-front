@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import AuthLayout from "@/domains/auth/auth-layout";
 
-import { requestPasswordReset } from "@/lib/auth-client";
+import { requestPasswordReset } from "@/lib/auth/auth-client";
 
 const forgotPasswordSchema = z.object({
 	email: z.email("Please enter a valid email address"),

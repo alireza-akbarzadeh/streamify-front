@@ -1,63 +1,62 @@
+import type { QueryClient } from "@tanstack/react-query";
 import { redirect } from "@tanstack/react-router";
 import { createMiddleware } from "@tanstack/react-start";
-import { getRequestHeaders } from "@tanstack/react-start/server";
-import { auth } from "@/lib/better-auth";
+import type { getSession } from "@/lib/auth/auth-server";
 import { prisma } from "@/lib/db";
 
-export const authMiddleware = createMiddleware().server(async ({ next }) => {
-	const headers = getRequestHeaders();
-	const session = await auth.api.getSession({ headers });
+interface MyRouterContext {
+	queryClient: QueryClient;
+	auth: Awaited<ReturnType<typeof getSession>>;
+}
 
-	if (!session) {
+export const authMiddleware = createMiddleware().server(async ({ next, context }) => {
+	const auth = (context as unknown as MyRouterContext).auth;
+
+	if (!auth) {
 		throw redirect({ to: "/login" });
 	}
 
 	return await next();
 });
 
-export const adminMiddleware = createMiddleware().server(
-	async ({ next, request }) => {
-		const headers = getRequestHeaders();
-		const session = await auth.api.getSession({ headers });
+export const adminMiddleware = createMiddleware().server(async ({ next, request, context }) => {
+	const auth = (context as unknown as MyRouterContext).auth;
 
-		if (!session) {
-			throw redirect({ to: "/login" });
-		}
+	if (!auth) {
+		throw redirect({ to: "/login" });
+	}
 
-		// Check if user has admin role (from the role field)
-		if (session.user.role !== "admin") {
-			throw redirect({
-				to: "/unauthorized",
-				search: {
-					error: "unauthorized",
-					from: request.url,
-					requiredRole: "admin",
-				},
-			});
-		}
+	// Check if user has admin role (from the role field)
+	if (auth.user.role !== "admin") {
+		throw redirect({
+			to: "/unauthorized",
+			search: {
+				error: "unauthorized",
+				from: request.url,
+				requiredRole: "admin",
+			},
+		});
+	}
 
-		return await next();
-	},
-);
+	return await next();
+});
 
 type SubscriptionLevel = "PRO" | "PREMIUM";
 
 export const requireSubscription = (requiredLevel: SubscriptionLevel = "PRO") =>
-	createMiddleware().server(async ({ next }) => {
-		const headers = getRequestHeaders();
-		const session = await auth.api.getSession({ headers });
+	createMiddleware().server(async ({ next, context }) => {
+		const auth = (context as unknown as MyRouterContext).auth;
 
-		if (!session) {
+		if (!auth) {
 			throw redirect({ to: "/login" });
 		}
 
-		const { subscriptionStatus } = session.user;
+		const { subscriptionStatus } = auth.user;
 
 		// Check subscription status
 		if (subscriptionStatus === "CANCELLED" || subscriptionStatus === "FREE") {
 			throw redirect({
 				to: "/pricing",
-				search: { required: requiredLevel.toLowerCase() },
 			});
 		}
 
@@ -65,46 +64,41 @@ export const requireSubscription = (requiredLevel: SubscriptionLevel = "PRO") =>
 		if (requiredLevel === "PREMIUM" && subscriptionStatus !== "PREMIUM") {
 			throw redirect({
 				to: "/pricing",
-				search: { required: "premium", upgrade: true },
 			});
 		}
 
 		return await next();
 	});
 
-export const verifiedEmailMiddleware = createMiddleware().server(
-	async ({ next }) => {
-		const headers = getRequestHeaders();
-		const session = await auth.api.getSession({ headers });
+export const verifiedEmailMiddleware = createMiddleware().server(async ({ next, request, context }) => {
+	const auth = (context as unknown as MyRouterContext).auth;
 
-		if (!session) {
-			throw redirect({ to: "/login" });
-		}
+	if (!auth) {
+		throw redirect({ to: "/login" });
+	}
 
-		if (!session.user.emailVerified) {
-			throw redirect({
-				to: "/verify-email",
-				search: { email: session.user.email },
-			});
-		}
+	if (!auth.user.emailVerified) {
+		throw redirect({
+			to: "/verify-email",
+			search: { email: auth.user.email, redirectUrl: request.url },
+		});
+	}
 
-		return await next();
-	},
-);
+	return await next();
+});
 
 export const requirePermission = (resource: string, action: string) =>
-	createMiddleware().server(async ({ next, request }) => {
-		const headers = getRequestHeaders();
-		const session = await auth.api.getSession({ headers });
+	createMiddleware().server(async ({ next, context }) => {
+		const auth = (context as unknown as MyRouterContext).auth;
 
-		if (!session) {
+		if (!auth) {
 			throw redirect({ to: "/login" });
 		}
 
 		// Check if user has direct permission
 		const userPermission = await prisma.userPermission.findFirst({
 			where: {
-				userId: session.user.id,
+				userId: auth.user.id,
 				permission: {
 					resource,
 					action,
@@ -122,7 +116,7 @@ export const requirePermission = (resource: string, action: string) =>
 			where: {
 				role: {
 					users: {
-						some: { userId: session.user.id },
+						some: { userId: auth.user.id },
 					},
 				},
 				permission: {
@@ -152,36 +146,34 @@ interface RequireOptions {
 }
 
 export const require = (options: RequireOptions = {}) =>
-	createMiddleware().server(async ({ next }) => {
-		const headers = getRequestHeaders();
-		const session = await auth.api.getSession({ headers });
+	createMiddleware().server(async ({ next, context }) => {
+		const auth = (context as unknown as MyRouterContext).auth;
 
 		// 1. Auth check
-		if (!session) {
+		if (!auth) {
 			throw redirect({ to: "/login" });
 		}
 
 		// 2. Verified email check
-		if (options.verified && !session.user.emailVerified) {
+		if (options.verified && !auth.user.emailVerified) {
 			throw redirect({
 				to: "/verify-email",
-				search: { email: session.user.email },
+				search: { email: auth.user.email, redirectUrl: undefined },
 			});
 		}
 
 		// 3. Role check
-		if (options.role && session.user.role !== options.role) {
+		if (options.role && auth.user.role !== options.role) {
 			throw redirect({ to: "/" });
 		}
 
 		// 4. Subscription check
 		if (options.subscription) {
-			const { subscriptionStatus } = session.user;
+			const { subscriptionStatus } = auth.user;
 
 			if (subscriptionStatus === "CANCELLED" || subscriptionStatus === "FREE") {
 				throw redirect({
 					to: "/pricing",
-					search: { required: options.subscription.toLowerCase() },
 				});
 			}
 
@@ -191,7 +183,6 @@ export const require = (options: RequireOptions = {}) =>
 			) {
 				throw redirect({
 					to: "/pricing",
-					search: { required: "premium", upgrade: true },
 				});
 			}
 		}

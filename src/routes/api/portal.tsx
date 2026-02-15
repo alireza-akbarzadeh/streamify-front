@@ -1,7 +1,7 @@
 import { CustomerPortal } from "@polar-sh/tanstack-start";
 import { createFileRoute } from "@tanstack/react-router";
 import { env } from "@/env";
-import { getSession } from "@/lib/auth-server";
+import { getSession } from "@/lib/auth/auth-server";
 
 export const Route = createFileRoute("/api/portal")({
     server: {

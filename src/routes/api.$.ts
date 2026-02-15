@@ -1,6 +1,6 @@
 import "@/polyfill";
 
-import { auth } from "@/lib/better-auth";
+import { auth } from "@/lib/auth/better-auth";
 import { logger } from "@/lib/logger";
 import type { ORPCContext } from "@/orpc/context";
 import { Http } from "@/orpc/helpers/http";

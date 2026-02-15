@@ -45,6 +45,7 @@ model Subscription {
     redirectUrl String?
     status      SubscriptionStatus
     startedAt   DateTime           @default(now())
+    endedAt     DateTime?
     canceledAt  DateTime?
     user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

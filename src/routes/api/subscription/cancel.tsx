@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { polarClient } from "@/integrations/polar/polar-client";
-import { getSession } from "@/lib/auth-server";
+import { getSession } from "@/lib/auth/auth-server";
 import { prisma } from "@/lib/db";
 import { logger } from "@/lib/logger";
 
